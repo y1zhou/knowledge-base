@@ -1,0 +1,9 @@
+# R - blogdown related files
+.Rhistory
+.Rproj.user/
+.RData
+.Ruserdata
+blogdown/
+
+# Hugo compiled files
+public/
