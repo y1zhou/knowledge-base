@@ -7,3 +7,7 @@ blogdown/
 
 # Hugo compiled files
 public/
+resources/
+
+# VS Code
+.vscode/
