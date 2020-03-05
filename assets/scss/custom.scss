@@ -3,6 +3,11 @@
   background-repeat: repeat-x;
 }
 
-.docs-article-container {
-  max-width: 1200px;
+mjx-container[display="true"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+table {
+  overflow-y: hidden;
 }
