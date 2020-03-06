@@ -9,5 +9,8 @@ mjx-container[display="true"] {
 }
 
 table {
+  display: table;
+  width: auto;
+  margin: 1rem auto;
   overflow-y: hidden;
 }

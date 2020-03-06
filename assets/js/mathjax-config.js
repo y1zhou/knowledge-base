@@ -18,6 +18,6 @@ window.MathJax = {
     packages: { "[+]": ["noerrors"] }
   },
   chtml: {
-    scale: 0.8
+    scale: 0.9
   }
 };
