@@ -22,5 +22,5 @@ menu:
     weight: 1
 ---
 
-These are the notes I took for a Master's course **Nonparametric Statistics**. The recommended textbook is *Applied Nonparametric Statistical Methods, Fourth Edition* by Sprent, P. and Smeeton, N.C. (2007)*.* 
+These are the notes I took for a Master's course **Nonparametric Statistics**. The recommended textbook is *Applied Nonparametric Statistical Methods, Fourth Edition* by Sprent, P. and Smeeton, N.C. (2007).
 

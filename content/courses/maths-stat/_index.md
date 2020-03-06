@@ -19,4 +19,4 @@ menu:
     weight: 1
 ---
 
-This series contain the notes I've taken for courses STAT 6510 and STAT 6520 - Mathematical Statistics I & II. The text book recommended for this course is **Mathematical Statistics with Applications (7th edition)** by Wackerly, Mendenhall and Sheaffer.
+This series contain the notes I've taken for courses STAT 6510 and STAT 6520 - **Mathematical Statistics I & II**. The text book recommended for this course is *Mathematical Statistics with Applications (7th edition)* by Wackerly, Mendenhall and Sheaffer.

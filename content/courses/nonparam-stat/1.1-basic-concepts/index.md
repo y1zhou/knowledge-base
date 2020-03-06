@@ -3,13 +3,11 @@
 
 title: "Basic Concepts"
 summary: A brief introduction to what we're going to discuss in later chapters.
-date: 2020-03-05T22:50:34-05:00
-lastmod: 2020-03-05T22:50:34-05:00
+date: 2019-01-25T22:50:34-05:00
+lastmod: 2019-01-25T22:50:34-05:00
 draft: false  # Is this a draft? true/false
-toc: true  # Show table of contents? true/false
+toc: false # Show table of contents? true/false
 type: docs  # Do not modify.
-
-highlight: true
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.

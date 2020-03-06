@@ -6,7 +6,7 @@ linktitle: "conditional probability"
 slug: chapter-1-probability-conditional-probability
 summary: ~
 date: 2019-09-26T11:51:56-05:00
-lastmod: 2020-03-05T11:51:56-05:00
+lastmod: 2019-09-26T11:51:56-05:00
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
@@ -30,13 +30,13 @@ The probability of an event will sometimes depend upon whether we know that othe
 
 ### Conditional probability
 
-Suppose we roll two fair six-sided dice. What is the probability that the sum of the two dice is $8$? Using the procedure above, we can easily get
+Suppose we roll two fair six-sided dice. What is the probability that the sum of the two dice is 8? Using the procedure above, we can easily get
 
 $$
 P(E) = \frac{|E|}{|S|} = \frac{|\{(2, 6), (3, 5), (4, 4), (5, 3), (6, 2)\}|}{6 \times 6} = \frac{5}{36}
 $$
 
-What if we know the first roll is $3$? That would be another event:
+What if we know the first roll is 3? That would be another event:
 
 $$
 \begin{aligned}
@@ -45,13 +45,13 @@ $$
 \end{aligned}
 $$
 
-Given the first die is $3$, requiring the sum to be $8$ is equivalent to requiring the second roll to be $5$. So the probability is
+Given the first die is 3, requiring the sum to be 8 is equivalent to requiring the second roll to be 5. So the probability is
 
 $$
 P(E') = \frac{|E'|}{|S'|} = \frac{|\{(3, 5)\}|}{|\{(3, 1), \cdots, (3, 6)\}|} = \frac{1}{6} \neq \frac{5}{36}
 $$
 
-Formally speaking, let $E$ be the event that sum is $8$, and $F$ be the event that the first roll is $3$. The `conditional probability` of $E$ given $F$ is denoted $P(E \mid F)$, and $P(E)$ is the unconditional probability of $E$. If $P(F) > 0$, then
+Formally speaking, let $E$ be the event that sum is 8, and $F$ be the event that the first roll is 3. The `conditional probability` of $E$ given $F$ is denoted $P(E \mid F)$, and $P(E)$ is the unconditional probability of $E$. If $P(F) > 0$, then
 
 $$
 \begin{equation}P(E \mid F) = \frac{P(EF)}{P(F)} \label{eq:conditional-prob} \end{equation}
@@ -86,7 +86,7 @@ $$
 
 ### Cards example
 
-Suppose we have a deck of $52$ cards, and we randomly divided them into $4$ piles of $13$ cards. Compute the probability that each pile has exactly $1$ ace.
+Suppose we have a deck of 52 cards, and we randomly divided them into 4 piles of 13 cards. Compute the probability that each pile has exactly 1 ace.
 
 There are four houses in a deck of cards: Hearts, Diamonds, Clubs and Spades. We can define events $E_i, i = 1, 2, 3, 4$ as follows
 
@@ -109,13 +109,13 @@ $$
 \end{aligned}
 $$
 
-$P(E_1) = 1$ because the ace of Hearts is always going to be in a pile. For $P(E_2 \mid E_1)$, we can calculate the probability of the two cards being in the same pile. As the remaining $12$ cards are equally likely drawn from the deck of $51$ cards,
+$P(E_1) = 1$ because the ace of Hearts is always going to be in a pile. For $P(E_2 \mid E_1)$, we can calculate the probability of the two cards being in the same pile. As the remaining 12 cards are equally likely drawn from the deck of 51 cards,
 
 $$
 P(E_2 \mid E_1) = 1 - \frac{12}{51} = \frac{39}{51}
 $$
 
-Given $E_1E_2$, the ace of clubs can't be any of the $24$ cards in the two piles with the two aces.
+Given $E_1E_2$, the ace of clubs can't be any of the 24 cards in the two piles with the two aces.
 
 $$
 P(E_3 \mid E_2) = 1 - \frac{12 + 12}{50} = \frac{26}{50}
@@ -215,9 +215,9 @@ $$
 \end{aligned}
 $$
 
-**Example:** In a driving behavior survey, $60\%$ are sedan drivers, $30\%$ are SUV drivers, and $10\%$ are other drivers. $40\%, 65\%$ and $55\%$ of sedan, SUV and other drivers have received a citation within the past $3$ years. Suppose each driver can own one type of car, what is the probability that a randomly selected driver received a citation within $3$ years?
+**Example:** In a driving behavior survey, $60\%$ are sedan drivers, $30\%$ are SUV drivers, and $10\%$ are other drivers. $40\%, 65\%$ and $55\%$ of sedan, SUV and other drivers have received a citation within the past 3 years. Suppose each driver can own one type of car, what is the probability that a randomly selected driver received a citation within 3 years?
 
-$D_1$, $D_2$ and $D_3$ are the events that a random driver drives a sedan, SUV or other car, respectively. Let $Y$ be the event that the driver received a citation within $3$ years. We have
+$D_1$, $D_2$ and $D_3$ are the events that a random driver drives a sedan, SUV or other car, respectively. Let $Y$ be the event that the driver received a citation within 3 years. We have
 
 $$
 P(Y) = \sum_{i=1}^3{P(Y \mid D_i)P(D_i)}

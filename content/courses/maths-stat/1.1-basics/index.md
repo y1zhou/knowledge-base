@@ -1,7 +1,7 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "Basic concepts"
+title: "Basic Concepts"
 linktitle: "basic concepts"
 slug: chapter-1-probability-basic-concepts
 categories:
@@ -12,7 +12,7 @@ tags:
   - Statistics
 summary: ~
 date: 2019-09-25T11:05:06-05:00
-lastmod: 2020-03-05T11:05:06-05:00
+lastmod: 2019-09-25T11:05:06-05:00
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
@@ -216,7 +216,11 @@ $$
   \Rightarrow P(E^C) = 1 - P(E)
 \end{gather*}
 $$
+
+
 **Proposition 2:** If $E \subset F$, then $P(E) \leq P(F)$. To prove this, note that $E$ and $E^C \cap F$ are mutually exclusive.
+
+
 $$
 \begin{aligned}
 	E \cap (F \cap E^C) &= E \cap (E^C \cap F) = (E \cap E^C) \cap F = \emptyset \cap F = \emptyset \\\\
@@ -224,6 +228,10 @@ $$
   P(F) &= P(E) + \underbrace{P(F \cap E^C)}_{\geq 0} \geq P(E)
 \end{aligned}
 $$
+
+
+![Venn diagram of Proposition 2.](1-proposition-2.svg)
+
 **Proposition 3:** $P(E \cup F) = P(E) + P(F) - P(EF)$. This proposition can be easily proved using a Venn diagram. Let $I$, $II$ and $III$ denote $E \cap (F^C)$, $E \cap F$ and $F \cap E^C$, respectively.
 $$
 \begin{aligned}
@@ -234,6 +242,10 @@ $$
   &= P(E) + P(F) - P(EF)
 \end{aligned}
 $$
+
+
+![Venn diagram of Proposition 3.](1-proposition-3.svg)
+
 Now let's apply these propositions to the example below. A student is applying for two jobs. Suppose she'll get an offer from company A with probability $0.3$, and an offer from company B with probability $0.4$, and with probability $0.3$ she gets both offers. What is the probability that she gets neither offer?
 $$
 \begin{aligned}
@@ -246,7 +258,10 @@ $$
 $$
 We have $G = E \cap F$ and $K = E^C \cap F^C = (E \cup F)^C$. Knowing that $P(E) = 0.5, P(F) = 0.4$ and $P(G) = P(E \cap F) = 0.3$,
 $$
-P(K) = P((E \cup F)^C) =  1 - P(E \cup F) = 1 - (P(E) + P(F) - P(EF)) = 0.4
+\begin{aligned}
+	P(K) &= P\left( (E \cup F)^C \right) \\\\
+	&=  1 - P(E \cup F) = 1 - (P(E) + P(F) - P(EF)) = 0.4
+\end{aligned}
 $$
 
 ## The sample-point method
@@ -278,7 +293,10 @@ P(E_1) = P(E_2) = \cdots = P(E_8) = \frac{1}{8}
 $$
 Our event of interest, $E$, is defined as {2 heads and 1 tail}, so
 $$
-E = \\{(T, H, H), (H, T, H), (H, H, T)\\} = \\{(T, H, H)\\} \cup \\{(H, T, H)\\} \cup \\{(H, H, T)\\}
+\begin{aligned}
+	E &= \\{(T, H, H), (H, T, H), (H, H, T)\\} \\\\
+  &= \\{(T, H, H)\\} \cup \\{(H, T, H)\\} \cup \\{(H, H, T)\\}
+\end{aligned}
 $$
 The final step is calculating the probability of $E$
 $$
