@@ -24,3 +24,14 @@
 #    name = "CV"
 #    url = "files/cv.pdf"
 #    weight = 70
+
+# Courses
+[[docs]]
+  name = "Mathematical Statistics"
+  weight = 10
+  identifier = "maths-stat"
+
+[[docs]]
+  name = "Nonparametric Statistics"
+  weight = 20
+  identifier = "nonparam-stat"

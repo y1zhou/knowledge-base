@@ -1,7 +1,7 @@
 ---
 # Course title, summary, and position in the list.
 linktitle: Mathematical Statistics
-summary: Learn about common discrete and continuous probability distributions, and making statistical inference.
+summary: "The main goal is to uncover the mathematical machinery behind core probabilistic and statistical concepts and properties. Topics in the first half include set opeartions, laws of probability, conditional probability, common discrete and continuous distributions, sampling distributions, moment generating functions and law of large numbers. The second half of the course focuses on two fundamental concepts in statistical inference: estimation and hypothesis testing. Finally we introduce important topics including linear regression and analysis of variance."
 weight: 1
 
 # Page metadata.
@@ -14,7 +14,7 @@ type: docs  # Do not modify.
 # - name: Declare this menu item as a parent with ID `name`.
 # - weight: Position of link in menu.
 menu:
-  courses:
+  maths-stat:
     name: Overview
     weight: 1
 ---
