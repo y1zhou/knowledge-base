@@ -13,7 +13,7 @@ title = "Biography"
 author = "admin"
 
 [design.background]
-  image = "background_circuit.png"  # Name of image in `static/img/`. 
+  image = "background_circuit.webp"  # Name of image in `static/img/`. 
   image_size = "actual"  #  Options are `cover` (default), `contain`, or `actual` size.
   image_parallax = true  # Use a fun parallax-like fixed background effect? true/false
 +++
