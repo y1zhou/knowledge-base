@@ -9,5 +9,8 @@ mjx-container[display="true"] {
 }
 
 table {
+  width: fit-content;
+  max-width: 100%;
   overflow-y: hidden;
+  margin: 1rem auto;
 }
