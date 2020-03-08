@@ -2,12 +2,20 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Basic Concepts"
+categories:
+  - Nonmarametric Methods
+  - Statistics
+tags:
+  - Nonmarametric Methods
+  - Statistics
 summary: A brief introduction to what we're going to discuss in later chapters.
 date: 2019-01-25T22:50:34-05:00
 lastmod: 2019-01-25T22:50:34-05:00
 draft: false  # Is this a draft? true/false
 toc: false # Show table of contents? true/false
 type: docs  # Do not modify.
+
+featured: true
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.

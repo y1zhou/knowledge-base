@@ -2,6 +2,12 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Fundamentals of Nonparametric Methods"
+categories:
+  - Nonmarametric Methods
+  - Statistics
+tags:
+  - Nonmarametric Methods
+  - Statistics
 date: 2019-01-25T22:50:34-05:00
 lastmod: 2019-01-25T22:50:34-05:00
 draft: false  # Is this a draft? true/false
