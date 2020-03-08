@@ -1,16 +1,38 @@
+// Background image on homepage
 .home-section.bg-image {
   background-position: top;
   background-repeat: repeat-x;
 }
 
+// Overflow long math equations for MathJax
 mjx-container[display="true"] {
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-table {
-  width: fit-content;
-  max-width: 100%;
-  overflow-y: hidden;
-  margin: 1rem auto;
+.docs-article-container {
+  margin: 0 auto;
+
+  // Center tables
+  table {
+    width: fit-content;
+    max-width: 100%;
+    overflow-y: hidden;
+    margin: 1rem auto;
+  }
+  // Better looking footnotes
+  sup[id^="fnref"] {
+    a::before {
+      content: "[";
+    }
+    a::after {
+      content: "]";
+    }
+  }
+  section.footnotes {
+    font-size: 0.8rem;
+    hr {
+      margin: 2rem 0 2rem 0;
+    }
+  }
 }

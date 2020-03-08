@@ -108,7 +108,10 @@ For the permutation test, we need to build the permutation distribution. Note th
 
 With an one-sided test, the upper tail $H_1 \Rightarrow$ large values of $S_+$ (equivalently small values of $S_-$) are evidence against $H_0$. We want
 $$
-P(S_+ \geq 24) = P(S_+ = 24) + P(S_+ = 25) + \cdots + P(S_+ = 128) = \frac{7}{128} \approx 0.0547
+\begin{aligned}
+    P(S_+ \geq 24) &= P(S_+ = 24) + P(S_+ = 25) + \cdots + P(S_+ = 128) \\\\
+    &= \frac{7}{128} \approx 0.0547
+\end{aligned}
 $$
 
 
