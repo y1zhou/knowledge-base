@@ -2,6 +2,7 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Location Inference for Single Samples"
+slug: "nonparametric-methods-single-sample-location-inference"
 categories:
   - Nonmarametric Methods
   - Statistics
@@ -15,7 +16,7 @@ draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 
-weight: 3
+weight: 30
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -26,7 +27,7 @@ menu:
   nonparam-stat:
     name: Location Inference
     parent: Single Samples
-    weight: 1
+    weight: 10
 ---
 
 Previously we've used the sign test to look at the median (a measure of location) survival time with a censored data point. The original observations were transformed into "successes" and "failures" and a **lot** of information was thrown out.

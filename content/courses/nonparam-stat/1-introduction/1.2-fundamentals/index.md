@@ -2,6 +2,8 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Fundamentals of Nonparametric Methods"
+slug: "nonparametric-methods-fundamentals"
+summary: "Some basic tools such as the permutation test and the binomial test. We also introduce order statistics and ranks, which will come in handy in later chapters."
 categories:
   - Nonmarametric Methods
   - Statistics
@@ -14,7 +16,8 @@ draft: false  # Is this a draft? true/false
 toc: true # Show table of contents? true/false
 type: docs  # Do not modify.
 
-weight: 2
+featured: true
+weight: 20
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -25,7 +28,7 @@ menu:
   nonparam-stat:
     name: Fundamental Tools
     parent: Introduction
-    weight: 2
+    weight: 20
 ---
 
 Here we continue to present some basic tools (permutation test and sign test) and principles (order statistics, ranks, and efficiency) that will be useful moving forward.

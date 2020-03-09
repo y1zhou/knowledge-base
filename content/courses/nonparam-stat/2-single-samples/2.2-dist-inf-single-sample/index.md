@@ -2,6 +2,7 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Other Single Sample Inferences"
+slug: "nonparametric-methods-other-single-sample-inferences"
 categories:
   - Nonmarametric Methods
   - Statistics
@@ -10,23 +11,16 @@ tags:
   - Statistics
 summary: "Explore whether the sample is consistent with a specified distribution at the population level. Kolmogorov's test, Lilliefors test and Shapiro-Wilk test are introduced, as well as tests for runs or trends."
 date: 2019-04-26T23:45:36-05:00
-lastmod: 2019-04-26T23:45:36-05:00
-draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 
-weight: 4
+weight: 40
 
-# Add menu entry to sidebar.
-# - Substitute `example` with the name of your course/documentation folder.
-# - name: Declare this menu item as a parent with ID `name`.
-# - parent: Reference a parent ID if this page is a child.
-# - weight: Position of link in menu.
 menu:
   nonparam-stat:
     name: Other Inferences
     parent: Single Samples
-    weight: 2
+    weight: 20
 ---
 
 Previously we talked a lot about location inference, which is looking at the mean or median of the population distribution, or in fancier words, inferences about centrality. In this chapter we explore whether our sample is consistent with being a random sample from a specified (continuous) distribution at the population level. 

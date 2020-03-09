@@ -2,8 +2,8 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Basic Concepts"
-linktitle: "basic concepts"
-slug: chapter-1-probability-basic-concepts
+slug: mathematical-statistics-basic-concepts
+summary: "Introducing the concept of the probability of an event. Also covers set operations and the sample-point method."
 categories:
   - Mathematical Statistics
   - Statistics
@@ -12,12 +12,10 @@ tags:
   - Statistics
 summary: ~
 date: 2019-09-25T11:05:06-05:00
-lastmod: 2019-09-25T11:05:06-05:00
-draft: false  # Is this a draft? true/false
-toc: true  # Show table of contents? true/false
-type: docs  # Do not modify.
+toc: true # Show table of contents? true/false
+type: docs # Do not modify.
 featured: true
-weight: 1
+weight: 10
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -28,14 +26,14 @@ menu:
   maths-stat:
     name: Basic Concepts
     parent: Chapter 1. Probability
-    weight: 2
+    weight: 10
 ---
 
-In this chapter, we introduce the concept of the probability of an event. Then we show how probabilities  can be computed in certain situations. As a preliminary, however, we need to discuss the concept of the sample space and the events of an experiment.
+In this chapter, we introduce the concept of the probability of an event. Then we show how probabilities can be computed in certain situations. As a preliminary, however, we need to discuss the concept of the sample space and the events of an experiment.
 
 ## Experiment, sample space and events
 
-An experiment is the process by which an observation is made. In particular, we are interested in a `random experiment` whose outcome is not predictable with certainty. The set of *all* possible outcomes of an experiment is known as the `sample space` of the experiment, and is often denoted $S$. An `event` (denoted $E$) is a set that contains some possible outcomes of the random experiment.
+An experiment is the process by which an observation is made. In particular, we are interested in a `random experiment` whose outcome is not predictable with certainty. The set of _all_ possible outcomes of an experiment is known as the `sample space` of the experiment, and is often denoted $S$. An `event` (denoted $E$) is a set that contains some possible outcomes of the random experiment.
 
 By definition, any event is a subset of the sample space. For a given random experiment, its sample space is unique. Let's see some examples.
 
@@ -103,6 +101,7 @@ Finally, for any event $E$, we define a new event $E^C$, referred to as the `com
 ### Example of set operations
 
 Consider rolling two six-sided dice. Let
+
 $$
 \begin{aligned}
 	E_1 &= \\{\text{first roll is } 3 \\} \\\\
@@ -111,23 +110,22 @@ $$
 \end{aligned}
 $$
 
-
 and we want to find (1) $E_1 \cup E_2$, (2) $E_1 \cap E_2$, and (3) $E_3^C$.
 
 The sample space is
+
 $$
 S = \\{\underbrace{ (1, 1), \cdots, (6, 6)}_\text{36 outcomes} \\}
 $$
 
-
 and the events are
+
 $$
 \begin{aligned}
 	E_1 &= \\{ (3, 1), (3, 2), \cdots, (3, 6) \\} \\\\
 	E_2 &= \\{ (1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1) \\}
 \end{aligned}
 $$
-
 
 We skip $E_3$ for now as it's more complicated. We can find that $E_1$ and $E_2$ only have one element in common, $(3, 4)$, so $E_1 \cap E_2 = \\{ (3, 4) \\}$, and $E_1 \cup E_2 = $ {$(3, 1), (3, 2), (3, 3), (3, 5), (3, 6), E_2$}.
 
@@ -144,6 +142,7 @@ The operations of sets can be applied to more than two events, and they follow c
 - Distributive laws: $(E \cup F) \cap G = ( E \cap G ) \cup ( F \cap G )$, $(E \cap F) \cup G = (E \cup G) \cap (F \cup G)$.
 
 In addition, there is a law that connects all three operations (union, intersection and complement) together, `DeMorgan's law`:
+
 $$
 \begin{aligned}
 	(E \cup F)^C &= E^C \cap F^C \\\\
@@ -151,8 +150,8 @@ $$
 \end{aligned}
 $$
 
-
 DeMorgan's law can be extended to more than two events. Let $\bigcup_{i=1}^n E_i$ denote the union of events $E_1$ to $E_n$, and $\bigcap_{i=1}^n E_i$ their intersection,
+
 $$
 \begin{aligned}
 	\left( \bigcup_{i=1}^n{E_i} \right)^C &= \bigcap_{i=1}^n{E_i^C} \\\\
@@ -163,9 +162,11 @@ $$
 ## Probability of events
 
 One way of defining the probability of an event is in terms of its relative frequency. Suppose we have a random experiment with sample space $S$, and we want to assign some number $P(E)$ to represent the probability of event $E$. We may repeat this random experiment many times. Let $n(E)$ be the number of times in the first $n$ repetitions of the experiment that the event $E$ occurs. The probability of the event is defined as
+
 $$
 P(E) = \lim_{n \rightarrow \infty}\frac{n(E)}{n}
 $$
+
 There are a few drawbacks to this method:
 
 1. It requires $S$ to be countable.
@@ -183,32 +184,39 @@ For sample space $S$ and event $E$, we define three axioms.
 **Axiom 2.** $P(S) = 1$.
 
 **Axiom 3.** For any sequence of mutually exclusive events $E_1, E_2, \cdots$,
+
 $$
 P\left(\bigcup_{i=1}^\infty E_i \right) = \sum_{i=1}^\infty{P(E_i)}
 $$
 
-
 where $E_i \cap E_j = \emptyset$ for any $i$ and $j$ where $i \neq j$ (mutually exclusive). More formally, we can say $P$ to be $\sigma$-additive.
 
 The definition through axioms is mathematically rigorous, flexible, and can be developed into an axiomatic system. We'll show the flexibility through an example. Suppose our experiment is tossing a coin. If we believe it is a fair coin, we have
+
 $$
 S = \\{ H, T \\}, \quad P(\\{H\\}) = P(\\{T\\})
 $$
+
 then using Axioms $2$ and $3$ above, we can derive
+
 $$
 P\left(\bigcup_{i=1}^2 E_i \right) = \sum_{i=1}^2{P(E_i)} = P(S) = 2P(\\{H\\}) = 2P(\\{T\\})
 $$
+
 so $P(\\{H\\}) = P(\\{T\\}) = 0.5$. If we believe the coin is biased and $P(\\{H\\}) = 2P(\\{T\\})$, then
+
 $$
 P(\\{H\\}) + P(\\{T\\}) = P(\\{H\\} \cup \\{T\\}) = P(S) = 1
 $$
-By combining the two equations, $3P(\\{T\\}) = 1 \Rightarrow P(\\{T\\}) = \frac{1}{3}$,  $P(\\{H\\}) = \frac{2}{3}$.
+
+By combining the two equations, $3P(\\{T\\}) = 1 \Rightarrow P(\\{T\\}) = \frac{1}{3}$, $P(\\{H\\}) = \frac{2}{3}$.
 
 In this example, we didn't use any information of the observations or frequencies. We are assigning probabilities according to our belief so long as this assignment satisfies the three axioms. Based on the axioms, we can prove some simple propositions of probability.
 
 ### Propositions
 
 **Proposition 1:** $P(E^C) = 1 - P(E)$. The proof is given as follows.
+
 $$
 \begin{gather*}
 	E^C \cap E = \emptyset,\\, E^C \cup E = S \\\\
@@ -217,9 +225,7 @@ $$
 \end{gather*}
 $$
 
-
 **Proposition 2:** If $E \subset F$, then $P(E) \leq P(F)$. To prove this, note that $E$ and $E^C \cap F$ are mutually exclusive.
-
 
 $$
 \begin{aligned}
@@ -229,10 +235,10 @@ $$
 \end{aligned}
 $$
 
-
 ![Venn diagram of Proposition 2.](1-proposition-2.svg)
 
 **Proposition 3:** $P(E \cup F) = P(E) + P(F) - P(EF)$. This proposition can be easily proved using a Venn diagram. Let $I$, $II$ and $III$ denote $E \cap (F^C)$, $E \cap F$ and $F \cap E^C$, respectively.
+
 $$
 \begin{aligned}
 	P(E) &= P(I) + P(II) \\\\
@@ -243,10 +249,10 @@ $$
 \end{aligned}
 $$
 
-
 ![Venn diagram of Proposition 3.](1-proposition-3.svg)
 
 Now let's apply these propositions to the example below. A student is applying for two jobs. Suppose she'll get an offer from company A with probability $0.3$, and an offer from company B with probability $0.4$, and with probability $0.3$ she gets both offers. What is the probability that she gets neither offer?
+
 $$
 \begin{aligned}
 	S &= \\{(S, S), (S, F), (F, S), (F, F)\\} \\\\
@@ -256,7 +262,9 @@ $$
   K &= \\{\text{get no offers}\\} = \\{(F, F)\\}
 \end{aligned}
 $$
+
 We have $G = E \cap F$ and $K = E^C \cap F^C = (E \cup F)^C$. Knowing that $P(E) = 0.5, P(F) = 0.4$ and $P(G) = P(E \cap F) = 0.3$,
+
 $$
 \begin{aligned}
 	P(K) &= P\left( (E \cup F)^C \right) \\\\
@@ -277,32 +285,37 @@ The main idea of the sample-point method is based on Axiom $3$.
 
 ### Coin flip example
 
-A fair coin is tossed three times. Find the probability that *exactly* two of the three tosses are heads.
+A fair coin is tossed three times. Find the probability that _exactly_ two of the three tosses are heads.
 
 We'll follow the procedure in the sample-point method. The experiment is "tossing the coin three times". The sample space is
-
 
 $$
 S = \\{\underbrace{(H, H, H), (T, H, H), \cdots, (T, T, T)}_8\\}
 $$
 
-
 where each of the $8$ outcomes can be considered as a simple event $E_1, \cdots, E_8$. Since we consider it as a fair coin,
+
 $$
 P(E_1) = P(E_2) = \cdots = P(E_8) = \frac{1}{8}
 $$
+
 Our event of interest, $E$, is defined as {2 heads and 1 tail}, so
+
 $$
 \begin{aligned}
 	E &= \\{(T, H, H), (H, T, H), (H, H, T)\\} \\\\
   &= \\{(T, H, H)\\} \cup \\{(H, T, H)\\} \cup \\{(H, H, T)\\}
 \end{aligned}
 $$
+
 The final step is calculating the probability of $E$
+
 $$
 P(E) = P(F_1 \cup F_2 \cup F_3) = \sum_{i=1}^3P(F_i) = \frac{3}{8}
 $$
+
 Note that in this case (and in many other experiments), all the outcomes in the sample space are equally likely to occur. For such experiments, we can simplify the sample-point method as
+
 $$
 P(E) = \frac{\text{\# of outcomes in }E}{\text{\# of outcomes in }S}
 $$
@@ -317,6 +330,7 @@ The Powerball is one of the largest lottery games in the US. The system works li
 You win the Powerball if you chose exactly those $5+1$ balls, and the order of the white balls doesn't matter. What is the probability to win a Powerball?
 
 It's reasonable to assume each outcome will be equally likely to occur. Each outcome is a set of $6$ numbers satisfying the above rules.
+
 $$
 \begin{aligned}
     E &= \{ \text{You win the PB} \} \\\\
@@ -327,34 +341,24 @@ $$
     &\quad \times \text{\# ways to draw 5 white balls out of 69}
 \end{aligned}
 $$
+
 If we draw the white balls one by one, we have $69 \times 68 \times 67 \times 66 \times 65$ ways (ordered outcomes). For each set of $5$ numbers, we have $5 \times 4 \times 3 \times 2$ ways of arranging them. So the number of ways to draw $5$ white balls of $69$ is
+
 $$
 \frac{69 \times 68 \times 67 \times 66 \times 65}{5 \times 4 \times 3 \times 2}
 $$
+
 Formally, this is "choose $k$ from $n$", which can be written as $\binom{n}{k}$ and
+
 $$
 \binom{n}{k} = \frac{n(n-1)\cdots(n-k+1)}{k(k-1)(k-2)\cdots} = \frac{n!}{(n-k)!k!}
 $$
+
 Now we have
+
 $$
 \begin{gather*}
     |S| = 26 \times \binom{69}{5} = 26 \times 11,238,513 \approx 292M \\\\
     P(E) = \frac{1}{|S|} \approx 3.42 \times 10^{-9}
 \end{gather*}
 $$
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

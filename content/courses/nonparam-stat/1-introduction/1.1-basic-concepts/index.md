@@ -2,6 +2,7 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Basic Concepts"
+slug: "nonparametric-methods-basic-concepts"
 categories:
   - Nonmarametric Methods
   - Statistics
@@ -11,12 +12,11 @@ tags:
 summary: A brief introduction to what we're going to discuss in later chapters.
 date: 2019-01-25T22:50:34-05:00
 lastmod: 2019-01-25T22:50:34-05:00
-draft: false  # Is this a draft? true/false
+draft: false # Is this a draft? true/false
 toc: false # Show table of contents? true/false
-type: docs  # Do not modify.
+type: docs # Do not modify.
 
-featured: true
-weight: 1
+weight: 10
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -27,7 +27,7 @@ menu:
   nonparam-stat:
     name: Basic Concepts
     parent: Introduction
-    weight: 1
+    weight: 10
 ---
 
 We want to move away from "standard" or "typical" approaches to statistical inference, where we assume that our data are drawn from some distributional family, e.g. the standard setup in which $X_1, X_2, ..., X_n \sim N(\mu, \sigma^2)$. Here $N(\mu, \sigma^2)$ is a normal distributional family. Similarly we could have $Pois(\lambda)$ for a Poisson distribution. In these cases, we're making assumptions about the underlying distribution. These assumptions may (or may not) be realistic or valid. In any case, they are restrictive.
@@ -42,7 +42,7 @@ The term `nonparametric method` is also used in a variety of ways, which we want
 
 The big question is if we don't assume a distributional family, how can we proceed to do inference? What sorts of inferential questions can we ask and answer?
 
-We do still need to make *some* assumptions (of course), but they can be weaker than what we're used to. For example, instead of normality, which is a strong assumption, we might assume that the true data distribution is merely symmetric.
+We do still need to make _some_ assumptions (of course), but they can be weaker than what we're used to. For example, instead of normality, which is a strong assumption, we might assume that the true data distribution is merely symmetric.
 
 For comparing two samples, rather than assuming that both come from normally-distributed populations with possibly different means, we might assume that their distributions are the same (without specifying what it is) but with a **shift** in location:
 
@@ -72,7 +72,5 @@ tibble(
 ```
 
 {{< figure src="1-arbitrary_dist.png" title="Two arbitrary distributions with the same shape but different means." numbered="true" lightbox="true" >}}
-
-
 
 [^1]: methods will be good in a wider range of applications.

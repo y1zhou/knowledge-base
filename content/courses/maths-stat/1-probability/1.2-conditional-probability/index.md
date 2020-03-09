@@ -2,15 +2,14 @@
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Conditional Probability"
-linktitle: "conditional probability"
-slug: chapter-1-probability-conditional-probability
-summary: ~
+slug: mathematical-statistics-conditional-probability
+summary: "Introducing conditional probability and independence of events. Bayes' rule comes in as well."
 date: 2019-09-26T11:51:56-05:00
 lastmod: 2019-09-26T11:51:56-05:00
 draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
-weight: 2
+weight: 20
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -21,7 +20,7 @@ menu:
   maths-stat:
     name: Conditional Probability
     parent: Chapter 1. Probability
-    weight: 2
+    weight: 20
 ---
 
 ## Conditional probability and independence of events
