@@ -16,6 +16,7 @@ toc: false # Show table of contents? true/false
 type: docs  # Do not modify.
 
 featured: true
+weight: 1
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.

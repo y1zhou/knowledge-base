@@ -15,6 +15,7 @@ draft: false  # Is this a draft? true/false
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 
+weight: 3
 
 # Add menu entry to sidebar.
 # - Substitute `example` with the name of your course/documentation folder.
@@ -172,12 +173,12 @@ We can also improve the effectiveness of the approximation by using a `continuit
 
 Another thing we could do when $2^n$ is too large to enumerate all of the possible configurations (e.g. in the millions) is to take a random sample of them instead (e.g. $\approx 10,000$).
 
-## Wilcoxon with Ties
+## Wilcoxon with ties
 We've been assuming the underlying population distribution is continuous, so in theory in the data there should be no ties. In practice, however, ties can of course happen. Real observations never have a distribution that is strictly continuous either because of their nature, or as a result of rounding errors or limited measurement precision. 
 
 The other in theory impossible but in practice often observed are deviations of $0$. We're talking about values in the sample that are exactly equal to the median hypothesis under $H_0$, $\theta_0$. There's no one agreed upon best approach for handling these cases!
 
-### Ties in the Observations
+### Ties in the observations
 One suggestion is to replace the ranks for the tied values with their `mid-ranks`. For example, if we had a sample 
 
 
@@ -190,7 +191,7 @@ $$
 
 We take $H_0: \theta = 30$. The deviations and ranks are then
 
-| $d_i$ | -18  | -12$^*$ | -6   | -4   | 7    | 10   | 12$^*$ | 17   | 19$^\dagger$ | 19$^\dagger$ | 48   | 78   |
+| $d_i$ | -18  | $-12^*$ | -6   | -4   | 7    | 10   | $12^*$ | 17   | 19$^\dagger$ | 19$^\dagger$ | 48   | 78   |
 | ----- | ---- | ------- | ---- | ---- | ---- | ---- | ------ | ---- | ------------ | ------------ | ---- | ---- |
 | Rank  | -8   | -5.5    | -2   | -1   | 3    | 4    | 5.5    | 7    | 9.5          | 9.5          | 11   | 12   |
 
