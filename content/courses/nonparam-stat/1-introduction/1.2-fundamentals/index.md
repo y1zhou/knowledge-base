@@ -6,7 +6,6 @@ slug: "nonparametric-methods-fundamentals"
 summary: "Some basic tools such as the permutation test and the binomial test. We also introduce order statistics and ranks, which will come in handy in later chapters."
 categories:
   - Nonmarametric Methods
-  - Statistics
 tags:
   - Nonmarametric Methods
   - Statistics
@@ -119,7 +118,11 @@ So, in a sample of size 10, the number of successes is $Bin(10, 0.5)$. We have 3
 $$
 \text{F, F, F, F, F, F, F, S, S, S}
 $$
-Under $H_0$, $P \text{(3 successes)} = {10 \choose 3} 0.5^{10}$. We also need to consider the "more extreme" outcomes in this tail: 2 or 1 or 0 successes. In total: ${10 \choose 3}0.5 ^{10} + {10 \choose 2}0.5 ^{10} + {10 \choose 1}0.5 ^{10} + {10 \choose 0}0.5 ^{10} \approx 0.1719$.
+Under $H_0$, $P \text{(3 successes)} = {10 \choose 3} 0.5^{10}$. We also need to consider the "more extreme" outcomes in this tail: 2 or 1 or 0 successes. In total:
+$$
+{10 \choose 3}0.5 ^{10} + {10 \choose 2}0.5 ^{10} + {10 \choose 1}0.5 ^{10} + {10 \choose 0}0.5 ^{10} \approx 0.1719
+$$
+
 
 We have a two-sided test, so we also need to consider departures from $H_0$ in the other tail. Since $Pr(\text{success}) = Pr(\text{failure}) = 0.5$, this distribution is symmetric, so the p-value is $2 \times 0.1719 = 0.3438$.
 

@@ -5,7 +5,6 @@ title: "Basic Concepts"
 slug: "nonparametric-methods-basic-concepts"
 categories:
   - Nonmarametric Methods
-  - Statistics
 tags:
   - Nonmarametric Methods
   - Statistics

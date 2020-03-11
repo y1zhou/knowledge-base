@@ -5,7 +5,6 @@ title: "Location Inference for Single Samples"
 slug: "nonparametric-methods-single-sample-location-inference"
 categories:
   - Nonmarametric Methods
-  - Statistics
 tags:
   - Nonmarametric Methods
   - Statistics

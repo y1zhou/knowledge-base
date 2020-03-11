@@ -5,10 +5,10 @@ title: "Other Single Sample Inferences"
 slug: "nonparametric-methods-other-single-sample-inferences"
 categories:
   - Nonmarametric Methods
-  - Statistics
 tags:
   - Nonmarametric Methods
   - Statistics
+  - Distribution
 summary: "Explore whether the sample is consistent with a specified distribution at the population level. Kolmogorov's test, Lilliefors test and Shapiro-Wilk test are introduced, as well as tests for runs or trends."
 date: 2019-04-26T23:45:36-05:00
 toc: true  # Show table of contents? true/false

@@ -3,10 +3,10 @@ title: "Methods for Paired Samples"
 slug: "nonparametric-methods-paired-samples"
 categories:
   - Nonmarametric Methods
-  - Statistics
 tags:
   - Nonmarametric Methods
   - Statistics
+  - Paired Samples
 summary: "An obvious extension of the one-sample procedures."
 date: 2019-04-29T14:22:47-04:00
 
@@ -73,7 +73,7 @@ For the score representation, we see a slight difference when we compare to: $\s
 2. The typical $H_0$ here would be that the **median of the differences** is $0$. If the differences are assumed to have a **symmetric distribution** (about $0$), then the Wilcoxon approach is suitable. Note then that the individual unit measurements do **not** need to be assumed symmetric. You need to think about whether this is realistic for your given situation.
 3. The alternative therefore refers to a **shift in centrality** of the differences. You need to think about whether this is an interesting, relevant, or important question.
 
-## McNemar's t est
+## McNemar's test
 The test is a less obvious use of, or a modification to the sign test. Here's example 5.4 in the book. We have records on all attempts of two rock climbs, successful or not. For the $108$ who tried both:
 
 |                      | First climb success | First climb failure |
@@ -126,7 +126,7 @@ $$
 $$
 
 
-The first one, in terms of our example, is saying $P(\text{success} \rightarrow \text{failure})$ is equal to $P(\text{failure} \rightarrow \text{success})$. The second one is saying $P(\text{failure on first climb}) = P(\text{failure on second climb})$.
+The first one, in terms of our example, is saying $P(\text{success} \rightarrow \text{failure})$ is equal to $P(\text{failure} \rightarrow \text{success})$. The second one is saying $P(\text{failure on first climb})$ $=$ $P(\text{failure on second climb})$.
 
 Our test statistic - if $b$ and $c$ are reasonably small, take $T_2 = b$. Under $H_0$, $b \sim Bin(b+c, 0.5)$, which is our usual sign test. Or for larger $b, c$:
 
