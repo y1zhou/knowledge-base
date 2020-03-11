@@ -1,11 +1,12 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
-slug: "{{ .Name | title }}"
+slug: "{{ .Name | title | lower }}"
 categories:
   - Statistics
 tags:
   - Statistics
-summary:~
+
+summary: 
 date: {{ .Date }}
 toc: true
 type: docs  # Do not modify.
