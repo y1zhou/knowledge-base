@@ -212,8 +212,9 @@ $$
 S_1 = 10, S_2 = 21, S_3 = 11
 $$
 
-
 In data, $T = 10.57$. Compare to $\chi^2_{(2)}$ at $\alpha = 0.05$, where $T_\alpha = 5.99$. We have strong evidence against $H_0$.
+
+So far we've focused on location and distribution inferences. What about [association analyses]({{< ref "/courses/nonparam-stat/4-association-analysis/4.1-correlation-and-concordance/index.md" >}})?
 
 [^1]: 
 

@@ -291,7 +291,7 @@ $$
 
 where $R$ denotes the observations in our sample. Barton and David[^barton] suggest that the normal approximation is adequate for $N > 12$, no matter what the number of categories is.
 
-So far we've been talking about inferences on single samples. Next we'll take a step further and discuss paired samples.
+So far we've been talking about inferences on single samples. Next we'll take a step further and discuss [paired samples]({{< ref "/courses/nonparam-stat/3-multiple-samples/3.1-paired-samples/index.md" >}}).
 
 [^1]: 
     Below is the R code for generating the plot:

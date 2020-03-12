@@ -422,4 +422,4 @@ Here we specify `lower.tail = F` because we want the probability to the right of
 
 ---
 
-This is the last part of the "classical" nonparametric statistics. Next, we'll be focusing on topics in modern nonparametric statistics, which is also the finale of our nonparametric methods discussions.
+This is the last part of the "classical" nonparametric statistics. Next, we'll be focusing on topics in [modern nonparametric statistics]({{< ref "/courses/nonparam-stat/5-modern-methods/5.1-bootstrap/index.md" >}}), which is also the finale of our nonparametric methods discussions.

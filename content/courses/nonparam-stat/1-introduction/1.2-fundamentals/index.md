@@ -219,5 +219,7 @@ The proposed idea is to test what are the sample sizes you'd need for tests $T_1
 
 A bit more rigorously, a bigger sample size usually leads to increased power for alternatives closer to the null. With a larger sample, you can detect smaller differences. For big samples, the ratio $\frac{n_1}{n_2}$ is potentially informative, and it can be shown that (under some circumstances) $\frac{n_1}{n_2}$ tends to a limit as $n_1 \rightarrow \infty$. This is the `asymptotic relative efficiency`. Crucially, nonparametric methods *can be* more powerful than their parametric counterparts when the assumptions of the latter don't hold.
 
+Next, we'll discuss [location inference on a single sample]({{< ref "/courses/nonparam-stat/2-single-samples/2.1-loc-inf-single-sample/index.md" >}}), and the tool we'll be using is the Wilcoxon signed-rank test.
+
 [^1]: One-sided alternative values in the upper tail (high # of success) $\Rightarrow$ favorable to $H_1$.
 [^2]: One-sided alternative values in the lower tail (low # of successes) $\Rightarrow$ favorable to $H_1$.
