@@ -164,7 +164,7 @@ $$
 \chi^2 = \sum_{i=1}^m{\frac{(O_i - E_i)^2}{E_i}}
 $$
 
-## The Friedman Test
+## The Friedman test
 
 The Friedman test makes inference for several related samples. Its parametric analogy is the two-way classification `ANOVA` from a randomized block design[^2].
 
