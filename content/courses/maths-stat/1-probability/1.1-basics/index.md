@@ -6,11 +6,9 @@ slug: mathematical-statistics-basic-concepts
 summary: "Introducing the concept of the probability of an event. Also covers set operations and the sample-point method."
 categories:
   - Mathematical Statistics
-  - Statistics
 tags:
   - Mathematical Statistics
   - Statistics
-summary: ~
 date: 2019-09-25T11:05:06-05:00
 toc: true # Show table of contents? true/false
 type: docs # Do not modify.
@@ -25,7 +23,7 @@ weight: 10
 menu:
   maths-stat:
     name: Basic Concepts
-    parent: Chapter 1. Probability
+    parent: Probability
     weight: 10
 ---
 

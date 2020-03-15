@@ -5,21 +5,22 @@ title: "Conditional Probability"
 slug: mathematical-statistics-conditional-probability
 summary: "Introducing conditional probability and independence of events. Bayes' rule comes in as well."
 date: 2019-09-26T11:51:56-05:00
-lastmod: 2019-09-26T11:51:56-05:00
-draft: false  # Is this a draft? true/false
+
+categories:
+  - Mathematical Statistics
+tags:
+  - Mathematical Statistics
+  - Statistics
+  - Bayes
+
 toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 weight: 20
 
-# Add menu entry to sidebar.
-# - Substitute `example` with the name of your course/documentation folder.
-# - name: Declare this menu item as a parent with ID `name`.
-# - parent: Reference a parent ID if this page is a child.
-# - weight: Position of link in menu.
 menu:
   maths-stat:
     name: Conditional Probability
-    parent: Chapter 1. Probability
+    parent: Probability
     weight: 20
 ---
 
@@ -280,3 +281,5 @@ $$
     &= \frac{(1 - 0.05) \times (1 - 0.01)}{0.9415} = 0.9989
 \end{aligned}
 $$
+
+Next, we move on to discuss [discrete random variables]({{< ref "/courses/maths-stat/2-discrete-random-variables/2.1-definition/index.md" >}}).
