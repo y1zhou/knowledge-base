@@ -323,6 +323,96 @@ $$
 Var(X) = \lambda^2 + \lambda - \lambda^2= \lambda
 $$
 
+## The negative binomial distribution
+
+Similar to the geometric distribution, suppose we have a sequence of i.i.d. Bernoulli trials with the same probability of success $p$. We're interested in the number of the trial on which the $r^{th}$ success occurs ($r= $ 2, 3, 4, $\cdots$).
+
+Let $r$ and $y$ be fixed values, and consider events $A$ and $B$ where $A = ${the first $(y+r-1)$ trials contain $(r-1)$ successes}, and $B= ${trial $y+r$ results in a success}. We've assumed that $P(B) = p$ and that $A$ and $B$ are independent, so
+$$
+P(Y=y) = P(A \cap B) = P(A)P(B)
+$$
+Using results from the binomial distribution, we can easily find
+$$
+P(A) = \binom{y+r-1}{r-1}p^{r-1}(1-p)^{y}, \quad y \geq 0
+$$
+A random variable $Y$ is said to have a `negative binomial probability distribution` if and only if
+$$
+P(Y) = \binom{y+r-1}{r-1}p^r(1-p)^{y}, \quad y = 0, 1, 2, \cdots
+$$
+where $0 \leq p \leq 1$, and we can denote it as $Y \sim NB(r, p)$. Here $y$ is the random number of failures. It's name originates from the fact that
+$$
+\begin{gather*}
+    \binom{y+r-1}{r-1} = \binom{y+r-1}{y} = (-1)^y \binom{-r}{y} \\\\
+    = (-1)^y \frac{-r(-r-1)\cdots(-r-y+1)}{y(y-1)\cdots2 \times 1}
+\end{gather*}
+$$
+
+
+In the field of bioinformatics, the NB distribution is very frequently used to model RNA-Seq data[^DESeq2]. Simply put, in an RNA-Seq experiment we map the sequencing reads to a reference genome and count the number of reads within each gene. There tends to be millions of reads in total, but the number on each gene is usually within the thousands with great variability.
+
+The Poisson distribution was used to model this in the beginning, but it has the assumption that the mean and variance are the same, which is not the case in RNA-Seq. The variance in the counts is in general much greater than the mean, especially with the highly-expressed genes. The negative binomial distribution's other formulation - the gamma-Poisson mixture distribution has a dispersion parameter that fits here.
+
+### Properties
+
+First we want to show that the proberbilities add up to 1. We first play with the binomial part:
+
+
+$$
+\begin{aligned}
+    \binom{y+r-1}{r-1} &= \frac{(y+r-1)!}{(r-1)!y!} \\\\
+    &= \frac{y+r-1}{r-1}\binom{y+r-2}{r-2} \\\\
+    &= \binom{y+r-2}{r-2} + \frac{y}{r-1}\frac{(y+r-2)!}{(r-2)!y!} \\\\
+    &= \binom{y+r-2}{r-2} + \frac{(y+r-2)!}{(r-1)!(y-1)!} \\\\
+    &= \binom{y+r-2}{r-2} + \binom{y+r-2}{r-1}
+\end{aligned}
+$$
+Construct the function
+$$
+f(m, n) = \sum_{k=0}^\infty \binom{m+k}{m}n^k
+$$
+We can decompose this into
+$$
+\begin{aligned}
+    f(m, n)  &= \sum_{k=0}^\infty \binom{m+k-1}{m-1}n^k + \sum_{k=1}^\infty \binom{m+k-1}{m}n^k \\\\
+    &= f(m-1, n) + n\sum_{k=1}^\infty \binom{m+k-1}{m}n^{k-1} \\\\
+    &= f(m-1, n) + nf(m, n) \\\\
+    f(m, n) &= \frac{1}{1-n}f(m-1, n)
+\end{aligned}
+$$
+When $m=0$, the equation is reduced to the sum of probabilities of a geometric distribution
+$$
+f(0, n) = \sum_{k=0}^\infty \binom{k}{0}n^k = \frac{1}{1-n}
+$$
+So we can show that
+$$
+f(m, n) = \left(\frac{1}{1-n}\right)^{m+1}
+$$
+If we set $m=r-1$, $n=1-p$ and $k=y$, we have
+$$
+\begin{gather*}
+    f(r-1, 1-p)  = \sum_{y=0}^\infty \binom{y+r-1}{r-1}(1-p)^y = \left(\frac{1}{p}\right)^{r} \\\\
+    \Rightarrow p^r \sum_{y=0}^\infty \binom{y+r-1}{r-1}(1-p)^y = 1
+\end{gather*}
+$$
+We can now use this property to calculate the expectation.
+
+
+$$
+\begin{aligned}
+	E[Y] &= \sum_y yp(y) = \sum_{y=0}^\infty y\binom{y+r-1}{r-1}p^r(1-p)^{y} \\\\
+	&= 0 + \sum_{y=1}^\infty y \frac{(y+r-1)!}{(r-1)!y!} p^r(1-p)^{y} \\\\
+	&= \sum_{y=1}^\infty r \frac{(y+r-1)!}{r!(y-1)!} p^r(1-p)^{y}
+\end{aligned}
+$$
+Let $x=y-1$ and $s=r+1$, we have
+$$
+\begin{aligned}
+E[Y] &= \sum_{x=0}^\infty r\frac{(x+s-1)!}{(s-1)!x!} p^{s-1}(1-p)^{x+1} \\\\
+&= \frac{r(1-p)}{p}\sum_{x=0}^\infty \binom{x+s-1}{s-1} p^{s}(1-p)^{x} \\\\
+&= \frac{r(1-p)}{p}
+\end{aligned}
+$$
+
 
 ## Moments and moment generating functions
 
@@ -465,3 +555,4 @@ $$
       ggtitle("p = {closest_state}") +
       labs(x = "X ~ Bin(10, {closest_state})", y = "Freq")
     ```
+[^DESeq2]: Love, M. I., Huber, W., & Anders, S. (2014). Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. *Genome biology*, *15*(12), 550.
