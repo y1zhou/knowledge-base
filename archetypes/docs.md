@@ -14,7 +14,8 @@ weight: 1000
 
 menu:
   example:
-    name: YourParentID
+    name: YourPageTitle
+    # identifier: YourPageID
     # parent: YourParentID
     weight: 1
 ---
