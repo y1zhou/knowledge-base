@@ -534,6 +534,10 @@ $$
 $$
 
 
+
+And that's pretty much it for discrete random variables. Obviously we haven't covered everything, but this should be good enough for now. Next, we're going to talk about [continuous random variables]({{< ref "/courses/maths-stat/3-continuous-random-variables/3.1-definition/index.md" >}}).
+
+
 [^binom-gif]:
     ```r
     library(tidyverse)
