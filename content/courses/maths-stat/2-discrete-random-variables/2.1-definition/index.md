@@ -9,7 +9,7 @@ tags:
   - Random Variable
 
 summary: "The probability mass function, cumulative distribution function, expectation and variance for random variables."
-date: 2019-05-06T10:46:18-04:00
+date: 2019-10-06T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.
 weight: 30

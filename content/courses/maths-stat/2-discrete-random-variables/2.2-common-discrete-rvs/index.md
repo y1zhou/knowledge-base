@@ -9,7 +9,7 @@ tags:
   - Random Variable
 
 summary: "We introduce the binomial (Bernoulli), geometric and Poisson probability distributions and their properties. The properties include their expectations, variances and moment generating functions."
-date: 2019-05-06T10:46:18-04:00
+date: 2019-10-06T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.
 weight: 40

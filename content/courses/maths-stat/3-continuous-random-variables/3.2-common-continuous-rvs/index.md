@@ -9,7 +9,7 @@ tags:
   - Random Variable
 
 summary: "The uniform distribution, normal distribution, exponential distribution and their properties."
-date: 2019-06-07T10:46:18-04:00
+date: 2019-11-01T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.
 weight: 60
@@ -656,3 +656,7 @@ $$
     &= P(X > t)P(X > s)
 \end{aligned}
 $$
+
+
+There's various continuous distributions that are very important but not included here, such as the beta distribution and the gamma distribution. In fact, the exponential distribution and the chi-square distribution are both special cases of the gamma distribution. Proofs and properties of these distributions might be included in a later chapter.
+

@@ -9,7 +9,7 @@ tags:
   - Random Variable
 
 summary: "The probability density function, cumulative distribution function, expectation and variance for a continuous random variable."
-date: 2019-06-05T10:46:18-04:00
+date: 2019-09-25T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.
 weight: 50
