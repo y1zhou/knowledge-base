@@ -1,5 +1,5 @@
 ---
-title: "Definitions"
+title: "Definitions for Continuous Random Variables"
 slug: "mathematical-statistics-continuous-rv-definition"
 categories:
   - Mathematical Statistics

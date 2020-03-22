@@ -1,5 +1,5 @@
 ---
-title: "Definitions"
+title: "Definitions for Discrete Random Variables"
 slug: "mathematical-statistics-discrete-rv-definition"
 categories:
   - Mathematical Statistics
