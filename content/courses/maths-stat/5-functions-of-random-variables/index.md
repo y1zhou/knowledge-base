@@ -728,7 +728,7 @@ In the second case, we have $X \sim Pois(\lambda_1)$ and $Y \sim Pois(\lambda_2)
 
 
 $$
-M_X(t) = \exp\left\{ \lambda(e^t - 1) \right\}
+M_X(t) = \exp\left\\{ \lambda(e^t - 1) \right\\}
 $$
 
 
