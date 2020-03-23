@@ -40,7 +40,7 @@ A `binomial` experiment is a random experiment that contains $n$ independent and
 $$
 P(k) = \binom{n}{k} p^k(1-p)^{n-k}, \quad k = 0, 1, \cdots, n
 $$
-![Binomial distribution with different parameters](binomial.gif)
+![Binomial distribution with different parameters](binomial.webp)
 
 <figcaption data-pre="Figure " data-post=":" class="numbered">
     Binomial distribution with $n=10$ and different $p$ parameters.
@@ -264,7 +264,7 @@ P(X = k) = \frac{\lambda^k}{k!}e^{-\lambda},\quad k = 0, 1, 2, \cdots,
 $$
 we say $X$ is a `Poisson` random variable with parameter $\lambda$, or $X \sim Pois(\lambda)$. The Poisson distribution provides a good model for the probability distribution of rare events that occur in space, time or any other dimension where $\lambda$ is the average value.
 
-![Poisson distribution with different parameters](poisson.gif)
+![Poisson distribution with different parameters](poisson.webp)
 
 <figcaption data-pre="Figure " data-post=":" class="numbered">
     Poisson distribution with different $\lambda$ values.
