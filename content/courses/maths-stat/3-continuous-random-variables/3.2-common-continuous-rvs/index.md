@@ -27,8 +27,7 @@ menu:
 
 In the discrete case, if the outcomes of a random experiment are equally likely, then calculating the probability of the events will be very easy. This "equally likely" idea may also be applied to continuous random variables.
 
-For a continuous random variable $X$, we say $X$ is `uniformly distributed` over the interval $(\alpha, \beta)$ if the density function of $X$ is
-
+**Def:** For a continuous random variable $X$, we say $X$ is `uniformly distributed` over the interval $(\alpha, \beta)$ if the density function of $X$ is
 
 $$
 f(X) = \begin{cases}
@@ -132,8 +131,7 @@ Another reason for the popularity of the normal distribution is due to its nice 
 
 ### Standard normal distribution
 
-A continuous random variable $Z$ is said to follow a `standard normal distribution` if the density function of $Z$ is given by
-
+**Def:** A continuous random variable $Z$ is said to follow a `standard normal distribution` if the density function of $Z$ is given by
 
 $$
 f(z) = \frac{1}{\sqrt{2\pi}} e^{-\frac{Z^2}{2}} \quad -\infty < z < \infty
@@ -514,8 +512,7 @@ $$
 
 ## The exponential distribution
 
-A continuous random variable $X$ is an `exponential random variable` with parameter $\lambda$ if the density function is given by
-
+**Def:** A continuous random variable $X$ is an `exponential random variable` with parameter $\lambda$ if the density function is given by
 
 $$
 f(X) = \begin{cases}
@@ -624,7 +621,7 @@ The exponential probability is usually defined as a probability associated with 
 
 For example, when we consider the time from now to the next earthquake, why don't we care about how long has it been since the last earthquake? This leads to a nice property the exponential distribution has.
 
-We say a non-negative random variable $X$ is `memoryless` if
+**Def:** We say a non-negative random variable $X$ is `memoryless` if
 
 
 $$

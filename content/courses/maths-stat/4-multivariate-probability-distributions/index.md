@@ -50,8 +50,7 @@ This is called the `joint probability` of $X_1$ and $X_2$.
 
 ## Two discrete random variables
 
-Let $X_1$ and $X_2$ be two discrete random variables defined on the same sample space. The `joint probability mass function` for $X_1$ and $X_2$ is given by
-
+**Def:** Let $X_1$ and $X_2$ be two discrete random variables defined on the same sample space. The `joint probability mass function` for $X_1$ and $X_2$ is given by
 
 $$
 p(x_1, x_2) = P\\{X_1 = x_1, X_2 = x_2\\}
@@ -251,8 +250,7 @@ $$
 
 ### The discrete case
 
-If $X$ and $Y$ are two discrete random variables, we can define the `conditional probability mass function` of $X$ given $Y$ as
-
+**Def:** If $X$ and $Y$ are two discrete random variables, we can define the `conditional probability mass function` of $X$ given $Y$ as
 
 $$
 P_{X \mid Y}(x \mid y) = P\\{ X = x \mid Y = y \\} = \frac{p(x, y)}{P_Y(y)}
@@ -317,8 +315,7 @@ $$
 
 ### The continuous case
 
-If $X$ and $Y$ are two continuous random variables, we can define the `conditional joint density function` of $X$ given $Y = y$, for all values of $y$ such that $f_Y(y) > 0$, by
-
+**Def:** If $X$ and $Y$ are two continuous random variables, we can define the `conditional joint density function` of $X$ given $Y = y$, for all values of $y$ such that $f_Y(y) > 0$, by
 
 $$
 f_{X \mid Y}(x \mid y) = \frac{f(x, y)}{f_Y(y)}
@@ -484,9 +481,7 @@ $$
 \end{aligned}
 $$
 
-
-If $X$ and $Y$ are two **discrete random variables**, we can extend the definition using the joint probability mass function:
-
+**Def:** If $X$ and $Y$ are two **discrete random variables**, we can extend the definition using the joint probability mass function:
 
 $$
 E[g(X, Y)] = \sum\limits_X \sum\limits_Y g(x, y) p(x, y)
@@ -566,7 +561,7 @@ $$
 
 As shown in the example above, we have defined the expected value and variance for a single random variable. For two or more random variables, we introduce a new quantity to give us the information about the relationship between the random variables.
 
-The `covariance` of $X$ and $Y$, denoted as $Cov(X, Y)$, is defined as
+**Def:** The `covariance` of $X$ and $Y$, denoted as $Cov(X, Y)$, is defined as
 $$
 Cov(X, Y) = E\bigg[ (X - E[X])(Y - E[Y]) \bigg]
 $$

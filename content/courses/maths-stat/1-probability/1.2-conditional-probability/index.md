@@ -137,8 +137,7 @@ $$
 P(EF) = P(E)P(F)
 $$
 
-Two events $E$ and $F$ are `independent` if any of the following holds:
-
+**Def:** Two events $E$ and $F$ are `independent` if any of the following holds:
 $$
 \begin{cases}
     P(E \mid F) = P(E) \\\\
@@ -197,7 +196,7 @@ because $F \cup F^C = S$ and $FF^C = \emptyset$. Now let's consider a generaliza
 
 ### Law of total probability
 
-The theorem states that given $F_1, \cdots, F_k$ as a partition of $S$, such that $P(F_i) > 0$ for $i = 1, \cdots, k$, for any event $E$, we have
+The **theorem** states that given $F_1, \cdots, F_k$ as a partition of $S$, such that $P(F_i) > 0$ for $i = 1, \cdots, k$, for any event $E$, we have
 
 $$
 P(E) = \sum_{i=1}^k{P(E \mid F_i)P(F_i)}
