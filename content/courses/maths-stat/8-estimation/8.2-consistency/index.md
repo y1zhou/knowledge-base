@@ -9,7 +9,7 @@ tags:
   - Statistics
   - Estimation
 
-summary: ""
+summary: "Introducing consistency, a concept about the convergence of estimators. We start from the convergence of non-random number sequences to convergence in probability, then to consistency of estimators and its properties."
 date: 2020-01-27T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.

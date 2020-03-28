@@ -9,7 +9,7 @@ tags:
   - Statistics
   - Estimation
 
-summary: ""
+summary: "A fairly simple method of constructing estimators that's not often used now."
 date: 2020-01-28T10:46:18-04:00
 toc: false
 type: docs  # Do not modify.

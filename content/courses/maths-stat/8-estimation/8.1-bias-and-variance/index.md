@@ -8,7 +8,7 @@ tags:
   - Statistics
   - Estimation
 
-summary: ""
+summary: "The bias, variance and mean squared error of an estimator. The efficiency is used to compare two estimators."
 date: 2020-01-25T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.

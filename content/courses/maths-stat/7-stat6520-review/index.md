@@ -8,7 +8,7 @@ tags:
   - Mathematical Statistics
   - Statistics
 
-summary: "A brief review of probability theory "
+summary: "A brief review of probability theory and statistics we've learnt so far."
 date: 2020-01-08T09:57:16-04:00
 toc: true
 type: docs  # Do not modify.

@@ -9,7 +9,7 @@ tags:
   - Statistics
   - Estimation
 
-summary: ""
+summary: "Under parametric family distributions, there's a much better way of constructing estimators - the maximum likelihood estimator."
 date: 2020-01-29T10:46:18-04:00
 toc: true
 type: docs  # Do not modify.
