@@ -98,7 +98,7 @@ where the expectation $E$ is taken by assuming that $\theta$ is the true paramet
 
 ### Uniform distribution example
 
-$(Y_1, \cdots, Y_n) \overset{i.i.d.}{\sim} Uniform(0, \theta)$. We want to estimate $\theta$. The proposed estimator is $\bar{Y}_n$. The bias of our estimator is
+$(Y_1, \cdots, Y_n) \overset{i.i.d.}{\sim} Unif(0, \theta)$. We want to estimate $\theta$. The proposed estimator is $\bar{Y}_n$. The bias of our estimator is
 
 $$
 \begin{aligned}
