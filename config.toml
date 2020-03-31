@@ -20,7 +20,7 @@ copyright = "Hosted on <a href='https://my.frantech.ca/aff.php?aff=3541'>BuyVM</
 ############################
 
 # Name of Academic theme folder in `themes/`.
-theme = "hugo-academic"
+theme = "academic"
 
 # Get last modified date for content from Git?
 enableGitInfo = true
