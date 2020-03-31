@@ -137,4 +137,4 @@ $$
 \end{aligned}
 $$
 
-This way of constructing estimators is [fairly simple](https://en.wikipedia.org/wiki/Method_of_moments_(statistics)), but is not used much nowadays because we have better methods, as introduced in the [next chapter]().
+This way of constructing estimators is [fairly simple](https://en.wikipedia.org/wiki/Method_of_moments_(statistics)), but is not used much nowadays because we have better methods, as introduced in the [next chapter]({{< ref "/courses/maths-stat/9-estimation-under-parametric-models/9.1-maximum-likelihood-estimator/index.md" >}}).

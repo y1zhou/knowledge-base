@@ -183,7 +183,7 @@ $$
 
 holds by the CLT. Note that if $s^2$ is unknown, we can replace it with $S^2$, which is a consistent estimator of $s^2$. For example, $S^2 = \frac{1}{n-1}\sum_{i=1}^n (Y_i - \bar{Y}_n)^2$. Then,
 $$
-Z = \frac{\bar{Y}_n - \mu}{s / \sqrt{n}} \overset{d}{\approx} N(0, 1)
+Z = \frac{\bar{Y}_n - \mu}{S / \sqrt{n}} \overset{d}{\approx} N(0, 1)
 $$
 
 > $\overset{d}{\approx}$ means approximately equal in distribution.
@@ -354,19 +354,22 @@ $$
 \frac{(n-1)S^2}{\sigma^2} = \frac{1}{\sigma^2}\sum_{i=1}^n (Y_i - \bar{Y})^2
 $$
 
-
 has a $\chi^2$ distribution with $(n-1)$ d.f. Also, $\bar{Y}$ and $S^2$ are independent random variables. By this theorem,
+
 $$
 T = \frac{\sum_{i=1}^n (Y_i - \bar{Y}_n)^2}{\sigma^2} = \frac{(n-1)\hat\sigma_n^2}{\sigma^2} \sim \chi^2(n-1)
 $$
+
 and $T$ is once again a pivotal quantity. We choose $x < y$ such that $P(T \leq x) = P(T \geq y) = \frac{\alpha}{2}$. We're doing this because the $\chi^2$ distribution is asymmetric. Denote such $x, y$ as
+
 $$
 \chi^2_{(1 - \frac{\alpha}{2})}(n-1) \text{  and  } \chi^2_{\frac{\alpha}{2}}(n-1)
 $$
+
 A $(1-\alpha)$-CI is given by
+
 $$
 \left[ \frac{(n-1)\hat\sigma_n^2}{\chi^2_{\alpha/2}(n-1)}, \frac{(n-1)\hat\sigma_n^2}{\chi^2_{(1-\alpha/2)}(n-1)} \right]
 $$
-
 
 **Remark:** the validity of the CIs introduced in this section depends on the normality assumption. Empirically, people find that these CIs are robust against moderate departure from the normality assumption.
