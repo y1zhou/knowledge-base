@@ -2,9 +2,9 @@
 title: "Bootstrap"
 slug: "nonparametric-methods-bootstrap"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Sampling
 

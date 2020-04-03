@@ -2,9 +2,9 @@
 title: "Basic Tests for Three or More Samples"
 slug: "nonparametric-methods-three-or-more-samples"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - ANOVA
 

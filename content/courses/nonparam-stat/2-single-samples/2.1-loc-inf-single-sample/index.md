@@ -4,9 +4,9 @@
 title: "Location Inference for Single Samples"
 slug: "nonparametric-methods-single-sample-location-inference"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
 summary: The Wilcoxin signed rank test explained.
 date: 2019-03-26T21:12:45-05:00

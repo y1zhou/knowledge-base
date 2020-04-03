@@ -2,9 +2,9 @@
 title: "Modern Nonparametric Regression"
 slug: "nonparametric-methods-modern-nonparametric-regression"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Regression
 

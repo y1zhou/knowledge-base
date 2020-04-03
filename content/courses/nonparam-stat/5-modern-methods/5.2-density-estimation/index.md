@@ -2,9 +2,9 @@
 title: "Density Estimation"
 slug: "nonparametric-methods-density-estimation"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Visualization
 

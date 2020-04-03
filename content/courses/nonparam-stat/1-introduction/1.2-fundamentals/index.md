@@ -5,9 +5,9 @@ title: "Fundamentals of Nonparametric Methods"
 slug: "nonparametric-methods-fundamentals"
 summary: "Some basic tools such as the permutation test and the binomial test. We also introduce order statistics and ranks, which will come in handy in later chapters."
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
 date: 2019-01-25T22:50:34-05:00
 lastmod: 2019-01-25T22:50:34-05:00

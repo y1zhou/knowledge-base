@@ -2,9 +2,9 @@
 title: "Two Independent Samples"
 slug: "nonparametric-methods-two-independent-samples"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Independent Samples
 

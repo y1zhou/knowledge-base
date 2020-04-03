@@ -4,9 +4,9 @@
 title: "Basic Concepts"
 slug: "nonparametric-methods-basic-concepts"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
 summary: A brief introduction to what we're going to discuss in later chapters.
 date: 2019-01-25T22:50:34-05:00

@@ -2,9 +2,9 @@
 title: "Methods for Paired Samples"
 slug: "nonparametric-methods-paired-samples"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Paired Samples
 summary: "An obvious extension of the one-sample procedures."

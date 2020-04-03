@@ -2,9 +2,9 @@
 title: "Categorical Data"
 slug: "nonparametric-methods-categorical-data"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
 
 summary: "Dealing with contingency tables. Fisher's exact test comes back, together with Chi-squared test and likelihood-ratio test. We also talk about testing goodness-of-fit."

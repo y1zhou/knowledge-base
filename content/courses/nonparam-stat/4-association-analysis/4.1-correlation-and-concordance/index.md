@@ -2,9 +2,9 @@
 title: "Correlation and Concordance"
 slug: "nonparametric-methods-correlation-and-concordance"
 categories:
-  - Nonmarametric Methods
+  - Nonparametric Methods
 tags:
-  - Nonmarametric Methods
+  - Nonparametric Methods
   - Statistics
   - Correlation
 
