@@ -8,7 +8,7 @@ tags:
   - Mathematical Statistics
   - Statistics
 
-summary: ""
+summary: "Here we introduce the elements of a statistical test, namely null and alternative hypotheses, test statistic, rejection region, and type I and type II errors. We then proceed to large-sample Z-tests and some small-sample tests derived from the small sample CIs."
 date: 2020-04-01T16:55:50-04:00
 toc: true
 type: docs  # Do not modify.
@@ -99,7 +99,7 @@ $$
 
 
 3. Power, the probability of correctly accepting $H_a$, is often interpreted as the ability to detect $H_a$. {{<hl>}} $pw(\theta)$ typically increases when the sample size increases, or when $\theta \in \Theta_a$ moves away from the boundary between $\Theta_0$ and $\Theta_a$. {{</hl>}}
-4. More generally, a hypothesis test can be formulated even without introducing a test statistic. One essentially only needs to specify the rejection region on the space of the sample - there is a region $R \sub \mathbb{R}^n$ such that $H_0$ is rejected whenever $(Y_1, \cdots, Y_n) \in R$. The rejection using test statistic $T = t(Y_1, \cdots, Y_n)$ $\in RR$ is a special case  of this, since one can identify $R$ with the preimage of $RR$ under the mapping $t: \mathbb{R}^n \rightarrow R$.
+4. More generally, a hypothesis test can be formulated even without introducing a test statistic. One essentially only needs to specify the rejection region on the space of the sample - there is a region $R \subset \mathbb{R}^n$ such that $H_0$ is rejected whenever $(Y_1, \cdots, Y_n) \in R$. The rejection using test statistic $T = t(Y_1, \cdots, Y_n)$ $\in RR$ is a special case  of this, since one can identify $R$ with the preimage of $RR$ under the mapping $t: \mathbb{R}^n \rightarrow R$.
 
 
 
@@ -204,3 +204,264 @@ $$
 
 where $c$ is a threshold chosen to make the test at level $\alpha$. The calculation of the type I, II error probabilities and the power is given as follows.
 
+# TODO
+
+
+
+## Large-sample Z-tests
+
+Now that we know the concepts in a hypothesis test, the important question is how does one construct a hypothesis test. Here we introduce the `Z-test`, which is closely related to the [Z-score]({{< ref "/courses/maths-stat/10-confidence-intervals/index.md#z-score-large-sample-confidence-intervals" >}}).
+
+Suppose we want to test
+
+$$
+H_0: \theta = \theta_0 \quad \text{vs.} \quad H_a: \theta \neq \theta_0
+$$
+
+where the hypothesized value of interest, $\theta_0$, is regarded as known. Although estimation cannot resolve the decision directly, the following idea is natural:
+
+1. Estimate $\theta$ with an estimator $\hat\theta$;
+2. If $\hat\theta$ is far from $\theta_0$, we reject $H_0$.
+
+
+
+Now the question becomes *how far is "far"*? We need to take the randomness of $\hat\theta$ into account. If it has a large variance, then we need to think how far it can deviate from $\theta_0$.
+
+**Proposal:** suppose $\hat\sigma$ is the estimated standard error of $\hat\theta$. Let's consider the signed distance between $\theta_0$ and $\hat\theta$ relative to $\hat\sigma$:
+
+$$
+Z = \frac{\hat\theta - \theta_0}{\hat\sigma}
+$$
+
+Note that unlike the Z-score for constructing the CI, our $Z$ is a statistic because all the quantities can be computed from the sample.
+
+Our proposed rejection rule is we reject $H_0$ if $|Z| > k$, namely when $\hat\theta$ is $k$-times standard error away from $\theta_0$. To choose an appropriate $k$, recall that if $H_0: \theta = \theta_0$ is true, then often when the sample size is large,
+
+$$
+Z \overset{\cdot}{\sim} N(0, 1)
+$$
+
+so we may choose $k$ using the normal quantile $z_{\alpha/2}$.
+
+To sum up, the proposed rejection rule is
+
+
+$$
+|Z| = \frac{|\hat\theta - \theta_0|}{\hat\sigma} > z_{\frac{\alpha}{2}} \Leftrightarrow \theta_0 > \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \text{ or } \theta_0 < \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}
+$$
+
+
+The type I error is given by
+
+
+$$
+P_{\theta_0} \left(|Z| > z_{\frac{\alpha}{2}} \right) = \alpha
+$$
+
+What we just described is known as the `two-sided Z-test`. There's also one-sided versions, as shown in the table below.
+
+
+| $H_0$                                         | $H_a$                  | Rejection rule         |
+| --------------------------------------------- | ---------------------- | ---------------------- |
+| $\theta = \theta_0$                           | $\theta \neq \theta_0$ | $\|Z\| > z_{\alpha/2}$ |
+| $\theta = \theta_0$ or $\theta \leq \theta_0$ | $\theta > \theta_0$    | $Z > z_\alpha$         |
+| $\theta = \theta_0$ or $\theta \geq \theta_0$ | $\theta < \theta_0$    | $Z < -z_\alpha$        |
+
+
+In the one-sided Z-tests, one may either have a simple $H_0: \theta = \theta_0$ or a composite $H_0: \theta \leq \theta_0$. Following the calculations in [the example](#example-with-a-normal-distribution), we can show that the rejection rule provides the same correct level for both the simple and the composite cases.
+
+### Bernoulli distribution example
+Suppose $Y_i \overset{i.i.d.}{\sim} Bern(\theta)$. Our hypotheses are
+
+$$
+H_0: \theta \leq 0.9 \quad \text{vs.} \quad H_a: \theta > 0.9
+$$
+
+and we have $n=100$, $\hat\theta = \bar{Y}_n$ and $\alpha = 0.05$. Suppose the observed $\hat\theta = 0.93$. Recall that
+
+$$
+Var(\hat\theta) = \frac{\theta(1-\theta)}{n}
+$$
+
+Hence the estimated standard error of $\hat\theta$ is
+
+$$
+\hat\sigma = \sqrt{\frac{\hat\theta(1-\hat\theta)}{n}} = 0.0255
+$$
+
+Then the test statistic is
+
+$$
+Z = \frac{0.93-0.9}{0.0255} = 1.18 < z_{0.05} = 1.64
+$$
+
+So $Z \notin RR$ and we fail to reject $H_0$.
+
+## Hypothesis test and confidence intervals
+You've probably noticed the resemblance between the Z-test and the Z-score confidence interval. In fact, there is a connection between the two. Long story short, whenever you can come up with the CIs, you'd be able to perform the hypothesis test.
+
+Recall we've just discussed that the rejection rule for a two-sided Z-test is
+$$
+|Z| = \frac{|\hat\theta - \theta_0|}{\hat\sigma} > z_{\frac{\alpha}{2}} \Leftrightarrow \theta_0 > \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \text{ or } \theta_0 < \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}
+$$
+
+On the other hand, a two-sided $(1-\alpha)$-CI based on the Z-score is given by
+
+$$
+I = \left[ \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \right] = \hat\theta \pm \hat\sigma z_{\frac{\alpha}{2}}
+$$
+
+Note how the quantities in the Z-test is exactly the boundaries of the Z-score CI. So the rejection rule can be alternatively expressed as **we reject $H_0$ if $\theta_0 \notin I$**. This means if a CI fails to cover $\theta_0$, then $\hat\theta = \theta_0$ is unlikely.
+
+From this, we may propose a general principle. To `convert a CI to a hypothesis test`, suppose $I$ is a $(1-\alpha)$-CI of $\theta$. To test $H_0: \theta = \theta_0$ vs. $H_a: \theta \neq \theta_0$ at level $\alpha$, we reject $H_0$ if $\theta_0 \notin I$.
+
+The level is correct because under $H_0$, we have
+
+$$
+P_{\theta_0}(\theta_0 \notin I) = \alpha
+$$
+
+using the definition of [coverage probability]({{< ref "/courses/maths-stat/10-confidence-intervals/index.md#basic-concepts" >}}) of a CI.
+
+### Uniform distribution example
+For $Y_i \overset{i.i.d.}{\sim} Unif(0, \theta)$, we've derived a one-sided $(1-\alpha)$-CI of the form
+
+$$
+I = \left[ \frac{\hat\theta}{(1-\alpha)^\frac{1}{n}} , \infty \right)
+$$
+
+where $\hat\theta = \max(Y_1, \cdots, Y_n)$. By the discussion above, we may propose a hypothesis test with the rejection rule as
+
+$$
+\theta_0 \notin I \Leftrightarrow \theta_0 < \frac{\hat\theta}{(1-\alpha)^\frac{1}{n}} \Leftrightarrow \hat\theta > \theta_0 (1-\alpha)^\frac{1}{n}
+$$
+
+So $H_0: \theta = \theta_0$ or $\theta \leq \theta_0$, and $H_a: \theta > \theta_0$.
+
+It also works the other way around. To `convert a hypothesis test to a CI` (taking the Z-test as an example), the test statistic
+
+$$
+Z(\theta_0) = \frac{\hat\theta - \theta_0}{\hat\sigma}
+$$
+
+and the rejection region is $\\{z: |z| > z_{\frac{\alpha}{2}}\\}$. Hence,
+
+$$
+I = \\{\theta_0 \in \mathbb{R}: Z(\theta_0) \notin RR\\} = \left\\{ \theta_0 \in \mathbb{R}: \left| \frac{\hat\theta - \theta_0}{\hat\sigma} \right| \leq z_{\frac{\alpha}{2}} \right\\} = \left[ \hat\theta - \hat\sigma_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma_{\frac{\alpha}{2}} \right]
+$$
+
+which is the Z-score CI. {{<hl>}}The correspondence between CI and HT is one-to-one, although we use $CI \rightarrow HT$ more often.{{</hl>}}
+
+## Some small-sample tests
+Recall that we have discussed small sample CIs for means and variances. Based on the correspondence between CI and HT, we can easily develop hypothesis tests based on those CIs.
+
+### One-sample mean
+The **assumption** is $Y_i \overset{i.i.d.}{\sim} N(\mu, \sigma^2)$. The hypotheses are
+
+$$
+H_0: \mu = \mu_0 \quad vs. \quad H_a: \begin{cases}
+  \mu > \mu_0; \\\\
+  \mu \neq \mu_0; \\\\
+  \mu < \mu_0 \\\\
+\end{cases}
+$$
+
+The **test statistic**, motivated from [the pivotal quantity for CI]({{<ref "/courses/maths-stat/10-confidence-intervals/index.md#one-sample-mean" >}}), is
+
+$$
+T = \frac{\bar{Y}_n - \mu_0}{\hat\sigma / \sqrt{n}} \sim t(n-1) \text{ under }H_0
+$$
+
+where $\hat\sigma^2$ is the unbiased estimator of $\sigma^2$:
+
+$$
+\hat\sigma^2 = \frac{1}{n-1} \sum_{i=1}^n (Y_i - \bar{Y}_n)^2
+$$
+
+The **rejection region** can be found by inverting the CIs:
+
+$$
+ RR = \begin{cases}
+   \\{t: t > t_\alpha (n-1)\\}; \\\\
+   \\{t: |t| > t_\frac{\alpha}{2}(n-1)\\}; \\\\
+   \\{t: t < -t_\alpha (n-1)\\}.
+ \end{cases}
+$$
+
+==Exercise 38==
+
+If we look at $H_0$, is this a simple null or a composite null hypothesis? One might say this is a simple hypothesis since only $\mu_0$ is involved, but in fact this is composite because the unknown $\sigma^2$ is an important part of our model. $H_0$ is essentially
+
+$$
+(\mu, \sigma^2) \in \Theta_0 = \\{(\mu_0, u): u > 0\\}
+$$
+
+**Def:** an unknown parameter which is not of interest in the hypothesis test is called a `nuisance parameter`, e.g. the $\sigma^2$ above. It's often desirable to consider test statistic $T$ whose distribution does not depend on a nuisance parameter (very similar to the pivotal quantity idea).
+
+The test statistic $T$ above follows a `non-central t-distribution` when $\mu_0$ is **not** the true parameter. This is of interest when analyzing the Type II error/power of the tests, or the type I error under $H_0$: $\mu < \mu_0$ or $\mu > \mu_0$.
+
+### Two-sample means
+Our **assumption** is $X_1, \cdots, X_{n_1} \overset{i.i.d.}{\sim} N(\mu_1, \sigma^2)$ and $Y_1, \cdots, Y_{n_2} \overset{i.i.d.}{\sim} N(\mu_2, \sigma^2)$. $X_i$'s are independent of $Y_i$'s. The hypotheses are
+
+$$
+H_0: \mu_1 - \mu_2 = \delta_0 \quad vs. \quad H_a: \begin{cases}
+  \mu_1 - \mu_2 > \delta_0; \\\\
+  \mu_1 - \mu_2 \neq \delta_0; \\\\
+  \mu_1 - \mu_2 < \delta_0.
+\end{cases}
+$$
+
+The **test statistic** again comes from the pivotal quantity in CI:
+
+$$
+T = \frac{\bar{X} - \bar{Y} - \delta_0}{\hat\sigma / \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t(n_1 + n_2 - 2) \text{ under } H_0
+$$
+
+where
+
+$$
+\hat\sigma^2 = \frac{\sum_{i=1}^{n_1}(X_i - \bar{X})^2 + \sum_{i=1}^{n_2}(Y_i - \bar{Y})^2}{n_1 + n_2 - 2}
+$$
+
+is an unbiased estimator of $\sigma^2$. The $n_1 + n_2 - 2$ is in the denominator because we lost two degrees of freedom when estimating the means. The **rejection regions** are
+
+$$
+RR = \begin{cases}
+  \\{t: t > t_\alpha(\nu)\\}; \\\\
+  \\{t: |t| > t_\frac{\alpha}{2}(\nu)\\}; \\\\
+  \\{t: t < -t_\alpha(\nu)\\}.
+\end{cases} \quad \text{where } \nu = n_1 + n_2 - 2
+$$
+
+When $n_1$ and $n_2$ are very large, the t-distribution becomes really close to the normal distribution, and the Z-score should be used.
+
+### One-sample variance
+Our **assumption** is $Y_1, \cdots, Y_n \overset{i.i.d.}{\sim} N(\mu, \sigma^2)$. The hypotheses are
+
+$$
+H_0: \sigma^2 = \sigma_0^2 \quad vs. \quad H_a: \begin{cases}
+  \sigma^2 > \sigma_0^2; \\\\
+  \sigma^2 \neq \sigma_0^2; \\\\
+  \sigma^2 < \sigma_0^2.
+\end{cases}
+$$
+
+The **test statistic** we use is
+
+$$
+T = \frac{\sum_{i=1}^n (Y_i - \bar{Y}_n)^2}{\sigma_0^2}
+$$
+
+which follows $\chi^2(n-1)$ under $H_0$. The **rejection regions** are
+
+$$
+RR = \begin{cases}
+  \\{t: t > \chi^2_\alpha (n-1)\\}; \\\\
+  \\{t: t > \chi^2_\frac{\alpha}{2} (n-1) \text{ or } t < \chi^2_{1 - \frac{\alpha}{2}}(n-1)\\}; \\\\
+  \\{t: t < \chi^2_{1 - \alpha}(n-1)\\}.
+\end{cases}
+$$
+
+where $\chi^2_\alpha (\nu)$ denotes the $(1-\alpha)$-quantile of $\chi^2(\nu)$.
+
+> There's also a two-sample variance test involving the F-distribution.
