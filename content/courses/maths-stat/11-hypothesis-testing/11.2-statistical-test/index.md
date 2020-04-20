@@ -165,7 +165,65 @@ $$
 
 where $c$ is a threshold chosen to make the test at level $\alpha$. The calculation of the type I, II error probabilities and the power is given as follows.
 
-# TODO
+When $\theta$ is the true parameter, we have
+
+$$
+\bar{Y}_n \sim N \left(\theta, \frac{1}{n} \right) \quad \Longleftrightarrow \quad \frac{\bar{Y}_n - \theta}{1 / \sqrt{n}} \sim N(0, 1)
+$$
+
+**Type I error:** when $\theta \in \Theta_0 = 0$,
+
+$$
+\begin{align*}
+        \alpha(\theta) &= P_\theta (T \in RR) = P_\theta (\bar{Y}_n < -c) + P_\theta(\bar{Y}_n > c ) \\\\
+        &= P_\theta ( \sqrt{n} \bar{Y}_n < -c\sqrt{n})) + P_\theta( \sqrt{n} \bar{Y}_n > c\sqrt{n} ) \\\\
+        &= \Phi(-c\sqrt{n}) + 1 - \Phi(c\sqrt{n}) \\\\
+        &= 2 - 2\Phi(c\sqrt{n})
+    \end{align*}
+$$
+
+where $\Phi$ is the CDF of a standard normal distribution. The level is also
+
+$$
+\alpha = 2 - 2\Phi(c\sqrt{n})
+$$
+
+so
+
+$$
+\begin{gather*}
+\Phi(c\sqrt{n}) = 1 - \frac{\alpha}{2} \\\\
+c\sqrt{n} = z_\frac{\alpha}{2} \quad\Longleftrightarrow\quad c = \frac{z_\frac{\alpha}{2}}{\sqrt{n}}
+\end{gather*}
+$$
+
+where $z_\frac{\alpha}{2}$ is the $(1 - \frac{\alpha}{2})$-quantile of $N(0, 1)$.
+
+**Type II error:** when $\theta \in \Theta_a = (-\infty, 0) \cup (0, \infty)$,
+
+$$
+\begin{align*}
+\beta(\theta) &= P_\theta (T \notin RR) = P_\theta (-c < \bar{Y}_n < c) \\\\
+&= P_\theta \left( -\sqrt{n}(c - \theta) < \sqrt{n}(\bar{Y}\_n - \theta) < \sqrt{n}(c - \theta) \right) \\\\
+&= \Phi(\sqrt{n}(c - \theta)) - \Phi(-\sqrt{n}(c - \theta)) \\\\
+&= 2\Phi(\sqrt{n}(c - \theta)) - 1
+\end{align*}
+$$
+
+Plugging in $c = \frac{z_\frac{\alpha}{2}}{\sqrt{n}}$,
+
+$$
+\beta(\theta) = 2\Phi(z\_\frac{\alpha}{2} - \sqrt{n}\theta) - 1, \quad \theta \neq 0
+$$
+
+**Power:**
+
+$$
+\begin{align*}
+pw(\theta) &= 1 - \beta(\theta) = 2 - 2\Phi(z_\frac{\alpha}{2} - \sqrt{n}\theta) \\\\
+&= 2\Phi(\sqrt{n}\theta - z_\frac{\alpha}{2}), \quad \theta \neq 0
+\end{align*}
+$$
 
 ## Large-sample Z-tests
 
@@ -203,13 +261,13 @@ so we may choose $k$ using the normal quantile $z_{\alpha/2}$.
 To sum up, the proposed rejection rule is
 
 $$
-|Z| = \frac{|\hat\theta - \theta_0|}{\hat\sigma} > z_{\frac{\alpha}{2}} \Leftrightarrow \theta_0 > \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \text{ or } \theta_0 < \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}
+|Z| = \frac{|\hat\theta - \theta*0|}{\hat\sigma} > z*{\frac{\alpha}{2}} \Leftrightarrow \theta*0 > \hat\theta + \hat\sigma z*{\frac{\alpha}{2}} \text{ or } \theta*0 < \hat\theta - \hat\sigma z*{\frac{\alpha}{2}}
 $$
 
 The type I error is given by
 
 $$
-P_{\theta_0} \left(|Z| > z_{\frac{\alpha}{2}} \right) = \alpha
+P*{\theta_0} \left(|Z| > z*{\frac{\alpha}{2}} \right) = \alpha
 $$
 
 What we just described is known as the `two-sided Z-test`. There's also one-sided versions, as shown in the table below.
@@ -245,7 +303,7 @@ $$
 Then the test statistic is
 
 $$
-Z = \frac{0.93-0.9}{0.0255} = 1.18 < z_{0.05} = 1.64
+Z = \frac{0.93-0.9}{0.0255} = 1.18 < z\_{0.05} = 1.64
 $$
 
 So $Z \notin RR$ and we fail to reject $H_0$.
@@ -257,13 +315,13 @@ You've probably noticed the resemblance between the Z-test and the Z-score confi
 Recall we've just discussed that the rejection rule for a two-sided Z-test is
 
 $$
-|Z| = \frac{|\hat\theta - \theta_0|}{\hat\sigma} > z_{\frac{\alpha}{2}} \Leftrightarrow \theta_0 > \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \text{ or } \theta_0 < \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}
+|Z| = \frac{|\hat\theta - \theta*0|}{\hat\sigma} > z*{\frac{\alpha}{2}} \Leftrightarrow \theta*0 > \hat\theta + \hat\sigma z*{\frac{\alpha}{2}} \text{ or } \theta*0 < \hat\theta - \hat\sigma z*{\frac{\alpha}{2}}
 $$
 
 On the other hand, a two-sided $(1-\alpha)$-CI based on the Z-score is given by
 
 $$
-I = \left[ \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \right] = \hat\theta \pm \hat\sigma z_{\frac{\alpha}{2}}
+I = \left[ \hat\theta - \hat\sigma z_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma z_{\frac{\alpha}{2}} \right] = \hat\theta \pm \hat\sigma z\_{\frac{\alpha}{2}}
 $$
 
 Note how the quantities in the Z-test is exactly the boundaries of the Z-score CI. So the rejection rule can be alternatively expressed as **we reject $H_0$ if $\theta_0 \notin I$**. This means if a CI fails to cover $\theta_0$, then $\hat\theta = \theta_0$ is unlikely.
@@ -273,7 +331,7 @@ From this, we may propose a general principle. To `convert a CI to a hypothesis 
 The level is correct because under $H_0$, we have
 
 $$
-P_{\theta_0}(\theta_0 \notin I) = \alpha
+P\_{\theta_0}(\theta_0 \notin I) = \alpha
 $$
 
 using the definition of [coverage probability]({{< ref "/courses/maths-stat/10-confidence-intervals/index.md#basic-concepts" >}}) of a CI.
@@ -303,7 +361,7 @@ $$
 and the rejection region is $\\{z: |z| > z_{\frac{\alpha}{2}}\\}$. Hence,
 
 $$
-I = \\{\theta_0 \in \mathbb{R}: Z(\theta_0) \notin RR\\} = \left\\{ \theta_0 \in \mathbb{R}: \left| \frac{\hat\theta - \theta_0}{\hat\sigma} \right| \leq z_{\frac{\alpha}{2}} \right\\} = \left[ \hat\theta - \hat\sigma_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma_{\frac{\alpha}{2}} \right]
+I = \\{\theta*0 \in \mathbb{R}: Z(\theta_0) \notin RR\\} = \left\\{ \theta_0 \in \mathbb{R}: \left| \frac{\hat\theta - \theta_0}{\hat\sigma} \right| \leq z*{\frac{\alpha}{2}} \right\\} = \left[ \hat\theta - \hat\sigma_{\frac{\alpha}{2}}, \hat\theta + \hat\sigma_{\frac{\alpha}{2}} \right]
 $$
 
 which is the Z-score CI. {{<hl>}}The correspondence between CI and HT is one-to-one, although we use $CI \rightarrow HT$ more often.{{</hl>}}
@@ -318,32 +376,32 @@ The **assumption** is $Y_i \overset{i.i.d.}{\sim} N(\mu, \sigma^2)$. The hypothe
 
 $$
 H_0: \mu = \mu_0 \quad vs. \quad H_a: \begin{cases}
-  \mu > \mu_0; \\\\
-  \mu \neq \mu_0; \\\\
-  \mu < \mu_0 \\\\
+\mu > \mu_0; \\\\
+\mu \neq \mu_0; \\\\
+\mu < \mu_0 \\\\
 \end{cases}
 $$
 
 The **test statistic**, motivated from [the pivotal quantity for CI]({{<ref "/courses/maths-stat/10-confidence-intervals/index.md#one-sample-mean" >}}), is
 
 $$
-T = \frac{\bar{Y}_n - \mu_0}{\hat\sigma / \sqrt{n}} \sim t(n-1) \text{ under }H_0
+T = \frac{\bar{Y}\_n - \mu_0}{\hat\sigma / \sqrt{n}} \sim t(n-1) \text{ under }H_0
 $$
 
 where $\hat\sigma^2$ is the unbiased estimator of $\sigma^2$:
 
 $$
-\hat\sigma^2 = \frac{1}{n-1} \sum_{i=1}^n (Y_i - \bar{Y}_n)^2
+\hat\sigma^2 = \frac{1}{n-1} \sum\_{i=1}^n (Y_i - \bar{Y}\_n)^2
 $$
 
 The **rejection region** can be found by inverting the CIs:
 
 $$
- RR = \begin{cases}
-   \\{t: t > t_\alpha (n-1)\\}; \\\\
-   \\{t: |t| > t_\frac{\alpha}{2}(n-1)\\}; \\\\
-   \\{t: t < -t_\alpha (n-1)\\}.
- \end{cases}
+RR = \begin{cases}
+\\{t: t > t*\alpha (n-1)\\}; \\\\
+\\{t: |t| > t*\frac{\alpha}{2}(n-1)\\}; \\\\
+\\{t: t < -t\_\alpha (n-1)\\}.
+\end{cases}
 $$
 
 If we look at $H_0$, is this a simple null or a composite null hypothesis? One might say this is a simple hypothesis since only $\mu_0$ is involved, but in fact this is composite because the unknown $\sigma^2$ is an important part of our model. $H_0$ is essentially
@@ -362,9 +420,9 @@ Our **assumption** is $X_1, \cdots, X_{n_1} \overset{i.i.d.}{\sim} N(\mu_1, \sig
 
 $$
 H_0: \mu_1 - \mu_2 = \delta_0 \quad vs. \quad H_a: \begin{cases}
-  \mu_1 - \mu_2 > \delta_0; \\\\
-  \mu_1 - \mu_2 \neq \delta_0; \\\\
-  \mu_1 - \mu_2 < \delta_0.
+\mu_1 - \mu_2 > \delta_0; \\\\
+\mu_1 - \mu_2 \neq \delta_0; \\\\
+\mu_1 - \mu_2 < \delta_0.
 \end{cases}
 $$
 
@@ -377,16 +435,16 @@ $$
 where
 
 $$
-\hat\sigma^2 = \frac{\sum_{i=1}^{n_1}(X_i - \bar{X})^2 + \sum_{i=1}^{n_2}(Y_i - \bar{Y})^2}{n_1 + n_2 - 2}
+\hat\sigma^2 = \frac{\sum*{i=1}^{n_1}(X_i - \bar{X})^2 + \sum*{i=1}^{n_2}(Y_i - \bar{Y})^2}{n_1 + n_2 - 2}
 $$
 
 is an unbiased estimator of $\sigma^2$. The $n_1 + n_2 - 2$ is in the denominator because we lost two degrees of freedom when estimating the means. The **rejection regions** are
 
 $$
 RR = \begin{cases}
-  \\{t: t > t_\alpha(\nu)\\}; \\\\
-  \\{t: |t| > t_\frac{\alpha}{2}(\nu)\\}; \\\\
-  \\{t: t < -t_\alpha(\nu)\\}.
+\\{t: t > t*\alpha(\nu)\\}; \\\\
+\\{t: |t| > t*\frac{\alpha}{2}(\nu)\\}; \\\\
+\\{t: t < -t\_\alpha(\nu)\\}.
 \end{cases} \quad \text{where } \nu = n_1 + n_2 - 2
 $$
 
@@ -398,28 +456,31 @@ Our **assumption** is $Y_1, \cdots, Y_n \overset{i.i.d.}{\sim} N(\mu, \sigma^2)$
 
 $$
 H_0: \sigma^2 = \sigma_0^2 \quad vs. \quad H_a: \begin{cases}
-  \sigma^2 > \sigma_0^2; \\\\
-  \sigma^2 \neq \sigma_0^2; \\\\
-  \sigma^2 < \sigma_0^2.
+\sigma^2 > \sigma_0^2; \\\\
+\sigma^2 \neq \sigma_0^2; \\\\
+\sigma^2 < \sigma_0^2.
 \end{cases}
 $$
 
 The **test statistic** we use is
 
 $$
-T = \frac{\sum_{i=1}^n (Y_i - \bar{Y}_n)^2}{\sigma_0^2}
+T = \frac{\sum\_{i=1}^n (Y_i - \bar{Y}\_n)^2}{\sigma_0^2}
 $$
 
 which follows $\chi^2(n-1)$ under $H_0$. The **rejection regions** are
 
 $$
 RR = \begin{cases}
-  \\{t: t > \chi^2_\alpha (n-1)\\}; \\\\
-  \\{t: t > \chi^2_\frac{\alpha}{2} (n-1) \text{ or } t < \chi^2_{1 - \frac{\alpha}{2}}(n-1)\\}; \\\\
-  \\{t: t < \chi^2_{1 - \alpha}(n-1)\\}.
+\\{t: t > \chi^2*\alpha (n-1)\\}; \\\\
+\\{t: t > \chi^2*\frac{\alpha}{2} (n-1) \text{ or } t < \chi^2*{1 - \frac{\alpha}{2}}(n-1)\\}; \\\\
+\\{t: t < \chi^2*{1 - \alpha}(n-1)\\}.
 \end{cases}
 $$
 
 where $\chi^2_\alpha (\nu)$ denotes the $(1-\alpha)$-quantile of $\chi^2(\nu)$.
 
 > There's also a two-sample variance test involving the F-distribution.
+
+$$
+$$
