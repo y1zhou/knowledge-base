@@ -8,7 +8,7 @@ tags:
     - Mathematical Statistics
     - Statistics
 
-summary: ""
+summary: "Introducing the definition of p-values, and why they are important in statistical tests."
 date: 2020-04-09T18:26:34-04:00
 
 toc: true

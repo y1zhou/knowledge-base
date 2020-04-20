@@ -7,7 +7,7 @@ tags:
     - Mathematical Statistics
     - Statistics
 
-summary: ""
+summary: "Briefly introducing the optimality of a statistical test and showing why it's a difficult problem to solve."
 date: 2020-04-14T18:26:34-04:00
 
 toc: true
@@ -202,7 +202,7 @@ $$
 \text{reject } H_0 \text{ when } \frac{L(\theta_0)}{L(\theta)} < k_\alpha, \quad \theta \in \Theta_a
 $$
 
-**does not** depend on $\theta$, then it yields a UMP test.
+**does not** depend on $\theta$, then it yields a UMP test[^uniqueness-ump].
 
 To understand this, consider [the example above](#example) where we replace the alternative with $H_a: \theta > \theta_0$, and still use the likelihood ratio statistic. The derivation shows that no matter which $\theta_a > \theta_0$ we focus on, we get the same rejection rule:
 
@@ -230,4 +230,5 @@ To have a well-defined optimality problem for two-sided tests, one often introdu
 
 [^neyman-pearson-level]: Here for simplicity, we assume any choice of $\alpha$ can be exactly achieved, which is the case if the distributions are continuous. The theorem also holds for the discrete case with some technical modifications.
 [^hidden-constraint]: Here we have a hidden constraint, which is we need to ensure the level $\alpha$ is correct, i.e. the type I error cannot exceed $\alpha$.
+[^uniqueness-ump]: The UMP test is not always unique. For details, see Chapter 3 of Lehman, E. L. (2005). _JP Romano Testing statistical Hypothesis._
 [^unbiasedness]: This is different from the meaning in unbiased estimators.
