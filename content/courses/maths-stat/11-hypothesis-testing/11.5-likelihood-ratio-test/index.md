@@ -48,7 +48,7 @@ $$
 R = \frac{\max_{\theta \in \Theta_0}L(\theta)}{\max_{\theta \in \Theta}L(\theta)} = \frac{L(\hat\theta_0)}{L(\hat\theta)}
 $$
 
-where $\hat\theta_0$ is the MLE constrained in $\Theta_0$ and $\hat\theta$ is the MLE on $\Theta$. They can be used to replace the maximums in the definition. Equivalently, one can work with $\ln R = \ln L(\hat\theta_0) - \ln L(\hat\theta)$.
+where $\hat\theta_0$ is the MLE constrained in $\Theta_0$ and $\hat\theta$ is the MLE on $\Theta$[^plot-code]. They can be used to replace the maximums in the definition. Equivalently, one can work with $\ln R = \ln L(\hat\theta_0) - \ln L(\hat\theta)$.
 
 ![Test statistic of the likelihood ratio test](LRT_test_stat.png)
 
@@ -62,7 +62,19 @@ Note that $0 \leq R \leq 1$ since $\Theta_0$ is smaller than $\Theta$. When $R$ 
 
 **Corollary:** If $H_0$ and $H_a$ are simple, then the LRT coincides with the test given in the Neyman-Pearson lemma, i.e. the LRT is the most powerful test in this case.
 
-TODO
+This is easily proven because $\Theta_0$ and $\Theta_a$ only contain $\theta_0$ and $\theta_a$, respectively. The likelihood ratio is given by
+
+$$
+R = \frac{\max_{\theta \in \Theta_0} L(\theta)}{\max_{\theta \in \Theta} L(\theta)} = \frac{L(\theta_0)}{\max\\{L(\theta_0), L(\theta_a)\\}} = \frac{1}{\max\left\\{ 1, \frac{L(\theta_a)}{L(\theta_0)} \right\\}}
+$$
+
+which can be alternatively expressed as
+
+$$
+R = \min \left\\{ 1, \frac{L(\theta_0)}{L(\theta_a)} \right\\}
+$$
+
+So we reject $H_0$ if $R < k_\alpha < 1$, and this is the same as what we've found in the Neyman-Pearson lemma.
 
 ### Example
 
@@ -198,5 +210,23 @@ $$
 $$
 
 Both tests can be extended to composite $H_0$ and multivariate $\theta$ cases.
+
+[^plot-code]:
+    ```r
+    ggplot(NULL, aes(x = c(-3, 3))) +
+      stat_function(fun = dnorm, geom = "line") +
+      stat_function(fun = dnorm, xlim = c(-2.5, -1.5), geom = "area",
+                    color = "#CD534C", fill = NA, alpha = 0.4) +
+      geom_point(aes(x = -1.5, y = dnorm(-1.5)), color = "#CD534C", size = 2) +
+      geom_point(aes(x = 0, y = dnorm(0)), size = 2) +
+      annotate("text", x = -2, y = 0.02, color = "#CD534C",
+               label = "Theta[0]", parse = T) +
+      annotate("text", x = -1.05, y = 0.13,
+               label = "L(hat(theta)[0])", parse = T) +
+      annotate("text", x = 0, y = 0.43,
+               label = "L(hat(theta))", parse = T) +
+      labs(x = expression(theta), y = expression(L(theta))) +
+      ggpubr::theme_pubr()
+    ```
 
 [^free-params]: Or, degrees of freedom.
