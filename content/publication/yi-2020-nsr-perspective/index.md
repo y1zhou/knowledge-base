@@ -4,7 +4,7 @@ date: 2020-04-30
 publishDate: 2020-04-30T16:26:46.987041Z
 authors:
   [
-    "Yi Zhou",
+    "Yi Zhou*",
     "Renbo Tan",
     "Ying Xu"
   ]

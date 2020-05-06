@@ -5,7 +5,7 @@ publishDate: 2020-03-04T17:14:46.983491Z
 authors:
   [
     "Sha Cao",
-    "**Yi Zhou**",
+    "Yi Zhou*",
     "Yue Wu",
     "Tianci Song",
     "Burair Alsaihati",

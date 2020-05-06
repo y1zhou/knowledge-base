@@ -7,7 +7,7 @@ authors:
     "Renbo Tan",
     "Haoyang Li",
     "Zhenyu Huang",
-    "**Yi Zhou**",
+    "Yi Zhou*",
     "Mingxin Tao",
     "Xin Gao",
     "Ying Xu",

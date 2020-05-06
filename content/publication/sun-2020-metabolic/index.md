@@ -5,7 +5,7 @@ publishDate: 2020-03-04T17:14:46.987041Z
 authors:
   [
     "Huiyan Sun",
-    "**Yi Zhou**",
+    "Yi Zhou*",
     "Michael Francis Skaro",
     "Yiran Wu",
     "Zexing Qu",

@@ -2,7 +2,7 @@
 title: "Elucidation of Functional Roles of Sialic Acids in Cancer Migration"
 date: 2020-03-31
 publishDate: 2020-03-31T11:53:46.987041Z
-authors: ["Huiyan Sun", "**Yi Zhou**", "Hongyang Jiang", "Ying Xu"]
+authors: ["Huiyan Sun", "Yi Zhou*", "Hongyang Jiang", "Ying Xu"]
 publication_types: ["2"]
 featured: false
 publication: "*Frontiers in Oncology*"
