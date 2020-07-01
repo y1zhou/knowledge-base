@@ -19,6 +19,7 @@ weight: 12
 
 header_image:
   unsplash_id: "NL_DF0Klepc"
+  caption: "Nice layout of tools"
 ---
 
 Here we continue to present some basic tools (permutation test and sign test) and principles (order statistics, ranks, and efficiency) that will be useful moving forward.

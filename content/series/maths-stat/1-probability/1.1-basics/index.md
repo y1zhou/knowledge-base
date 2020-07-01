@@ -15,8 +15,9 @@ featured: true
 weight: 11
 
 header_image:
-  unsplash_id: "J28Nn-CDbII"
-
+  unsplash_id: "mbXEkW5ZyBQ"
+  caption: "Macro of a Intel motherboard"
+  
 ---
 
 In this chapter, we introduce the concept of the probability of an event. Then we show how probabilities can be computed in certain situations. As a preliminary, however, we need to discuss the concept of the sample space and the events of an experiment.

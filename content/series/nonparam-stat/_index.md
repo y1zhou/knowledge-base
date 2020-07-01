@@ -12,6 +12,7 @@ toc: false # Show table of contents? true/false
 
 header_image:
   unsplash_id: "Se5cwIoUbzE"
+  caption: "Succulent Frenzy"
 ---
 
 These are the notes I took for a Master's course **Nonparametric Methods**. The recommended textbook is _Applied Nonparametric Statistical Methods, Fourth Edition_ by Sprent, P. and Smeeton, N.C. (2007).

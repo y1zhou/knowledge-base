@@ -1,9 +1,13 @@
+# Meta tags
+author = "Yi Zhou"
+description = "A blog about statistics and other stuff."
+
 # Social links
-email = "example@gmail.com"
-twitter = "GoHugoIO"
+email = "Yi.Zhou@uga.edu"
+twitter = "_y1zhou"
 github = "y1zhou"
-google_scholar = "yxUduqMAAAAJ"  # Michael Jordan
-linkedin = "satyanadella"  # Satya Nadella
+google_scholar = "afMR9NEAAAAJ"
+linkedin = "yizhouuga"
 
 # Search in site
 minisearch_enabled = true

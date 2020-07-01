@@ -1,14 +1,13 @@
 title = "Yi's Knowledge Base"
-author = "Yi Zhou"
-baseurl = "http://y1zhou.com/"
-languageCode = "en-us"
-
-theme = "hugo-northeast"
-enableGitInfo = true
 copyright = "2019-{year}"
 
+baseurl = "http://y1zhou.com/"
+languageCode = "en-us"
+theme = "hugo-northeast"
+enableGitInfo = true
+
 # Google Analytics
-google_analytics = "UA-86032708-3"
+googleAnalytics = "UA-86032708-3"
 
 [markup]
   defaultMarkdownHandler = "goldmark"
