@@ -1,7 +1,3 @@
-[submodule "themes/academic"]
-	path = themes/academic
-	url = https://github.com/gcushen/hugo-academic.git
-	branch = master
 [submodule "themes/hugo-northeast"]
 	path = themes/hugo-northeast
 	url = https://github.com/y1zhou/hugo-northeast.git
