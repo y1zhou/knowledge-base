@@ -1,7 +1,7 @@
 ---
 title: "Estimation"
 date: 2019-09-30T13:46:57-04:00
-summary: "In this chapter we start with the simple linear regression model and generalize to more complex models." # appears in list of posts
+summary: "In this chapter we introduce the concept of linear models. We use the ordinary least squares estimator to get unbiased estimates of the unknown parameters. $R^2$ is introduced as a measure of the goodness of fit, and the different types of sum of squares in a linear model are briefly discussed." # appears in list of posts
 categories: ["Linear Model"] # main category; shown in post metadata
 tags: [
         "Statistics",
@@ -12,11 +12,11 @@ tags: [
         "Correlation",
     ] # list of related tags
 
-slug: "estimation"
+slug: "linear-models-estimation"
 toc: true # table of contents button in post
 
 # featured posts are shown on the homepage
-featured: false
+featured: true
 draft: false
 
 weight: 10 # smaller values are listed first
@@ -178,7 +178,7 @@ where $\boldsymbol{H} = \boldsymbol{X}(\boldsymbol{X^\prime X})^{-1} \boldsymbol
 -   Residuals: $\boldsymbol{\hat\epsilon} = \boldsymbol{y - X\hat\beta - y - \hat{y}} = (\boldsymbol{I-H})\boldsymbol{y}$
 -   Residual sum of squares (RSS): $\boldsymbol{\hat\epsilon^\prime\hat\epsilon} = \boldsymbol{y}^\prime(\boldsymbol{I-H})^\prime(\boldsymbol{I-H})\boldsymbol{y} = \boldsymbol{y}^\prime(\boldsymbol{I-H})\boldsymbol{y}$
 
-Later we'll show that the `least squares estimate` (LSE) is the best possible estimate of $\boldsymbol{\beta}$ when the errors are uncorrelated and have equal variance, i.e. $Var(\boldsymbol{\epsilon}) = \sigma^2\boldsymbol{I}$. {{<hl>}}$\boldsymbol{\hat\beta}$ is unbiased and has variance $(\boldsymbol{X^\prime X})^{-1} \sigma^2$.{{</hl>}}
+Later we'll show that the `ordinary least squares` (OLS) estimator is the best possible estimate of $\boldsymbol{\beta}$ when the errors are uncorrelated and have equal variance, i.e. $Var(\boldsymbol{\epsilon}) = \sigma^2\boldsymbol{I}$. {{<hl>}}$\boldsymbol{\hat\beta}$ is unbiased and has variance $(\boldsymbol{X^\prime X})^{-1} \sigma^2$.{{</hl>}}
 
 $\boldsymbol{\hat\beta}$ is a good estimate from several aspects. First, it results from an orthogonal projection onto the model space, so it makes sense geometrically. Second, if the errors are independent and identically normally distributed, it's the maximum likelihood estimator. Finally, the [Gauss-Markov theorem](#gauss-markov-theorem) states that it's the `best linear unbiased estimate` (BLUE).
 
