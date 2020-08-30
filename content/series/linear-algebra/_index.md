@@ -20,4 +20,3 @@ header_image:
 ---
 
 The notes I've taken for the course STAT 6800 - **Tools for Statistical Theory**. The suggested textbook is _Matrix Algebra from a Statistician’s Perspective_ by D. A. Harville.
-
