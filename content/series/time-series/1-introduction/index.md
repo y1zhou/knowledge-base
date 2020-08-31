@@ -29,7 +29,7 @@ header_image:
     unsplash_id: "qrnYGgSogPQ" # Unsplash ID of the picture
 ---
 
-To understand what a time series is, we first introduce the concept of a `stochastic process`, which is a collection of random variables $\{X_t\}$ indexed by $t$.
+To understand what a time series is, we first introduce the concept of a `stochastic process`, which is a collection of random variables $\\{X_t\\}$ indexed by $t$.
 
 Let's say $N$, the number of accidents in Athens in $[0, T]$, is a Poisson random variable with mean $\mu$. Here $T$ is **fixed**, and we have
 
@@ -61,7 +61,7 @@ Some objectives of time series analysis include separation of noise from signals
 
 In time series analysis we apply mathematical and statistical tests to data to quantify and understand the nature of time-varying phenomena, thus gaining physical understanding of the system.
 
-In this course we assume that the data are collected regularly, i.e. regularly spaced time series where the set $T_0$ of times at which observations are made is a discrete set. For example, $\{X_t\}, t = 1, 2, \cdots$.
+In this course we assume that the data are collected regularly, i.e. regularly spaced time series where the set $T_0$ of times at which observations are made is a discrete set. For example, $\\{X_t\}, t = 1, 2, \cdots$.
 
 ## Mean and covariance
 
@@ -95,7 +95,7 @@ Var(aX + bY + c) &= Var(aX + bY) \\\\
 \end{aligned}
 $$
 
-Let $\{X_t\}$ be a time series with $E(X_t^2) < \infty$. The `mean function` is
+Let $\\{X_t\\}$ be a time series with $E(X_t^2) < \infty$. The `mean function` is
 
 $$
 \mu_X (t) = E(X_t) = \int xf(x)dx
@@ -111,7 +111,7 @@ for all integers $t$ and $s$.
 
 ## Stationarity
 
-If a time series is `strong stationary` or strictly stationary, $(X_1, \cdots, X_n)$ and $(X_{1+h}, \cdots, X_{n+h})$ have the same joint distributions for all integers $h$ and $n \geq 1$. If a process is strictly stationary and has finite variance, then the covariance function must **depend only** on the time lag. An i.i.d. sequence is strictly stationary.
+If a time series is `strong stationary` or strictly stationary, $(X_1, \cdots, X_n)$ and $(X\_{1+h}, \cdots, X\_{n+h})$ have the same joint distributions for all integers $h$ and $n \geq 1$. If a process is strictly stationary and has finite variance, then the covariance function must **depend only** on the time lag. An i.i.d. sequence is strictly stationary.
 
 In `weak stationarity` we don't have to explicitly deal with the multivariate distributions. Much of the information in these joint distributions can be described in terms of the _first- and second-order moments_ of the joint distributions, i.e. means, variances and covariances. The conditions are:
 
@@ -216,7 +216,7 @@ where $X_0$ is the initial point (constant) and the variance is equal to zero. S
 
 ## Autocovariance and autocorrelation
 
-The autocovariance function (ACVF) and autocorrelation function (ACF) are key tools for identifying stationarity. Let $\{X_t\}$ be a stationary time series, the `autocovariance function` at lag $k$ is given by
+The autocovariance function (ACVF) and autocorrelation function (ACF) are key tools for identifying stationarity. Let $\\{X_t\\}$ be a stationary time series, the `autocovariance function` at lag $k$ is given by
 
 $$
 \gamma_X(k) = Cov(X_t, X_{t-k}), k \in \mathbb{Z}
@@ -246,7 +246,7 @@ By definition we have $\rho_X(0) = 1$ and $\rho_X(k) = \rho_X(-k)$.
 
 #### Sample version
 
-In practical problems we don't start with a model, but with observed data (a sample). Let $\{X_t\}$ be observations of a time series. To estimate the autocovariance function, the `sample autocovariance function` is given by
+In practical problems we don't start with a model, but with observed data (a sample). Let $\\{X_t\\}$ be observations of a time series. To estimate the autocovariance function, the `sample autocovariance function` is given by
 
 $$
 \hat\gamma_X(k) = \frac{1}{T}\sum_{t=1}^{T-k}(X_t - \bar{X})(X_{t+k} - \bar{X})
@@ -338,7 +338,7 @@ $$
 E(Z_t) = 0 \text{ and } \gamma_Z(k) = \sigma^2 I(k=0)
 $$
 
-where $I(k=0)$ is an indicator function. This is denoted $\{X_t\} \sim WN(0, \sigma^2)$.
+where $I(k=0)$ is an indicator function. This is denoted $\\{X_t\\} \sim WN(0, \sigma^2)$.
 
 Most often, the probability distribution is assumed to be normal, then this is written as $Z_t \sim N(0, \sigma^2)$, meaning that each $Z_t$ has a normal distribution with mean 0 and constant variance $\sigma^2$. $Z_1, \cdots, Z_T$ are independent of each other.
 
@@ -363,7 +363,7 @@ As shown above, all ACF fall within $\pm 0.2$. The hypothesis $H_0: \rho_X(k) = 
       x_pacf <- pacf(x, plot = F)
 
       dat <- tibble(
-        Timepoint = seq(100),
+        Timepoint = seq(length(x)),
         x = x
       )
       p1 <- ggplot(dat, aes(Timepoint, x)) +
@@ -384,7 +384,7 @@ As shown above, all ACF fall within $\pm 0.2$. The hypothesis $H_0: \rho_X(k) = 
 
 ### Random walk
 
-$\{X_t\}$ is a `random walk` if it can be represented as
+$\\{X_t\\}$ is a `random walk` if it can be represented as
 
 $$
 X_t = X_{t-1} + Z_t

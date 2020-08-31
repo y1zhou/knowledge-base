@@ -39,13 +39,13 @@ The convention is to represent a matrix with boldface uppercase letters, and the
 
 If $m=1$, $A_{1 \times n} = [a_{11}, \cdots, a_{1n}]$ is a `row vector` denoted by $\underline{a}^\prime$. Similarly if $n=1$, we have a `column vector` that's denoted by $\underline{a}$.
 
-If two matrices $\boldsymbol{A} = \{a_{ij}\}$ and $\boldsymbol{B} = \{b_{ij}\}$ have the same dimensions, the following basic operations apply:
+If two matrices $\boldsymbol{A} = \\{a_{ij}\\}$ and $\boldsymbol{B} = \\{b_{ij}\\}$ have the same dimensions, the following basic operations apply:
 
 $$
 \begin{gathered}
-    \boldsymbol{A} + \boldsymbol{B} = \{a_{ij} + b_{ij}\} \\\\
-    \boldsymbol{A} - \boldsymbol{B} = \{a_{ij} - b_{ij}\} \\\\
-    c\boldsymbol{A} = \{ca_{ij}\}
+    \boldsymbol{A} + \boldsymbol{B} = \\{a_{ij} + b_{ij}\\} \\\\
+    \boldsymbol{A} - \boldsymbol{B} = \\{a_{ij} - b_{ij}\\} \\\\
+    c\boldsymbol{A} = \\{ca_{ij}\\}
 \end{gathered}
 $$
 
@@ -204,7 +204,7 @@ $$
 \end{pmatrix}
 $$
 
-More formally, an $n \times n$ matrix $\boldsymbol{A} = \{a_{ij}\}$ is upper triangular if $a_{ij} = 0$ for $j < i$, and is lower triangular if $a_{ij} = 0$ for $j > i$. A square matrix is a diagonal matrix if and only if it's both upper and lower triangular.
+More formally, an $n \times n$ matrix $\boldsymbol{A} = \\{a_{ij}\\}$ is upper triangular if $a_{ij} = 0$ for $j < i$, and is lower triangular if $a_{ij} = 0$ for $j > i$. A square matrix is a diagonal matrix if and only if it's both upper and lower triangular.
 
 **Lemma:** If $\boldsymbol{A}$ and $\boldsymbol{B}$, of the same size, are both upper-triangular, then $\boldsymbol{AB}$ is also upper-triangular. Further, if $\boldsymbol{A}$ and $\boldsymbol{B}$ are either both upper-triangular or both lower-triangular, then the $i$th diagonal element of $\boldsymbol{AB}$ is the product $a_{ii}b_{ii}$ of the $i$th diagonal elements of $\boldsymbol{A}$ and $\boldsymbol{B}$.
 
