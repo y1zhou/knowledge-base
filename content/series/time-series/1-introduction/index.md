@@ -61,7 +61,7 @@ Some objectives of time series analysis include separation of noise from signals
 
 In time series analysis we apply mathematical and statistical tests to data to quantify and understand the nature of time-varying phenomena, thus gaining physical understanding of the system.
 
-In this course we assume that the data are collected regularly, i.e. regularly spaced time series where the set $T_0$ of times at which observations are made is a discrete set. For example, $\\{X_t\}, t = 1, 2, \cdots$.
+In this course we assume that the data are collected regularly, i.e. regularly spaced time series where the set $T_0$ of times at which observations are made is a discrete set. For example, $\\{X_t\\}, t = 1, 2, \cdots$.
 
 ## Mean and covariance
 

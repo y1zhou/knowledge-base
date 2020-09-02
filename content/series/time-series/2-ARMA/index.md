@@ -177,7 +177,7 @@ $$
 \rho_X(k) = \frac{\gamma_X(k)}{\gamma_X(0)} = \phi^k
 $$
 
-We can see that $\rho_X(k)$ is an exponential function, and since $|\phi| < 1$, it exponentially decreases to 0 as the lag increases. In R, we can use the `ARMAacf` function to compute the theoretical ACF for an ARMA process. The same function can be used to find the PACF.
+{{<hl>}}We can see that $\rho_X(k)$ is an exponential function, and since $|\phi| < 1$, it exponentially decreases to 0 as the lag increases.{{</hl>}} When $\phi$ is large (close to 1), the decay is faster. In R, we can use the `ARMAacf` function to compute the theoretical ACF for an ARMA process. The same function can be used to find the PACF.
 
 ### Partial autocorrelation
 
@@ -188,3 +188,101 @@ $$
 $$
 
 The PACF of AR(1) cuts off after lag 1.
+
+## Autoregressive model of order $p$
+
+The generalized model is:
+
+$$
+X_t = \delta + \phi X_{t-1} + \phi_2 X_{t-2} + \cdots + \phi_p X_{t-p} + Z_t
+$$
+
+where $Z_t$ is $WN(0, \sigma^2)$.
+
+### Expected value
+
+Calculating the expectation for $AR(p)$ is not difficult. Assuming $AR(p)$ is stationary,
+
+$$
+\begin{gathered}
+    E(X_t) = \delta + \phi_1 E(X_{t-1}) + \phi_2 E(X_{t-2}) + \cdots + \phi_p E(X_{t-p}) + E(Z_t) \\\\
+    \mu (1 - \phi_1 - \phi_2 - \cdots - \phi_p) = \delta \\\\
+    \mu = \frac{\delta}{1 - \phi_1 - \phi_2 - \cdots - \phi_p}
+\end{gathered}
+$$
+
+The alternative expression in R is:
+
+$$
+\begin{gathered}
+    X_t - \mu = \phi_1 (X_{t-1} - \mu) + \phi_2 (X_{t-2} - \mu) + \cdots + \phi_p (X_{t-p} - \mu) + Z_t
+\end{gathered}
+$$
+
+### Variance and ACF
+
+The Yuld-Walker equation is used to calculate the variance:
+
+$$
+\gamma_X(k) = \phi_1 \gamma_X(k-1) + \phi_2 \gamma_X(k-2) + \cdots + \phi_p \gamma_X(k-p) + E(Z_t X_{t-k})
+$$
+
+This gives us
+
+$$
+\begin{gathered}
+    Var(X_t) = \gamma_X(0) = \frac{\sigma^2}{1 - \phi_1 \rho_X(1) - \cdots - \phi_p \rho_X(p)} \\\\
+    \rho_X(k) = \phi_1 \rho_X(k-1) + \phi_2 \rho_X(k-2) + \cdots + \phi_p \rho_X(k-p), \quad k = 1, 2, \cdots
+\end{gathered}
+$$
+
+### Example
+
+Take the following $AR(2)$ model as an example:
+
+$$
+X_t = 0.3 X_{t-1} + 0.5 X_{t-2} + Z_t
+$$
+
+where $Z_t \sim N(0, 1)$. The mean is $E(X_t) = 0$. The variance is
+
+$$
+\begin{aligned}
+    Var(X_t) &= \gamma_X(0) = Var(0.3 X_{t-1} + 0.5 X_{t-2} + Z_t) \\\\
+    &= 0.09 Var(X_{t-1}) + 0.25 Var(X_{t-2}) + Var(Z_t) + 2 \times 0.3 \times 0.5 Cov(X_{t-1}, X_{t-2}) + 2 \times 0.5 Cov(X_{t-2}, Z_t) + 2 \times 0.3 Cov(X_{t-1}, Z_t) \\\\
+    &= 0.34 \gamma_X(0) + \sigma^2 + 0.3 \gamma_X(1) \\\\
+    0.66 \gamma_X(0) &= \sigma^2 + 0.3 \gamma_X(1)
+\end{aligned}
+$$
+
+The next step is finding $\gamma_X(1)$.
+
+$$
+\begin{aligned}
+    \gamma_X(1) &= Cov(X_t, X_{t-1}) = Cov(0.3 X_{t-1} + 0.5 X_{t-2} + Z_t, X_{t-1}) \\\\
+    &= 0.3 Cov(X_{t-1}, X_{t-1}) + 0.5 Cov(X_{t-2}, X_{t-1}) + Cov(Z_t, X_{t-1}) \\\\
+    &= 0.3 \gamma_X(0) + 0.5 \gamma_X(1) \\\\
+    &= 0.6 \gamma_X(0)
+\end{aligned}
+$$
+
+Two equations come out of this:
+
+$$
+\begin{gathered}
+    \rho_X(1) = \frac{\gamma_X(1)}{\gamma_X(0)} = 0.6 \\\\
+    Var(X_t) = \gamma_X(0) = \frac{\sigma^2}{0.66 - 0.18} = \frac{25}{12}\sigma^2
+\end{gathered}
+$$
+
+Similarly we can find the autocovariance function for other time lags:
+
+$$
+\begin{aligned}
+    \gamma_X(2) &= Cov(X_t, X_{t-2}) = Cov(0.3 X_{t-1} + 0.5 X_{t-2} + Z_t, X_{t-2}) \\\\
+    &= 0.3 Cov(X_{t-1}, X_{t-2}) + 0.5 Cov(X_{t-2}, X_{t-2}) + Cov(Z_t, X_{t-2}) \\\\
+    &= 0.3 \gamma_X(1) + 0.5 \gamma_X(0) \\\\
+    &= (0.3 \times 0.6 + 0.5) \gamma_X(0) = 0.68 \gamma_X(0) \\\\
+    \rho_X(2) &= \frac{\gamma_X(2)}{\gamma_X(0)} = 0.68
+\end{aligned}
+$$
