@@ -22,12 +22,10 @@ header_image:
     unsplash_id: "yZygONrUBe8" # Unsplash ID of the picture
 ---
 
-## Definitions
-
 Associated with any matrix is a very important characteristic called the rank. There are several ways
 of defining the rank, and the most fundamental of these is in terms of the dimension of a linear space.
 
-### Vector space
+## Vector space
 
 A non-empty set of vectors $V$ is called a `vector space` (or linear space) if:
 
@@ -49,7 +47,7 @@ For example, below are some valid/invalid vector spaces:
 3. $V = \\{(x, y, 0)^\prime: x \in \mathbb{R}, y \in \mathbb{R}\\}$ is a vector space.
 4. $V = \\{(x, y, z)^\prime: 2x = y, x \in \mathbb{R}, y \in \mathbb{R}, z \in \mathbb{R}\\}$.
 
-### Subspace
+## Subspace
 
 A set $W$ is a `subspace` of a vector space $V$ if $W \subset V$, and $W$ itself is a vector space.
 
@@ -77,13 +75,13 @@ $$
 
 Following the same procedure, we can show that $W_2$ is not closed under addition and therefore is not a subspace.
 
-### Span
+## Span
 
 Let $V$ be an ambient vector space ($\mathbb{R}^2, \mathbb{R}^3, \cdots$). Let $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m\\}$[^v-and-s] where $\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m \in V$. The `(linear) span` of $\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m$, or $S$, is the set that contains all linear combinations of $\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m$. The span is denoted:
 
 $$
 \begin{aligned}
-    W &= \mathscr{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m) = span(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m) \\\\
+    W &= \mathcal{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m) = span(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m) \\\\
     &= \left\\{ \boldsymbol{u} \mid \boldsymbol{u} = \sum\_{i=1}^m k_i \boldsymbol{u}_i, k_i \in \mathbb{R} \right\\}
 \end{aligned}
 $$
@@ -96,9 +94,9 @@ $$
 \boldsymbol{u}_1 = (1, 0, 0)^\prime, \quad \boldsymbol{u}_2 = (0, 1, 1)^\prime
 $$
 
-$W = \mathscr{L}(\boldsymbol{u}_1, \boldsymbol{u}_2)$ contains all possible linear combinations of $\boldsymbol{u}_1$ and $\boldsymbol{u}_2$, such as $(0, 0, 0)^\prime$, $(1, 2, 2)^\prime$, etc.
+$W = \mathcal{L}(\boldsymbol{u}_1, \boldsymbol{u}_2)$ contains all possible linear combinations of $\boldsymbol{u}_1$ and $\boldsymbol{u}_2$, such as $(0, 0, 0)^\prime$, $(1, 2, 2)^\prime$, etc.
 
-**A span is a subspace.** Let $W = \mathscr{L}(\boldsymbol{u}\_1, \cdots, \boldsymbol{u}\_m)$ where $\boldsymbol{u}\_i \in V$. For any $\boldsymbol{w} \in W$, $\boldsymbol{w} =\sum\_{i=1}^m c_i \boldsymbol{u}_i \in V$ because $V$ is a vector space. Also for any $\boldsymbol{w}, \boldsymbol{v} \in W$,
+**A span is a subspace.** Let $W = \mathcal{L}(\boldsymbol{u}\_1, \cdots, \boldsymbol{u}\_m)$ where $\boldsymbol{u}\_i \in V$. For any $\boldsymbol{w} \in W$, $\boldsymbol{w} =\sum\_{i=1}^m c_i \boldsymbol{u}_i \in V$ because $V$ is a vector space. Also for any $\boldsymbol{w}, \boldsymbol{v} \in W$,
 
 $$
 a\boldsymbol{w} + b\boldsymbol{v} = a\sum_{i=1}^m c_i \boldsymbol{u}_i + b\sum_{i=1}^m d_i \boldsymbol{u}_i = \sum_{i=1}^m (ac_i + bd_i)\boldsymbol{u}_i,
@@ -106,6 +104,34 @@ $$
 
 which is a linear combination of the $\boldsymbol{u}_i$'s in $W$.
 
-#### Spanning set
+### Spanning set
 
 Let $V$ be a vector space (ambient space or a subspace of that). Suppose there exists a set of vectors $\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m$ in $V$ such that for any $\boldsymbol{u} \in V$, we can express $\boldsymbol{u}$ as a linear combination of $\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m$. Then we say $\\{ \boldsymbol{u}_1, \cdots, \boldsymbol{u}_m \\}$ is a `spanning set` of $V$.
+
+Suppose $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m\\}$ is a spanning set of $V$, then $\mathcal{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m) = V$. The LHS is the set of all possible linear combinations of the $\boldsymbol{u}_i$'s. As $V$ is closed under linear combination, LHS $\subset$ RHS. For all $\boldsymbol{v} \in V$, as $S$ is a spanning set, $\boldsymbol{v}$ can be expressed as a linear combination of the $\boldsymbol{u}_i$'s. Since the LHS contains all possible linear combinations of the $\boldsymbol{u}_i$'s, $\boldsymbol{v} \in LHS$, thus RHS $\subset$ LHS.
+
+A vector space is associated with a _finite_ number of vectors. For example, $\mathbb{R}^3$ has a spanning set of {$(1, 0, 0)^\prime$, $(0, 1, 0)^\prime$, $(0, 0, 1)^\prime$}. It's important to know that {{<hl>}}a spanning set is not unique.{{</hl>}} {$(1, 1, 1)^\prime$, $(1, 1, 0)^\prime$, $(0, 1, 1)^\prime$, $(1, 0, 0)^\prime$} is also a valid spanning set for $\mathbb{R}^3$. In fact, there's a infinite number of spanning sets for a vector space.
+
+## Basis
+
+A `basis` is nothing but a linearly independent spanning set. $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m\\}$ is a basis of $V$ if $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m\\}$ is linearly independent, and $\mathcal{L}(\boldsymbol{u}\_1, \cdots, \boldsymbol{u}\_m) = V$, i.e. it's a spanning set of $V$.
+
+In general, a vector space $V$ has infinite bases. But all bases have the same number of vectors, called the `dimension` of $V$. The dimension of $V$ is defined as the maximum number of linearly independent vectors in $V$.
+
+For example, $\mathbb{R}^3$ has a basis $\\{(1, 1, 1)^\prime, (1, 1, 0)^\prime, (0, 1, 1)^\prime\\}$. We can easily show that the set of vectors are LIN. We can also show that $\forall (x, y, z)^\prime \in \mathbb{R}^3$, it can be expressed as a linear combination of the three vectors:
+
+$$
+\begin{aligned}
+    (x, y, z)^\prime &= a_1 \boldsymbol{u}_1 + a_2 \boldsymbol{u}_2 + a_3 \boldsymbol{u}_3 \\\\
+    &= (a_1 + a_2, a_1 + a_2 + a_3, a_1 + a_3)^\prime \\\\
+    &\Rightarrow a_3 = y - x, a_1 = z - y + x, a_2 = y - z
+\end{aligned}
+$$
+
+Given a vector space $W$, e.g. $W = \\{(x, y, z)^\prime \mid y - 2x = 0\\}$, to find a basis of $W$, we first need to find two LIN vectors from $W$. Then, show that
+
+$$
+(x, 2x, z)^\prime = x(1, 2, 0)^\prime + z(0, 0, 1)^\prime
+$$
+
+to prove $\\{(1, 2, 0)^\prime, (0, 0, 1)^\prime\\}$ is a basis of $W$.
