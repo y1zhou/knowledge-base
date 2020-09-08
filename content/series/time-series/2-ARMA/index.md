@@ -58,7 +58,7 @@ where $Z_t$ values are generated from the standard normal distribution. This is 
 
 In the time series plot, focusing on timepoint 100 and onwards[^time-series-stabilization], notice how the correlation between adjacent values is high, i.e. neighboring values are close and not jumping around. This is not surprising as we generated the data by setting $X_t$ to be approximately $0.7 X_{t-1}$.
 
-[^time-series-stabilization]: With simulated data, it's common to throw the first couple data points away because the time series has to be stabilized.
+[^time-series-stabilization]: With simulated data, it's common to throw the first couple data points away because the time series has to be stabilized. This is called the `burn-in period`.
 
 Also, there seems to be a trend of going up and down, and infrequently crossing the theoretical mean of zero (unlike white noise). This trend is due to the strong autocorrelation of neighboring values of the series.
 
@@ -82,13 +82,13 @@ The mean is given by
 
 $$
 \begin{gathered}
-    E(X_t) = E(\sigma + \phi X_{t-1} + Z_t) = \sigma + \phi E(X_{t-1}) + E(Z_t) \\\\
-    \mu = \sigma + \phi\mu \\\\
-    E(X_t) = \mu = \frac{\sigma}{1 - \phi}
+    E(X_t) = E(\delta + \phi X_{t-1} + Z_t) = \delta + \phi E(X_{t-1}) + E(Z_t) \\\\
+    \mu = \delta + \phi\mu \\\\
+    E(X_t) = \mu = \frac{\delta}{1 - \phi}
 \end{gathered}
 $$
 
-From this we can easily see that when $\sigma = 0$, the mean is also 0.
+From this we can easily see that when $\delta = 0$, the mean is also 0.
 
 An alternative expression for AR(1) is
 
@@ -99,12 +99,12 @@ $$
 This is the format R uses. The expectation is $E(X_t) = \mu$ because
 
 $$
-X_t = \underbrace{\mu - \phi\mu}\_{\sigma} + \phi X_{t-1} + Z_t
+X_t = \underbrace{\mu - \phi\mu}\_{\delta} + \phi X_{t-1} + Z_t
 $$
 
 ### Variance
 
-For variance and the ACF, we may set $\sigma = 0$ without losing any generalizability.
+For variance and the ACF, we may set $\delta = 0$ without losing any generalizability.
 
 $$
 \begin{aligned}
@@ -221,7 +221,7 @@ $$
 
 ### Variance and ACF
 
-The Yuld-Walker equation is used to calculate the variance:
+The Yule-Walker equation is used to calculate the variance:
 
 $$
 \gamma_X(k) = \phi_1 \gamma_X(k-1) + \phi_2 \gamma_X(k-2) + \cdots + \phi_p \gamma_X(k-p) + E(Z_t X_{t-k})
@@ -286,3 +286,169 @@ $$
     \rho_X(2) &= \frac{\gamma_X(2)}{\gamma_X(0)} = 0.68
 \end{aligned}
 $$
+
+In general, the ACF of an $AR(p)$ model shows a "tail off" (or exponential decay) pattern, whereas the PACF is "cut off". In real life data analysis, the difference between the two is not as clear, so we often have to try multiple ($> 3$) models.
+
+### Simulation in R
+
+Here's an example of simulating the following AR(2) model:
+
+$$
+X_t = 1.5 X_{t-1} - 0.75 X_{t-2} + Z_t
+$$
+
+where $Z_t \overset{i.i.d.}{\sim} N(0, 1)$.
+
+```r
+ts.sim <- arima.sim(n = 100, list(ar = c(1.5, -0.75), rand.gen = rnorm)) + 10
+ts.plot(ts.sim)
+```
+
+Here the `10` at the end is the $\mu$. $\delta$ is not considered in the R code, but it can be calculated using $\mu$ and the $\phi$'s.
+
+### PACF revisited
+
+The PACF
+
+$$
+\phi_{kk} = Corr(X_t, X_{t-k} \mid X_{t-1}, X_{t-2}, \cdots, X_{t-k+1})
+$$
+
+is a useful tool for determining the order $p$ of an AR model. Recall in multiple linear regression we have the following models
+
+$$
+\begin{gathered}
+    Y = \beta_0 + \beta_1 X_1 + \epsilon, & H_0: \beta_1 = 0 \\\\
+    Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon, & H_0: \beta_2 = 0 \\\\
+    Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon, & \beta_3 = 0 \\\\
+    \vdots
+\end{gathered}
+$$
+
+If the first model is rejected, we can sequentially add $\beta_2, \beta_3$ etc. Similarly in AR models:
+
+$$
+\begin{gathered}
+    X_t = \phi_{01} + \phi_{11} X_{t-1} + Z_{1t}, & H_0: \phi_{11} = 0 \\\\
+    X_t = \phi_{02} + \phi_{12} X_{t-1} + \phi_{22} X_{t-2} + Z_{2t}, & H_0: \phi_{22} = 0 \\\\
+    X_t = \phi_{03} + \phi_{13} X_{t-1} + \phi_{23} X_{t-2} + \phi_{33} X_{t-3} + Z_{3t}, & \phi_{33} = 0 \\\\
+    \vdots
+\end{gathered}
+$$
+
+We can add the order sequentially to determine the suitable order of the AR model. The downside of this is that
+
+1. we have to perform multiple tests, and
+2. it's possible to have only $\phi_{13}$ and $\phi_{33}$ but not $\phi{23}$ in the third model.
+
+In summary, for an AR(p) model, the lag $p$ sample PACF should be significant, but $\hat\phi_{kk}$ for all $k > p$ should be close to zero, i.e. the sample PACF cuts off at lag $p$.
+
+## Moving average model of order 1
+
+The `moving average` (MA) model is a linear combination of $Z$'s. The MA(1) model is given by:
+
+$$
+X_t = \mu + Z_t + \theta Z_{t-1}
+$$
+
+where $\mu$ is the overall mean, $\theta$ is a moving average coefficient, and $Z_t \overset{i.i.d.}{\sim} N(0, \sigma^2)$.
+
+Note that many books use $-\theta$ in the formula, but we're following R's convension with the $+\theta$.
+
+### Mean and variance
+
+The expectation is
+
+$$
+E(X_t) = \mu + E(Z_t) + \theta E(Z_{t-1}) = \mu
+$$
+
+Setting $\mu = 0$, the variance is
+
+$$
+Var(X_t) = Var(Z_t + \theta Z_{t-1}) = Var(Z_t) + \theta^2 Var(Z_{t-1}) = (1 + \theta^2)\sigma^2
+$$
+
+### Autocovariance and autocorrelation
+
+The autocovariance function of lag 1 is
+
+$$
+\begin{aligned}
+    \gamma_X(1) &= Cov(X_t, X_{t-1}) \\\\
+    &= Cov(Z_t + \theta Z_{t-1}, X_{t-1}) \\\\
+    &= Cov(Z_t, X_{t-1}) + \theta Cov(Z_{t-1}, X_{t-1}) \\\\
+    &= \theta Cov(Z_{t-1}, Z_{t-1} + \theta Z_{t-2}) \\\\
+    &= \theta \left[ Cov(Z_{t-1}, Z_{t-1}) + \theta Cov(Z_{t-1}, Z_{t-2}) \right] \\\\
+    &= \theta \sigma^2
+\end{aligned}
+$$
+
+Thus the autocorrelation of lag 1 is
+
+$$
+\rho_X(1) = \frac{\gamma_X(1)}{\gamma_X(0)} = \frac{\theta}{1 + \theta^2}
+$$
+
+For time lags of 2 and above,
+
+$$
+\begin{aligned}
+    \gamma_X(k) &= Cov(X_t, X_{t-k}) \\\\
+    &= Cov(Z_t + \theta Z_{t-1}, X_{t-k}) \\\\
+    &= Cov(Z_t, X_{t-k}) + \theta Cov(Z_{t-1}, X_{t-k}) \\\\
+    &= 0, \quad k = 2, 3, \cdots
+\end{aligned}
+$$
+
+which means
+
+$$
+\rho_X(k) = 0,\quad k = 2, 3, \cdots
+$$
+
+A sample ACF with significant autocorrelation only at lag 1 is an indicator of a potential MA(1) model.
+
+### Partial autocorrelation
+
+For the MA(1) model, the PACF is
+
+$$
+\phi_{00} = 1, \phi_{11} = \frac{\theta}{1 + \theta^2} = \rho(1), \phi_{kk} = \frac{\theta^k(1-\theta^2)}{1 - \theta^{2(k+1)}} \text{ for } k > 1
+$$
+
+The PACF od MA(1) tails off after lag 1.
+
+### Simulation in R
+
+We can use the `arima.sim()` function to simulate the MA model, specifying the `model` parameter as `list(ma = theta)`. Of course we can also write our own function to generate a series manually:
+
+```r
+gen.ma <- function(n, theta, sigma) {
+    a <- rnorm(n, mean = 0, sd = sigma)
+    Z <- a[1]
+    for (i in 2:n) {
+        Z <- c(Z, a[i] + \theta * a[i-1])
+    }
+    Z
+}
+```
+
+## Moving acerage model of order $q$
+
+The model is
+
+$$
+X_t = \mu + Z_t + \theta_1 Z_{t-1} + \theta_2 Z_{t-2} + \cdots + \theta_q Z_{t-q}
+$$
+
+where the $\theta_j$'s are moving average coefficients and $Z_t$ is $WN(0, \sigma^2)$.
+
+To summarise the differences between the two models:
+
+| Model | ACF                   | PACF                  |
+| ----- | --------------------- | --------------------- |
+| AR(1) | Tail off after lag 1  | Cut off after lag 1   |
+| AR(p) | Tail off              | Cut off after lag $p$ |
+| MA(1) | Cut off after lag 1   | Tail off after lag 1  |
+| MA(q) | Cut off after lag $p$ | Tail off              |
