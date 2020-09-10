@@ -434,7 +434,21 @@ gen.ma <- function(n, theta, sigma) {
 }
 ```
 
-## Moving acerage model of order $q$
+Here's an example of a simulated MA(1) series with $n=200$ timepoints[^ma-1]. We can see the tail off pattern in the ACF and the cut off after lag 1 in the PACF.
+
+{{< figure src="ar_series.png" caption="Simulated MA(1) data and its ACF and PACF." numbered="true" >}}
+
+[^ma-1]: R code for simulating the MA(1) series.
+
+    ```r
+    set.seed(1)
+    x <- arima.sim(model = list(ma = 0.7),
+                   n = 200,
+                   rand.gen = rnorm)
+    plot_time_series(x, x_type = "MA(1)")
+    ```
+
+## Moving average model of order $q$
 
 The model is
 
@@ -444,11 +458,144 @@ $$
 
 where the $\theta_j$'s are moving average coefficients and $Z_t$ is $WN(0, \sigma^2)$.
 
+### Mean and variance
+
+The terms are all independent, so we don't have to worry about covariance terms when finding the variance:
+
+$$
+E(X_t) = \mu, Var(X_t) = (1 + \theta_1^2 + \theta_2^2 + \cdots + \theta_q^2)\sigma^2
+$$
+
+MA(q) is always stationary.
+
+### Autocovariance and autocorrelation
+
+The autocovariance for lag 1 is:
+
+$$
+\begin{aligned}
+    \gamma_X(1) = &= E\left[(Z_t + \theta_1 Z_{t-1} + \cdots + \theta_q Z_{t-q})(Z_{t-1} + \theta_1 Z_{t-2} + \cdots + \theta_q Z_{t-1-q}) \right] \\\\
+    &= (\theta_1 + \theta_2 \theta_1 + \theta_3 \theta_2 + \cdots + \theta_q \theta_{q-1})\sigma^2
+\end{aligned}
+$$
+
+The autocovariance functino for lag $k$ is:
+
+$$
+\begin{aligned}
+    \gamma_X(1) = &= E\left[(Z_t + \theta_1 Z_{t-1} + \cdots + \theta_q Z_{t-q})(Z_{t-k} + \theta_1 Z_{t-k-1} + \cdots + \theta_q Z_{t-k-q}) \right] \\\\
+    &= \begin{cases}
+        (\theta_k + \theta_{k+1} \theta_1 + \theta_{k+2} \theta_2 + \cdots + \theta_q \theta_{q-k})\sigma^2, & k = 1, 2, \cdots, q \\\\
+        0, & k > q
+    \end{cases}
+\end{aligned}
+$$
+
+From this we can find the autocorrelation function for lag $k$:
+
+$$
+\rho_X(k) = \begin{cases}
+    \frac{\theta_k + \theta_{k+1}\theta_1 + \theta_{k+2}\theta_2 + \cdots + \theta_q\theta_{q-k}}{1 + \theta_1^2 + \theta_2^2 + \cdots + \theta_q^2}, & k = 1, 2, \cdots, q \\\\
+    0, & k > q
+\end{cases}
+$$
+
 To summarise the differences between the two models:
 
 | Model | ACF                   | PACF                  |
 | ----- | --------------------- | --------------------- |
-| AR(1) | Tail off after lag 1  | Cut off after lag 1   |
+| AR(1) | Tail off              | Cut off after lag 1   |
 | AR(p) | Tail off              | Cut off after lag $p$ |
-| MA(1) | Cut off after lag 1   | Tail off after lag 1  |
+| MA(1) | Cut off after lag 1   | Tail off              |
 | MA(q) | Cut off after lag $p$ | Tail off              |
+
+### Invertibility
+
+We're interested in expressing an MA series as an AR series.
+
+Taking a zero-mean MA(1) series as an example, by repeated substitutions:
+
+$$
+X_t = Z_t + \theta Z_{t-1} \Rightarrow \begin{cases}
+    X_1 = Z_1 + \theta Z_0 = Z_1, \quad Z_0 = 0 \\\\
+    X_2 = Z_2 + \theta Z_1 \Rightarrow Z_2 = X_2 - \theta X_1 \\\\
+    X_3 = Z_3 + \theta Z_2 = Z_3 + \theta(X_2 - \theta X_1) = Z_3 + \theta X_2 - \theta^2 X_1 \\\\
+    \vdots \\\\
+    X_t = Z_t + \theta Z_{t-1} = Z_t + \theta X_{t-1} - \theta^2 Z_{t-2} \\\\
+    = \cdots = Z_t + \theta X_{t-1} - \theta^2 X_{t-2} + \cdots - (-\theta)^k X_{t-k} - (-\theta)^{k+1} \underbrace{Z_{t-k-1}}_{Z_0} \\\\
+    \text{ if } \theta > 1, |\theta| < 1
+\end{cases}
+$$
+
+The current $Z_t$ (`shock`) is a linear combination of the present and past $X_t$ (`returns`). Since the remote value $X_{t-j}$ should have very little impact on the current shock, $|\theta| < 1$. Such an MA(1) model is said to be `invertible`.
+
+The invertibility assures the uniqueness of the connection between values of $\theta$ and $\rho(1)$ in MA(1) - for any value of $\theta$, the reciprocal $\frac{1}{\theta}$ gives the same value for
+
+$$
+\rho(1) = \frac{\theta}{1 + \theta^2} = \frac{\frac{1}{\theta}}{\frac{1 + \theta^2}{\theta}} =
+$$
+
+## Backshift operator
+
+The `backshift operator` $B$ shifts the time index to the previous one:
+
+$$
+BX_t = X_{t-1}, B^2 X_t = X_{t-2}, \cdots
+$$
+
+In general, $B^k X_t = X_{t-k}$ represents shifting $X_t$ $k$ units back in time. The backshift operator doesn't operate on coefficients because they are fixed quantities that do not move in time.
+
+### AR models
+
+For an AR(1) model with $\mu = 0$,
+
+$$
+\begin{gathered}
+    X_t = \phi X_{t-1} + Z_t \\\\
+    X_t - \phi X_{t-1} = Z_t \Rightarrow X_t - \phi BX_t = Z_t \\\\
+    (1 - \phi B)X_t = Z_t
+\end{gathered}
+$$
+
+For an AR(p) model with $\mu = 0$:
+
+$$
+\begin{gathered}
+    X_t = \phi_1 X_{t-1} + \phi_2 X_{t-2} + \cdots + \phi_p X_{t-p} + Z_t \\\\
+    X_t = \phi_1 BX_t + \phi_2 B^2 X_t + \cdots + \phi_p B^p X_t + Z_t \\\\
+    X_t - \phi_1 BX_t - \phi_2 B^2 X_t - \cdots - \phi_p B^p X_t = Z_t \\\\
+    (1 - \phi_1 B - \phi_2 B^2 - \cdots - \phi_p B^p)X_t = Z_t
+\end{gathered}
+$$
+
+The general form for an `AR polynomial` is:
+
+$$
+\phi(B) = 1 - \phi_1 B - \cdots - \phi_p B^p
+$$
+
+So writing an AR(p) model using the AR polynomial:
+
+$$
+\phi(B) X_t = \delta + Z_t
+$$
+
+### MA models
+
+For an MA(q) model with $\mu = 0$,
+
+$$
+\begin{gathered}
+    X_t = Z_t + \theta_1 Z_{t-1} + \theta_2 Z_{t-2} + \cdots + \theta_q Z_{t-q} \\\\
+    X_t = Z_t + \theta_1 BZ_t + \theta_2 B^2 Z_t + \cdots + \theta_q B^q Z_t \\\\
+    X_t = (1 + \theta_1 B + \theta_2 B^2 + \cdots + \theta_q B^q)Z_t
+\end{gathered}
+$$
+
+Using the `MA polynomial`, this can be expressed as
+
+$$
+X_t = \theta(B)Z_t \text{ where } \theta(B) = 1 + \theta_1 B + \cdots + \theta_q B^q
+$$
+
+## ARMA
