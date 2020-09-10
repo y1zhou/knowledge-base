@@ -135,3 +135,74 @@ $$
 $$
 
 to prove $\\{(1, 2, 0)^\prime, (0, 0, 1)^\prime\\}$ is a basis of $W$.
+
+**Theorem:** Every vector in $V$ has a unique representation in terms of a given basis.
+
+Suppose $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is a basis of $V$. Suppose there exists two sets of coefficients $\\{a_1, \cdots, a_n\\}$ and $\\{b_1, \cdots, b_n\\}$ such that $\boldsymbol{x} = \sum a_i\boldsymbol{u}_i$ and $\boldsymbol{x} = \sum b_i \boldsymbol{u}_i$ where $a_i \neq b_i$ for some $i$. If we substract one from the other,
+
+$$
+\boldsymbol{0} = \sum_{i=1}^n (a_i - b_i) \boldsymbol{u}_i = \sum_{i=1}^n c_i \boldsymbol{u}_i
+$$
+
+As the $\boldsymbol{u}_i$'s are linearly independent, $c_i = 0 \forall i$, i.e. $a_i = b_i \forall i$.
+
+## Dimension
+
+When we say the dimension of a vector space, it's not the same as the number of entries in a vector. For $V = \\{\boldsymbol{0}\\}$, the dimension of $V$ is $dim(V) = 0$. Otherwise, the `dimension` of $V$ is the number of vectors in any basis of $V$.
+
+For $V = \mathcal{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m)$, $dim(V) = m$.
+
+### Examples
+
+The dimension of $\mathbb{R}^n = n$. A possible basis is
+
+$$
+\\{(1, 0, \cdots, 0)^\prime, (0, 1, 0, \cdots, 0)^\prime, \cdots, (0, 0, \cdots, 0, 1)^\prime\\}
+$$
+
+For $V = \mathcal{L}(\boldsymbol{u}_1, \boldsymbol{u}_2, \boldsymbol{u}_3)$ where
+
+$$
+\boldsymbol{u}_1 = (1, 1, 1)^\prime, \boldsymbol{u}_2 = (1, 0, -1)^\prime, \boldsymbol{u}_3 = (3, 2, 1)^\prime
+$$
+
+We construct linear combinations such that $\sum \alpha_i \boldsymbol{u}_i = 0$:
+
+$$
+\begin{cases}
+    \alpha_1 + \alpha_2 + 3\alpha_3 = 0 \\\\
+    \alpha1 + 2 \alpha_3 = 0 \\\\
+    \alpha_1 - \alpha_2 + \alpha_3 = 0
+\end{cases} \Rightarrow (\alpha_1, \alpha_2, \alpha_3) = (2\alpha_2, \alpha_2, -\alpha_2)
+$$
+
+There exists infinite solutions such as $(2, 1, -1)$, $(4, 2, -2)$ etc., so $\\{\boldsymbol{u}_1, \boldsymbol{u}_2, \boldsymbol{u}_3\\}$ is linearly dependent, and $dim(V) < 3$.
+
+We can see that $\\{\boldsymbol{u}_1, \boldsymbol{u}_2\\}$ is linearly independent, so they form a basis and $dim(V) = 2$.
+
+The third example is $W = \\{(x, y, z)^\prime \mid 2x - y = 0 \\}$. We have a linear restriction on $x$ and $y$, so the dimension of $W$ is $3-1=2$. We can
+
+1. find two LIN vectors in $W$ that form a basis, such as $\\{(0, 0, 1)^\prime, (1, 2, 0)^\prime\\}$. We need to show that these are LIN, and they span $W$.
+2. $(x, y, z)^\prime = (x, 2x, z)^\prime = x(1, 2, 0)^\prime + z(0, 0, 1)^\prime$.
+
+The second method is generalizable. Let $W = \\{(x, y, z, w)^\prime \mid x - y + w = 0 \\}$.
+
+$$
+(y-w, y, z, w)^\prime = y(1, 1, 0, 0)^\prime + z(0, 0, 1, 0)^\prime + w(-1, 0, 0, 1)^\prime
+$$
+
+If we add another constraint of $z = 2w$, then
+
+$$
+(y-w, y, 2w, w)^\prime = y(1, 1, 0, 0)^\prime + w(-1, 0, 2, 1)^\prime
+$$
+
+The dimension is the dimension of the ambient space $dim(\mathbb{R}^4) = 4$ minus the number of LIN restrictions.
+
+### Facts
+
+1. Every non-null vector space $V$ of finite dimension has a basis.
+2. Any two bases of $V$ must have the same number of vectors.
+3. If $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is linearly independent, $\boldsymbol{u}_i \in V$, and the dimension of $V$ is $n$, then $S$ is a basis.
+4. If $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ spans $V$ and $dim(V) = n$, then $S$ is linearly independent and a basis of $V$.
+5. If $W$ is a subspace of $V$ and $dim(W) = dim(V)$, then $W = V$. What if $W_1$ and $W_2$ are both subspaces of $V$, and $dim(W_1) = dim(W_2)$? Is $W_1 = W_2$?
