@@ -180,7 +180,7 @@ There exists infinite solutions such as $(2, 1, -1)$, $(4, 2, -2)$ etc., so $\\{
 
 We can see that $\\{\boldsymbol{u}_1, \boldsymbol{u}_2\\}$ is linearly independent, so they form a basis and $dim(V) = 2$.
 
-The third example is $W = \\{(x, y, z)^\prime \mid 2x - y = 0 \\}$. We have a linear restriction on $x$ and $y$, so the dimension of $W$ is $3-1=2$. We can
+The third example is $W = \\{(x, y, z)^\prime \mid 2x - y = 0 \\}$. We have a linear restriction on $x$ and $y$, so the dimension of $W$ is $3-1=2$. Two possible methods are
 
 1. find two LIN vectors in $W$ that form a basis, such as $\\{(0, 0, 1)^\prime, (1, 2, 0)^\prime\\}$. We need to show that these are LIN, and they span $W$.
 2. $(x, y, z)^\prime = (x, 2x, z)^\prime = x(1, 2, 0)^\prime + z(0, 0, 1)^\prime$.
@@ -205,4 +205,116 @@ The dimension is the dimension of the ambient space $dim(\mathbb{R}^4) = 4$ minu
 2. Any two bases of $V$ must have the same number of vectors.
 3. If $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is linearly independent, $\boldsymbol{u}_i \in V$, and the dimension of $V$ is $n$, then $S$ is a basis.
 4. If $S = \\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ spans $V$ and $dim(V) = n$, then $S$ is linearly independent and a basis of $V$.
-5. If $W$ is a subspace of $V$ and $dim(W) = dim(V)$, then $W = V$. What if $W_1$ and $W_2$ are both subspaces of $V$, and $dim(W_1) = dim(W_2)$? Is $W_1 = W_2$?
+5. If $W$ is a subspace of $V$ and $dim(W) = dim(V)$, then $W = V$.
+6. What if $W_1$ and $W_2$ are both subspaces of $V$, and $dim(W_1) = dim(W_2)$? Is $W_1 = W_2$? The answer is **no**.
+7. If $dim(V) = n$, and $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_r\\} \subset V$ are linearly independent, then we can find a basis that contains this set as a subset.
+
+## Inner product
+
+The `inner product` or `dot product` is a function that multiplies vectors together into a scalar. The inner product between two vectors is defined as
+
+$$
+\langle \boldsymbol{u},\boldsymbol{v} \rangle = \boldsymbol{u} \cdot \boldsymbol{v} = \boldsymbol{u}^\prime \boldsymbol{v} = \boldsymbol{v}^\prime \boldsymbol{u} = \sum_{i=1}^p u_i v_i
+$$
+
+where $\boldsymbol{u} \in V$, $\boldsymbol{v} \in V$ and $V$ is a subspace in $\mathbb{R}^p$. Some properties of the inner product are:
+
+1. $\boldsymbol{u} \cdot \boldsymbol{u} \geq 0$, and $\boldsymbol{u} \cdot \boldsymbol{u} = 0 \Leftrightarrow \boldsymbol{u} = \boldsymbol{0}$.
+2. $\boldsymbol{u} \cdot \boldsymbol{v} = \boldsymbol{v} \cdot \boldsymbol{u}$.
+3. $(\boldsymbol{u} + \boldsymbol{v}) \cdot \boldsymbol{w} = \boldsymbol{u} \cdot \boldsymbol{w} + \boldsymbol{v} \cdot \boldsymbol{w}$.
+4. $(c\boldsymbol{u}) \cdot \boldsymbol{v} = c(\boldsymbol{u} \cdot \boldsymbol{v})$.
+
+## Norm
+
+The norm of a vector measures the "size" of a vector. Any function that satisfies the following conditions is considered a `norm`:
+
+1. $\\|\boldsymbol{u}\\| \geq 0$.
+2. $\\|\boldsymbol{u}\\| = 0$ if $\boldsymbol{u} = \boldsymbol{0}$.
+3. $\\|\alpha \boldsymbol{u}\\| = |\alpha| \\|\boldsymbol{u}\\|$.
+4. $\\|\boldsymbol{u} + \boldsymbol{v}\\| \leq \\|\boldsymbol{u}\\| + \\|\boldsymbol{v}\\|$.
+
+In this class, we specifically use the `Euclidean norm` ($L_2$ norm), which is defined as
+
+$$
+\\|\boldsymbol{u}\\|_2 = \sqrt{\boldsymbol{u} \cdot \boldsymbol{u}} = \sqrt{\sum_{i=1}^n u_i^2}
+$$
+
+Another commonly used norm is the $L_1$ norm, which is
+
+$$
+\\|\boldsymbol{u}\\|_1 = \sum_{i=1}^n |u_i|
+$$
+
+In general, the $L_p$ norm is defined as
+
+$$
+\\|\boldsymbol{u}\\|_p = \left(\sum_{i=1}^n |u_i|^p \right)^\frac{1}{p}
+$$
+
+and the norms for $0 \leq p \leq 2$ are extensively studied. The `sup-norm` is
+
+$$
+\\|\boldsymbol{u}\\|_\infty = \underset{\max}{1 \leq i \leq n} |u_i|
+$$
+
+and finally the $L_0$ norm is
+
+$$
+\\|\boldsymbol{u}\\|_0 = \text{ \# of non-zero elements}
+$$
+
+Using the vector $\boldsymbol{u} - (1, 0, 3, -4)^\prime$ as an example, the norms are
+
+$$
+\begin{aligned}
+    &\\|\boldsymbol{u}\\|_2 = \sqrt{1 + 9 + 16}, &&\\|\boldsymbol{u}\\|_1 = 1 + 3 + 4, \\\\
+    &\\|\boldsymbol{u}\\|_\infty = 4, &&\\|\boldsymbol{u}\\|_0 = 3
+\end{aligned}
+$$
+
+## Distance
+
+The distance between two vectors is denoted $d(\boldsymbol{u}, \boldsymbol{v})$, and has to satisfy the following conditions:
+
+1. $d(\boldsymbol{u}, \boldsymbol{v}) \geq 0$.
+2. $d(\boldsymbol{u}, \boldsymbol{v}) = 0$ if and only if $\boldsymbol{u} = \boldsymbol{v}$.
+3. $d(\boldsymbol{u}, \boldsymbol{v}) = d(\boldsymbol{v}, \boldsymbol{u})$.
+4. Triangular inequality: $d(\boldsymbol{u}, \boldsymbol{w}) \leq d(\boldsymbol{u}, \boldsymbol{v}) + d(\boldsymbol{v}, \boldsymbol{w})$.
+
+The `Euclidean distance` ($L_2$ distance) is the most common choice:
+
+$$
+\\|\boldsymbol{u} - \boldsymbol{v}\\|_2 = \sqrt{\sum_{i=1}^n (u_i - v_i)^2}
+$$
+
+It has a very natural interpretation: imagine a line connecting the two endpoints of the vectors. The $L_2$ distance is the length of this line[^l1-distance].
+
+{{< figure src="distances.png" caption="The red line demonstrates the $L_2$ distance." numbered="true" >}}
+
+[^l1-distance]: For the `Manhattan distaince` or $L_1$ distance, think of it as travelling from $\boldsymbol{u}$ to $\boldsymbol{v}$ but you can only move horizontally or vertically.
+
+Let's see if the $L_2$ norm satisfies the triangular inequality:
+
+$$
+\\|\boldsymbol{u} + \boldsymbol{v}\\|_2 \leq \\|\boldsymbol{u}\\|_2 + \\|\boldsymbol{v}\\|_2
+$$
+
+As both sides are $\geq 0$, we will prove
+
+$$
+\\|\boldsymbol{u} + \boldsymbol{v}\\|_2^2 \leq \left(\\|\boldsymbol{u}\\|_2 + \\|\boldsymbol{v}\\|_2 \right)^2
+$$
+
+$$
+\begin{gathered}
+    LHS = \sum_{i=1}^n (u_i + v_i)^2 = \sum u_i^2 + \sum v_i^2 + 2 \sum u_i v_i
+    = \\|\boldsymbol{u}\\|^2 + \\|\boldsymbol{v}\\|^2 + 2\boldsymbol{u}\cdot\boldsymbol{v} \\\\
+    RHS = \\|\boldsymbol{u}\\|^2 + \\|\boldsymbol{v}\\|^2 + 2 \\|\boldsymbol{u}\\| \\|\boldsymbol{v}\\|
+\end{gathered}
+$$
+
+Thus we need to prove $\\|\boldsymbol{u}\\| \\|\boldsymbol{v}\\| \geq \boldsymbol{u} \cdot \boldsymbol{v}$. The `Cauchy-Schwarz inequality` is
+
+$$
+(\boldsymbol{u} \cdot \boldsymbol{v})^2 \leq \\|\boldsymbol{u}\\|^2 \\|\boldsymbol{v}\\|^2
+$$
