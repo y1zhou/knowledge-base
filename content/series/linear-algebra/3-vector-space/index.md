@@ -254,7 +254,7 @@ $$
 and the norms for $0 \leq p \leq 2$ are extensively studied. The `sup-norm` is
 
 $$
-\\|\boldsymbol{u}\\|_\infty = \underset{\max}{1 \leq i \leq n} |u_i|
+\\|\boldsymbol{u}\\|_\infty = \max_{1 \leq i \leq n} |u_i|
 $$
 
 and finally the $L_0$ norm is
