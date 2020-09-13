@@ -1,7 +1,7 @@
 ---
 title: "ARMA Model"
 date: 2020-09-12T20:31:18-04:00
-summary: "The mean, variance, ACF and PACF of " # appears in list of posts
+summary: "" # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: [] # list of related tags
 
@@ -113,8 +113,104 @@ $$
 (1 - \phi B)X_t = \delta + (1 + \theta B)Z_t
 $$
 
-We can also drop the intercept term and incorporate the mean $\mu$:
+We can also drop the intercept term $\delta$ and incorporate the mean $\mu$:
 
 $$
 (1 - \phi B)(X_t - \mu) = (1 + \theta B)Z_t
 $$
+
+and this is the model R uses internally.
+
+#### Mean and variance
+
+The expected value for an ARMA(1, 1) model is the same as that for an AR(1) model:
+
+$$
+E(X_t) - \phi E(X_{t-1}) = \delta + E(Z_t) + \theta E(Z_{t-1})
+$$
+
+Assuming stationarity,
+
+$$
+\mu = \frac{\delta}{1 - \phi}
+$$
+
+We can drop the constant term (set $\delta = 0$) when calculating the second moment, i.e. variance and covariance:
+
+$$
+\begin{aligned}
+    Var(X_t) &= Var(\phi X_{t-1} + Z_t + \theta Z_{t-1}) \\\\
+    &= \phi^2 Var(X_{t-1}) + Var(Z_t) + \theta^2 Var(Z_{t-1}) + \\\\
+    &\quad 2\phi Cov(X_{t-1}, Z_t) + 2\theta Cov(Z_t, Z_{t-1}) + 2\phi\theta Cov(X_{t-1}, Z_{t-1}) \\\\
+    &=\phi^2 Var(X_t) + \sigma^2 + \theta^2\sigma^2 + 0 + 0 + 2\phi\theta Cov(X_{t-1}, Z_{t-1}) \\\\
+    Cov(X_{t-1}, Z_{t-1}) &= Cov(\phi X_{t-2} + Z_{t-1} + \theta Z_{t-2}, Z_{t-1}) \\\\
+    &= Var(Z_{t-1}) = \sigma^2 \\\\
+    Var(X_t) &= \phi^2 Var(X_t) + \sigma^2 + \theta^2\sigma^2 + 2\phi\theta\sigma^2
+\end{aligned}
+$$
+
+Therefore, the variance is
+
+$$
+Var(X_t) = \gamma_X(0) = \frac{1 + \theta^2 + 2\phi\theta}{1 - \phi^2} \sigma^2
+$$
+
+#### Autocovariance and autocorrelation
+
+The autocovariance function at lag 1 is
+
+$$
+\begin{aligned}
+    \gamma_X(1) &= Cov(X_t, X_{t-1}) = Cov(\phi X_{t-1} + Z_t + \theta Z_{t-1}, X_{t-1}) \\\\
+    &= \phi Var(X_{t-1}) + 0 + \theta Cov(Z_{t-1}, X_{t-1}) \\\\
+    &= \phi \gamma_X(0) + \theta\sigma^2
+\end{aligned}
+$$
+
+Thus the lag 1 autocorrelation is
+
+$$
+\rho_X(1) = \phi + \frac{\theta\sigma^2}{\gamma_X(0)}
+$$
+
+Now we move to the lag 2 autocovariance:
+
+$$
+\begin{aligned}
+    \gamma_X(2) &= Cov(X_t, X_{t-2}) = Cov(\phi X_{t-1} + Z_t + \theta Z_{t-1}, X_{t-2}) \\\\
+    &= \phi Cov(X_{t-1}, X_{t-2}) + 0 + 0 = \phi \gamma_X(1)
+\end{aligned}
+$$
+
+There's no extra term after lag 1. The lag 2 autocorrelation is
+
+$$
+\rho_X(2) = \frac{\gamma_X(2)}{\gamma_X(0)} = \frac{\phi\gamma_X(1)}{\gamma_X(0)} = \phi \rho_X(1)
+$$
+
+We can show that for $k \geq 2$,
+
+$$
+\rho_X(k) = \phi^{k-1} \rho_X(1)
+$$
+
+Recall the lag $k$ autocorrelation for AR(1) was $\phi^k$ because $\rho_X(1)$ was just $\phi$.
+
+#### PACF
+
+We simulate an ARMA(1, 1) model in R[^arma-1-1] to show the characteristics of the PACF.
+
+[^arma-1-1]:
+    The model is $X_t - 0.5 X_{t-1} = Z_t + 0.5 Z_{t-1}$, or $(1 - 0.5B)(X_t - 0) = (1 + 0.5B)Z_t$.
+
+    ```r
+    x <- arima.sim(
+        list(order = c(1, 0, 1), ar = 0.5, ma = 0.5),
+         n = 100
+    )
+    plot_time_series(x, x_type = "ARMA(1, 1)")
+    ```
+
+{{< figure src="ARMA_1_1.png" caption="Simulated ARMA(1, 1) series and its ACF and PACF." numbered="true" >}}
+
+There's no way to figure out the model from the time series plot. The ACF tails off (decays exponentially) as expected, but the PACF seems to have spikes at the first two lags and then cuts off - a feature of an AR(2) model. This tells us that it's difficult to detect ARMA models.
