@@ -1,9 +1,9 @@
 ---
 title: "ARMA Model"
 date: 2020-09-12T20:31:18-04:00
-summary: "" # appears in list of posts
+summary: "The mean, variance, ACF and PACF of ARMA models. The backshift operator is introduced, and the stationarity and invertibility of the general ARMA(p, q) model is discussed." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
-tags: [] # list of related tags
+tags: ["Statistics", "Time Series", "Autocorrelation", "R"] # list of related tags
 
 slug: "time-series-arma-model"
 toc: true # table of contents button in post
@@ -93,7 +93,7 @@ $$
 1 - \theta_1 z - \theta_2 z^2 - \cdots - \theta_q z^q = 0
 $$
 
-has solutions for $z$ that fall outside the unit circle.
+has solutions for $z$ that fall outside the unit circle. We'll explain this in [a later section](#stationarity-for-arp).
 
 ## ARMA
 
@@ -214,3 +214,116 @@ We simulate an ARMA(1, 1) model in R[^arma-1-1] to show the characteristics of t
 {{< figure src="ARMA_1_1.png" caption="Simulated ARMA(1, 1) series and its ACF and PACF." numbered="true" >}}
 
 There's no way to figure out the model from the time series plot. The ACF tails off (decays exponentially) as expected, but the PACF seems to have spikes at the first two lags and then cuts off - a feature of an AR(2) model. This tells us that it's difficult to detect ARMA models.
+
+### ARMA(p, q)
+
+The general expression for an ARMA(p, q) model is
+
+$$
+\begin{gathered}
+    X_t = \underbrace{\phi_1 X_{t-1} + \phi_2 X_{t-2} + \cdots + \phi_p X_{t-p}}_{AR(p)} + \underbrace{Z_t + \theta_1 Z_{t-1} + \theta_2 Z_{t-2} + \cdots + \theta_q Z_{t-q}}_{MA(q)} \\\\
+    X_t = \phi_1 X_{t-1} - \phi_2 X_{t-2} = \cdots - \phi_p X_{t-p} = Z_t + \theta_1 Z_{t-1} + \theta_2 Z_{t-2} + \cdots + \theta_q Z_{t-q} \\\\
+    (1 - \phi_q B - \phi_2 B^2 - \cdots - \phi_p B^p)X_t = (1 + \theta_1 B + \theta_2 B^2 + \cdots + \theta_q B^q)Z_t \\\\
+    \Phi(B)X_t = \Theta(B)Z_t
+\end{gathered}
+$$
+
+The ACF tails off to 0 after $q$ lags, and the PACF tails off to 0 after $p$ lags. We can think of this as overlaying the ACF and PACF plots from AR(p) and MA(q) models. Consider an ARMA(2, 1) process:
+
+-   AR(2): ACF tails off and PACF cuts off after lag 2.
+-   MA(1): ACF cuts off after lag 1 and PACF tails off.
+-   The ACF for the ARMA(2, 1) process will look like the ACF from an AR(2) model after lag 1, since the ACF for MA(1) cuts off to 0 after lag 1.
+-   The PACF for ARMA(2, 1) will look like the PACF from an MA(1) model after lag 2.
+
+#### Stationarity and invertibility
+
+For an **AR(p) model**
+
+$$
+X_t - \phi)1 X_{t-1} - \cdots - \phi_p X_{t-p} = Z_t,
+$$
+
+if we express this using the AR polynomial, we get
+
+$$
+(1 - \phi_1 B - \cdots - \phi_p B^p)X_t = Z_t
+$$
+
+The theory says if the solutions to the AR polynomial in $B$
+
+$$
+1 - \phi_1 B - \cdots - \phi_p B^p = 0
+$$
+
+lies outside the unit circle, i.e. {{<hl>}}if all $|B| > 1$, we conclude AR(p) is stationary.{{</hl>}}[^complex-number] For example, the following model
+
+$$
+X_t = -1.2 X_{t-1} + Z_t
+$$
+
+is not stationary because $|B| = \frac{1}{1.2} < 1$.
+
+For the AR(2) model
+
+$$
+X_t = X_{t-1} - 0.24 X_{t-2} + Z_t,
+$$
+
+we can express it as
+
+$$
+(1 - B + 0.24 B^2)X_t = Z_t
+$$
+
+The solution for the AR polynomial is
+
+$$
+\begin{gathered}
+    1 - B + 0.24B^2 = 0 \\\\
+    B = \frac{1 \pm \sqrt{1 - 4 \times 0.24}}{2 \times 0.24} = \frac{1 \pm 0.2}{0.48}
+\end{gathered}
+$$
+
+Since both solutions are greater than 1, the AR(2) process is stationary.
+
+[^complex-number]: If the solution for $B$ is complex, e.g. $a \pm b i$, then the condition for stationarity becomes $|B| = \sqrt{a^2 + b^2} > 1$.
+
+Similarly for an **MA(q) model**,
+
+$$
+\begin{aligned}
+    X_t &= Z_t + \theta_1 Z_{t-1} + \cdots + \theta_q Z_{t-q} \\\\
+    &= (1 + \theta_1 B + \cdots + \theta_q B^q)Z_t
+\end{aligned}
+$$
+
+If all solutions of $B$ for
+
+$$
+1 + \theta_1 B + \cdots + \theta_q B^q = 0
+$$
+
+{{<hl>}}lies outside the unit circle, we conclude MA(q) is invertible (causal).
+
+What about **ARMA(p, q) models**? For example,
+
+$$
+\begin{gathered}
+    X_t = 0.8 X_{t-1} - 0.15 X_{t-2} + Z_t - 0.3 Z_{t-1} \\\\
+    (1 - 0.8B + 0.15 B^2)X_t = (1 - 0.3B)Z_t
+\end{gathered}
+$$
+
+For stationarity of the above ARMA(2, 1) model, we only need to solve the AR polynomial:
+
+$$
+1 - 0.8B + 0.15B^2 = 0 \Rightarrow |B| = \left|\frac{1}{0.3}\right|, \left|\frac{1}{0.5}\right| > 1,
+$$
+
+so the model is stationary. For invertibility, we solve the MA polynomial:
+
+$$
+1 - 0.3B = 0 \Rightarrow |B| = \left|\frac{1}{0.3} \right| > 1,
+$$
+
+so the model is invertible.
