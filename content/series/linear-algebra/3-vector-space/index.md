@@ -293,6 +293,8 @@ It has a very natural interpretation: imagine a line connecting the two endpoint
 
 [^l1-distance]: For the `Manhattan distaince` or $L_1$ distance, think of it as travelling from $\boldsymbol{u}$ to $\boldsymbol{v}$ but you can only move horizontally or vertically.
 
+### Triangular inequality
+
 Let's see if the $L_2$ norm satisfies the triangular inequality:
 
 $$
@@ -313,8 +315,69 @@ $$
 \end{gathered}
 $$
 
-Thus we need to prove $\\|\boldsymbol{u}\\| \\|\boldsymbol{v}\\| \geq \boldsymbol{u} \cdot \boldsymbol{v}$. The `Cauchy-Schwarz inequality` is
+Thus we need to prove $\\|\boldsymbol{u}\\| \\|\boldsymbol{v}\\| \geq \boldsymbol{u} \cdot \boldsymbol{v}$. If $\boldsymbol{u} \cdot \boldsymbol{v} < 0$, the inequality is obvious. When $\boldsymbol{u} \cdot \boldsymbol{v} \geq 0$, we may use the `Cauchy-Schwarz inequality`:
 
 $$
 (\boldsymbol{u} \cdot \boldsymbol{v})^2 \leq \\|\boldsymbol{u}\\|^2 \\|\boldsymbol{v}\\|^2
 $$
+
+The "high-school" version of this is
+
+$$
+(ax + by)^2 \leq (a^2 + b^2)(x^2 + y^2)
+$$
+
+This is a special case with $\boldsymbol{u} = (a, b)^\prime$ and $\boldsymbol{v} = (x, y)^\prime$. The equality happens when $bx = ay$, i.e. $\boldsymbol{u} \propto \boldsymbol{v}$.
+
+In terms of real numbers, Cauchy-Schwarz tells us that
+
+$$
+\left(\sum u_iv_i \right)^2 \leq \left(\sum u_i^2 \right) \left(\sum v_i^2 \right)
+$$
+
+The geometric interpretation of this is as follows.
+
+{{< figure src="law_of_cosine.png" caption="Geometric interpretation of the triangular inequality." numbered="true" >}}
+
+The `law of cosine` tells us that
+
+$$
+\begin{aligned}
+    \\|\boldsymbol{x} - \boldsymbol{y}\\|^2 &= \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2 - 2\\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\| \cos(\alpha) \\\\
+    \\|\boldsymbol{x} - \boldsymbol{y}\\|^2 &= (\boldsymbol{x} - \boldsymbol{y})^\prime(\boldsymbol{x} - \boldsymbol{y}) \\\\
+    &= \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2 - 2\boldsymbol{x}^\prime \boldsymbol{y} \\\\
+    \Rightarrow \boldsymbol{x}^\prime\boldsymbol{y} &= \\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\| \cos(\alpha)
+\end{aligned}
+$$
+
+We get
+
+$$
+\cos(\alpha) = \frac{\boldsymbol{x}^\prime \boldsymbol{y}}{\\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\|}
+$$
+
+In our example figure above, we can find $\cos(\alpha) = \frac{24-2}{\sqrt{20}\sqrt{37}}$.
+
+As $-1 \leq \cos(\alpha) \leq 1$,
+
+$$
+\begin{gathered}
+    -1 \leq \frac{\boldsymbol{x}^\prime \boldsymbol{y}}{\\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\|} \leq 1 \\\\
+    0 \leq \left(\frac{\boldsymbol{x}^\prime \boldsymbol{y}}{\\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\|} \right)^2 \leq 1 \\\\
+    (\boldsymbol{x}^\prime \boldsymbol{y})^2 \leq \\|\boldsymbol{x}\\|^2 \\|\boldsymbol{y}\\|^2
+\end{gathered}
+$$
+
+which is the Cauchy-Schwarz inequality. The equality happens when $\alpha = 0$. If $\alpha = 90^\circ$, $\cos(\alpha) = 0$ and $\boldsymbol{x}^\prime \boldsymbol{y} = 0$.
+
+What about $\boldsymbol{x} + \boldsymbol{y}$?
+
+$$
+\begin{aligned}
+    \\|\boldsymbol{x} + \boldsymbol{y}\\|^2 &= (\boldsymbol{x} + \boldsymbol{y})^\prime (\boldsymbol{x} + \boldsymbol{y}) \\\\
+    &= \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2 + 2 \boldsymbol{x}^\prime \boldsymbol{y} \\\\
+    &= \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2 + 2\\|\boldsymbol{x}\\| \\|\boldsymbol{y}\\| \cos(\alpha)
+\end{aligned}
+$$
+
+If $\alpha = 90^\circ$, $\\|\boldsymbol{x} + \boldsymbol{y}\\|^2 = \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2$.
