@@ -74,7 +74,7 @@ $$
 X_t = \delta + \phi X_{t-1} + Z_t
 $$
 
-where $|\phi| <1$ (for stationarity) is an autoregressive coefficient, and $Z_t \overset{i.i.d.}{\sim} N(0, \sigma^2$ is WN which is independent of $X_{t-1}, X_{t-2}, \cdots, X_1$.
+where $|\phi| <1$ (for stationarity) is an autoregressive coefficient, and $Z_t \overset{i.i.d.}{\sim} N(0, \sigma^2)$ is WN which is independent of $X_{t-1}, X_{t-2}, \cdots, X_1$.
 
 ### Mean
 
