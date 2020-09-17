@@ -1,16 +1,16 @@
 ---
 title: "Vector Space"
 date: 2020-08-31T13:13:34-04:00
-summary: "" # appears in list of posts
+summary: "We introduce some basic terminology - vector space, subspace, span, basis, dimension, norm and distance. These concepts lay the foundation for future discussions on matrices and matrix properties." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: [] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Operations", "Visualization"] # list of related tags
 
 slug: "linear-algebra-vector-space"
 toc: true # table of contents button in post
 
 # featured posts are shown on the homepage
 featured: false
-draft: true
+draft: false
 
 weight: 30 # smaller values are listed first
 

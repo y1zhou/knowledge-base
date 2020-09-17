@@ -1,9 +1,9 @@
 ---
 title: "Linear Dependence and Independence"
 date: 2020-08-31T12:33:24-04:00
-summary: "" # appears in list of posts
+summary: "A short piece on linearly dependent and independent sets of vectors." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: [] # list of related tags
+tags: ["Linear Algebra", "Correlation"] # list of related tags
 
 slug: "2-linear-dep-and-indep"
 toc: true # table of contents button in post
