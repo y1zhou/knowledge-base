@@ -283,3 +283,134 @@ Box.test(x.fit$residuals, lag = 3, type = "Ljung-Box", fitdf = 1)
 Note we specified `fitdf = 1` to subtract 1 from the degrees of freedom to get the correct number. The d.f. should be 2, which is $m$ (lag 3) minus the number of parameters in AR(1). This is why the computed p-value of 0.469 doesn't seem to match the value in the figure[^ljung-box-df].
 
 [^ljung-box-df]: The degrees of freedom in R's function is wrong. It's fixed at $m$.
+
+### Forecasting
+
+After we've confirmed that the fitted model is good enough, the next step is predicting future values. Recall how prediction was done in multiple regression. Suppose the model is
+
+$$
+Y_i = \beta_0 + \beta_1 X_{i1} + \cdots + \beta_p X_{ip} + \epsilon_i, \quad \epsilon_i \overset{i.i.d.}{\sim} N(0, \sigma^2)
+$$
+
+where we have $p$ predictor variables and $n$ observations. We have
+
+$$
+E\left( Y_i \mid X_{i1}, \cdots, X_{ip} \right) = \beta_0 + \beta_1 X_{i1} + \cdots + \beta_p X_{ip}
+$$
+
+Now if a new observation $(x_1, \cdots, x_p)$ comes in, we make the prediction by
+
+$$
+\hat{y} = \hat\beta_0 + \hat\beta_1 x_1 + \cdots + \hat\beta_p x_p = \hat{E}(Y \mid x_1, \cdots, x_p)
+$$
+
+#### Time series forecasting
+
+Given the past data up to timepoint $t$ ($X_t, X_{t-1}, \cdots, X_1$), the $k$ `time ahead forecast` (or lag $k$ forecast) at time $t$ is 
+
+$$
+X_t(k) = E(X_{t+k} \mid X_t, X_{t-1}, \cdots, X_1)
+$$
+
+> For example, predicting $X_{101}$ given $X_1, \cdots, X_{100}$ is 1 time ahead forecast at time 100.
+
+The `forecasting error` for this point estimation is
+
+$$
+e_t(k) = X_{t+k} - X_t(k)
+$$
+
+We need this quantity to calculate the standard error $Var(e_t(k))$ and construct confidence intervals:
+
+$$
+\text{point estimate } \pm z_\frac{\alpha}{2} \cdot S.E.
+$$
+
+#### AR(1)
+
+The model is
+
+$$
+X_t - \mu = \phi(X_{t-1} - \mu) + Z_t, \quad Z_t \overset{i.i.d.}{\sim}N(0, \sigma^2)
+$$
+
+and we have $E(X_t) = \mu$. Let $Y_t = X_t - \mu$, then $E(Y_t) = 0$, and the AR(1) model with mean 0 would be
+
+$$
+Y_t = \phi Y_{t-1} + Z_t
+$$
+
+The prediction for $X_t$ can be simply derived from $Y_t$ as their difference is a constant term.
+
+The **lag 1 forecast** is
+
+$$
+\begin{aligned}
+    Y_t(1) &= E(Y_{t+1} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= E(\phi Y_t + Z_{t+1} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= \phi Y_t + E(Z_{t+1} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= \phi Y_t + E(Z_{t+1}) = \phi Y_t \\\\
+    \widehat{Y_t(1)} &= \hat\phi Y_t \\\\
+    X_t(1) - \mu &= \phi(X_t - \mu) \\\\
+    \widehat{X_t(1)} &= \hat\mu + \hat\phi(X_t - \hat\mu)
+\end{aligned}
+$$
+
+The **forecasting error** for $X_t$ and $Y_t$ are the same because their only difference is a constant term:
+
+$$
+\begin{aligned}
+    e_t(1) &= Y_{t+1} - Y_t(1) \\\\
+    &= \phi Y_t + Z_{t+1} - \phi Y_t \\\\
+    &= Z_{t+1}
+\end{aligned}
+$$
+
+From this we have
+
+$$
+Var(e_t(1)) = Var(Z_{t+1}) = \sigma^2,
+$$
+
+so the $100(1-\alpha)\\%$ prediction interval for $Y_{t+1}$ is
+
+$$
+\widehat{Y_t(1)} \pm z_{\frac{\alpha}{2}} \cdot \sqrt{\widehat{Var}(e_t(1))} = \hat\phi Y_t \pm z_\frac{\alpha}{2} \cdot \hat\sigma
+$$
+
+The $100(1-\alpha)\\%$ prediction interval for $X_{t+1}$ is
+
+$$
+\widehat{X_t(1)} \pm z_{\frac{\alpha}{2}} \cdot \sqrt{\widehat{Var}(e_t(1))} = \hat\mu + \hat\phi (X_t - \hat\mu) \pm z_\frac{\alpha}{2} \cdot \hat\sigma
+$$
+
+The **lag 2 time ahead forecast** is
+
+$$
+\begin{aligned}
+    Y_t(2) &= E(Y_{t+2} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= E(\phi Y_{t+1} + Z_{t+2} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= \phi E(Y_{t+1} \mid Y_t, Y_{t-1}, \cdots, Y_1) + E(Z_{t+2} \mid Y_t, Y_{t-1}, \cdots, Y_1) \\\\
+    &= \phi Y_t(1) + 0 \\\\
+    &= \phi^2 Y_t
+\end{aligned}
+$$
+
+This gives us
+
+$$
+\begin{gathered}
+    \hat{Y}_t(2) = \hat\phi^2 Y_t \\\\
+    \hat{X}_t(2) = \hat\mu + \hat\phi^2(X_t - \hat\mu)
+\end{gathered}
+$$
+
+The forecasting error is
+
+$$
+\begin{aligned}
+    e_t(2) &= Y_{t+2} - Y_t(2) \\\\
+    &= \phi Y_{t+1} + Z_{t+2} - \phi^2 Y_t \\\\
+    &= \phi (\phi Y_t + Z_{t+1}) + Z_{t+2} - \phi^2 Y_t
+\end{aligned}
+$$
