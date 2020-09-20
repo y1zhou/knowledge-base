@@ -1,7 +1,7 @@
 title = "Yi's Knowledge Base"
 copyright = "2019-{year}"
 
-baseurl = "http://y1zhou.com/"
+baseurl = "http://www.y1zhou.com/"
 languageCode = "en-us"
 theme = "hugo-northeast"
 enableGitInfo = true
