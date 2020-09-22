@@ -381,3 +381,102 @@ $$
 $$
 
 If $\alpha = 90^\circ$, $\\|\boldsymbol{x} + \boldsymbol{y}\\|^2 = \\|\boldsymbol{x}\\|^2 + \\|\boldsymbol{y}\\|^2$.
+
+## Orthogonality
+
+For vectors $\boldsymbol{u}, \boldsymbol{v} \in \mathbb{R}^n$, we say they are `orthogonal` if
+
+$$
+\boldsymbol{u} \cdot \boldsymbol{v} = \langle \boldsymbol{u}, \boldsymbol{v} \rangle = \boldsymbol{u}^T\boldsymbol{v} = \sum_{i=1}^n u_i v_i = 0,
+$$
+
+which is denoted $\boldsymbol{u} \perp \boldsymbol{v}$.
+
+### Orthogonal basis
+
+Let a set of non-zero vectors $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ be a basis for $V$. If $\boldsymbol{u}_i \perp \boldsymbol{u}_j$ for all $i \neq j$, then we say $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is an `orthogonal basis` of $V$.
+
+**Corollary:** The $\boldsymbol{u}_i$'s are linearly independent. To prove this, we set $\sum \alpha_i \boldsymbol{u}_i = \boldsymbol{0}$. Consider the inner product between $\sum \alpha_i \boldsymbol{u}_i$ and $\boldsymbol{u}_1$:
+
+$$
+\begin{aligned}
+    0 &= \langle \boldsymbol{0}, \boldsymbol{u}_1 \rangle = \langle \sum \alpha_i \boldsymbol{u}_i, \boldsymbol{u}_1 \rangle \\\\
+    &= \sum \alpha_i \langle \boldsymbol{u}_i, \boldsymbol{u}_1 \rangle \quad \text{(distributive, associative)} \\\\
+    &= \alpha_1 \langle \boldsymbol{u}_1, \boldsymbol{u}_1 \rangle + \alpha_2 \langle \boldsymbol{u}_2, \boldsymbol{u}_1 \rangle + \cdots + \alpha_n \langle \boldsymbol{u}_n, \boldsymbol{u}_1 \rangle \\\\
+    &= \alpha_1 \\|\boldsymbol{u}_1 \\|^2,
+\end{aligned}
+$$
+
+which implies either $\alpha_1 = 0$ or $\\|\boldsymbol{u}_1 \\|^2 = 0$. Here $\alpha_1$ must be zero because we've stated all the $\boldsymbol{u}_i$'s are non-zero vectors. Repeat this and replace $\boldsymbol{u}_1$ with $\boldsymbol{u}_2, \cdots, \boldsymbol{u}_n$, we can show that all the $\alpha$'s are zero, which proves linear independence.
+
+Orthogonal bases are **not unique**. For example, $\mathbb{R}^3$ has
+
+$$
+\begin{gathered}
+    \\{(1, 0, 0)^\prime, (0, 1, 0)^\prime, (0, 0, 1)^\prime\\} \\\\
+    \\{(1, 1, 0)^\prime, (1, -1, 0)^\prime, (0, 0, 1)^\prime\\} \\\\
+    \vdots
+\end{gathered}
+$$
+
+### Normalization
+
+For any non-zero vector $\boldsymbol{u} \in \mathbb{R}^n$, the `normalized vector` of $\boldsymbol{u}$ is
+
+$$
+\boldsymbol{e} = \frac{\boldsymbol{u}}{\\|\boldsymbol{u}\\|} = \frac{1}{\\|\boldsymbol{u}\\|}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n)
+$$
+
+This is also called the `unit vector`, and the unit norm is 1:
+
+$$\\|\boldsymbol{e}\\| = \left\\| \frac{\boldsymbol{u}}{\\|\boldsymbol{u}\\|} \right\\| = \frac{1}{\\|\boldsymbol{u}\\|} \cdot \\|\boldsymbol{u}\\| = 1$$
+
+For example, let $\boldsymbol{u} = (2, 3, -1)^\prime$. the norm of $\boldsymbol{u}$ is
+
+$$
+\\|\boldsymbol{u}\\| = \sqrt{4 + 9 + 1} = \sqrt{14}
+$$
+
+and the normalized vector is
+
+$$
+\boldsymbol{e} = \frac{\boldsymbol{u}}{\\|\boldsymbol{u}\\|} = \left( \frac{2}{\sqrt{14}}, \frac{3}{\sqrt{14}}, -\frac{1}{\sqrt{14}} \right)^\prime
+$$
+
+`Orthonormal basis` consists of normalized, orthogonal vectors.
+
+## Projection
+
+Now that all the basic definitions are given, we're ready to talk about the most important part in this chapter: projection.
+
+### Projection (of a vector) onto a vector
+
+For vectors $\boldsymbol{u}, \boldsymbol{v} \in V$, $P(\boldsymbol{u} \mid \boldsymbol{v})$ is called the `projection` of $\boldsymbol{u}$ onto $\boldsymbol{v}$ if:
+
+1. $P(\boldsymbol{u} \mid \boldsymbol{v})$ is proportional to $\boldsymbol{v}$, i.e. $P(\boldsymbol{u} \mid \boldsymbol{v}) = b\boldsymbol{v}$ for some $b \in \mathbb{R}$.
+2. $\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})$ is orthogonal to $\boldsymbol{v}$.
+
+To find the projection, we just need to find the scalar $b$. By condition 2, $u\boldsymbol{u} - b\boldsymbol{v} \perp \boldsymbol{v}$, so if we take the inner product:
+
+$$
+\begin{gathered}
+    (\boldsymbol{u} - b\boldsymbol{v})^\prime \boldsymbol{v} = \boldsymbol{u}^\prime \boldsymbol{v} - b \boldsymbol{v}^\prime \boldsymbol{v} = 0 \\\\
+    \boldsymbol{u}^\prime \boldsymbol{v} - b \\|\boldsymbol{v}\\|^2 = 0 \\\\
+    b = \frac{\boldsymbol{u}^\prime \boldsymbol{v}}{\\|\boldsymbol{v}\\|^2}
+\end{gathered}
+$$
+
+In general,
+
+$$
+P(\boldsymbol{u} \mid \boldsymbol{v}) = \left( \frac{\boldsymbol{u}^\prime \boldsymbol{v}}{\\|\boldsymbol{v}\\|^2} \right) \boldsymbol{v}
+$$
+
+For example, if $\boldsymbol{u} = (1, 1, 2, -1)^\prime$ and $\boldsymbol{v} = (0, 2, -2, 1)^\prime$, the projection of $\boldsymbol{u}$ onto $\boldsymbol{v}$ is
+
+$$
+\begin{aligned}
+    P(\boldsymbol{u} \mid \boldsymbol{v}) &= \frac{2 - 4 - 1}{4 + 4 + 1} (0, 2, -2, 1)^\prime \\\\
+    &= -\frac{1}{3} (0, 2, -2, 1)^\prime = \left( 0, \frac{2}{3}, -\frac{2}{3}, \frac{1}{3} \right)^\prime
+\end{aligned}
+$$
