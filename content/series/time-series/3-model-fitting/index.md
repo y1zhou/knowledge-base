@@ -306,7 +306,7 @@ $$
 
 #### Time series forecasting
 
-Given the past data up to timepoint $t$ ($X_t, X_{t-1}, \cdots, X_1$), the $k$ `time ahead forecast` (or lag $k$ forecast) at time $t$ is 
+Given the past data up to timepoint $t$ ($X_t, X_{t-1}, \cdots, X_1$), the $k$ `time ahead forecast` (or lag $k$ forecast) at time $t$ is
 
 $$
 X_t(k) = E(X_{t+k} \mid X_t, X_{t-1}, \cdots, X_1)
@@ -326,9 +326,7 @@ $$
 \text{point estimate } \pm z_\frac{\alpha}{2} \cdot S.E.
 $$
 
-#### AR(1)
-
-The model is
+The AR(1) model is
 
 $$
 X_t - \mu = \phi(X_{t-1} - \mu) + Z_t, \quad Z_t \overset{i.i.d.}{\sim}N(0, \sigma^2)
@@ -342,7 +340,9 @@ $$
 
 The prediction for $X_t$ can be simply derived from $Y_t$ as their difference is a constant term.
 
-The **lag 1 forecast** is
+#### Lag 1 forecast
+
+The lag 1 forecast is
 
 $$
 \begin{aligned}
@@ -384,7 +384,9 @@ $$
 \widehat{X_t(1)} \pm z_{\frac{\alpha}{2}} \cdot \sqrt{\widehat{Var}(e_t(1))} = \hat\mu + \hat\phi (X_t - \hat\mu) \pm z_\frac{\alpha}{2} \cdot \hat\sigma
 $$
 
-The **lag 2 time ahead forecast** is
+#### Lag 2 forecast
+
+The 2 time ahead forecast is
 
 $$
 \begin{aligned}
@@ -405,12 +407,122 @@ $$
 \end{gathered}
 $$
 
-The forecasting error is
+The **forecasting error** is
 
 $$
 \begin{aligned}
     e_t(2) &= Y_{t+2} - Y_t(2) \\\\
     &= \phi Y_{t+1} + Z_{t+2} - \phi^2 Y_t \\\\
-    &= \phi (\phi Y_t + Z_{t+1}) + Z_{t+2} - \phi^2 Y_t
+    &= \phi (\phi Y_t + Z_{t+1}) + Z_{t+2} - \phi^2 Y_t \\\\
+    &= \phi Z_{t+1} + Z_{t+2}
 \end{aligned}
+$$
+
+Thus,
+
+$$
+\begin{aligned}
+    Var(E_t(2)) &= Var(\phi Z_{t+1} + Z_{t+2}) \\\\
+    &= \phi^2 \sigma^2 + \sigma^2 = (1 + \phi^2)\sigma^2
+\end{aligned}
+$$
+
+and the $100(1-\alpha)\\%$ prediction interval for $Y_t(2)$ is
+
+$$
+\hat\phi^2 \pm Z_\frac{\alpha}{2} \sqrt{(1 + \hat\phi^2)\hat\sigma^2}
+$$
+
+The $100(1-\alpha)\\%$ prediction interval for $X_t(2)$ is
+
+$$
+\hat\mu + \hat\phi^2 (X_t - \hat\mu) \pm Z_\frac{\alpha}{2} \sqrt{(1 + \hat\phi^2)\hat\sigma^2}
+$$
+
+#### General case
+
+{{<hl>}}In general, the $k$ time ahead forecast, forecasting error and $100(1-\alpha)\\%$ prediction interval at time $T$ {{</hl>}}are given by
+
+$$
+\begin{gathered}
+    X_t(k) = E(X_{t+k} \mid X_t, X_{t-1}, \cdots, X_1) = \phi^k(X_t - \mu) + \mu \\\\
+    e_t(k) = X_{t+k} - X_t(k) = Z_{t+k} + \phi Z_{t+k-1} + \phi^2 Z_{t+k-2} + \cdots + \phi^{k-1}Z_{t+1} \\\\
+    Var(e_t(k)) = \sigma^2 \cdot \frac{1 - \phi^{2k}}{1 - \phi^2} \\\\
+    \hat{X}_T(k) = \hat\mu + \hat\phi^k (X_T - \hat\mu), \quad \hat\mu + \hat\phi^k (X_T - \hat\mu) \pm Z_{\frac{\alpha}{2}} \sqrt{\frac{1 - \phi^{2k}}{1 - \phi^2}} \hat\sigma
+\end{gathered}
+$$
+
+#### Calculation in R
+
+To predict future values using our fitted model `x.fit`, we may use the built-in `predict()` function in R.
+
+```r
+library(tidyverse)
+
+x.fore <- predict(x.fit, n.ahead = 10)
+U <- x.fore$pred + 2 * x.fore$se
+L <- x.fore$pred - 2 * x.fore$se
+```
+
+We can also visualize the forecasted values[^ar-forecast-r] and prediction intervals. The bold line shows the predicted values, and the blue and yellow lines are the upper and lower limits of the prediction interval, respectively.
+
+{{< figure src="AR_forecast.png" caption="Forecasted values of the AR(1) model." numbered="true" >}}
+
+[^ar-forecast-r]: The code for plotting the forecasted values.
+
+    ```r
+    dat.x <- enframe(x) %>%
+      select(Time = name, Value = value)
+
+    dat.x.fore <- enframe(x.fore$pred) %>%
+      select(Time = name, Value = value) %>%
+      mutate(Time = Time + 100,
+             Upper = U,
+             Lower = L)
+
+    ggplot(dat.x, aes(x = Time, y = Value)) +
+      geom_line() +
+      geom_line(data = dat.x.fore, size = 1) +
+      geom_line(data = dat.x.fore, aes(y = Upper), color = "#0073C2") +
+      geom_line(data = dat.x.fore, aes(y = Lower), color = "#EFC000") +
+      ggpubr::theme_pubr() +
+      scale_x_continuous(breaks=seq(0, 110, 10)) +
+      theme(legend.position = "none")
+    ```
+
+## MA
+
+Estimation and forecasting is much simpler in the MA model because the autocorrelation in an MA(q) series disappears after lag $q$. For an MA(1) model:
+
+$$
+X_t = \mu + Z_t + \theta Z_{t-1},
+$$
+
+the lag 1 forecast is
+
+$$
+\begin{aligned}
+    X_t(1) &= E(X_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= E(\mu + Z_t + \theta Z_{t-1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= \mu + E(Z_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) + \theta E(Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= \mu + 0 + \theta Z_t = \mu + \theta Z_t \\\\
+    \hat{X}_t(1) &= \hat\mu _ \hat\theta Z_t
+\end{aligned}
+$$
+
+The **forecasting error** is
+
+$$
+\begin{aligned}
+    e_t(1) &= X_{t+1} - X_t(1) \\\\
+    &= \mu + Z_{t+1} + \theta Z_t - (\mu + \theta Z_t) \\\\
+    &= Z_{t+1} \\\\
+    Var(e_t(1)) &= \sigma^2
+\end{aligned}
+$$
+
+The $100(1-\alpha)\\%$ prediction interval for $X_t(1)$ is thus
+
+$$
+\hat\mu + \hat\theta Z_t \pm Z_\frac{\alpha}{2} \cdot \hat\sigma
 $$
