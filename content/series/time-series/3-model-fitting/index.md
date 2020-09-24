@@ -498,7 +498,7 @@ $$
 X_t = \mu + Z_t + \theta Z_{t-1},
 $$
 
-the lag 1 forecast is
+### Lag 1 forecast
 
 $$
 \begin{aligned}
@@ -525,4 +525,82 @@ The $100(1-\alpha)\\%$ prediction interval for $X_t(1)$ is thus
 
 $$
 \hat\mu + \hat\theta Z_t \pm Z_\frac{\alpha}{2} \cdot \hat\sigma
+$$
+
+### Lag 2 forecast
+
+The 2 time ahead forecast is
+
+$$
+\begin{aligned}
+    X_t(2) &= E(X_{t+2} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= E(\mu + Z_{t+2} + \theta Z_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= \mu
+\end{aligned}
+$$
+
+The **forecasting error** is
+
+$$
+\begin{aligned}
+    e_t(2) &= X_{t+2} - X_t(2) = Z_{t+2} + \theta Z_{t+1} \\\\
+    Var(e_t(2)) &= Var(Z_{t+2} + \theta Z_{t+1}) \\\\
+    &= \sigma^2 + \theta^2 \sigma^2 = (1 + \theta^2)\sigma^2
+\end{aligned}
+$$
+
+Thus the $100(1-\alpha)\\%$ prediction interval for $X_t(2)$ is
+
+$$
+\hat\mu \pm Z_{\frac{\alpha}{2}} \cdot \sqrt{(1 + \hat\theta^2)\hat\sigma^2}
+$$
+
+### General case
+
+The lag $k$ forecast is
+
+$$
+X_t(k) = E(X_{t+k} \mid X_t, X_{t-1}, \cdots, X_1) = \mu \quad (k \geq 2)
+$$
+
+The forecasting error is
+
+$$
+e_t(k) = X_{t+k} - X_t(k) = Z_{t+k} + \theta Z_{t+k-1}
+$$
+
+and its variance is
+
+$$
+Var(e_t(k)) = (1 + \theta^2)\sigma^2 \quad (k \geq 2)
+$$
+
+which is equal to $Var(X_t)$. Finally, the $k$ time ahead prediction at $t=T$ and its $95\\%$ prediction interval is
+
+$$
+\hat{X}_T(k) = \hat\mu, \quad \hat\mu \pm 1.96\sqrt{1 + \hat\theta^2}\hat\sigma
+$$
+
+## ARMA(1, 1)
+
+The model is given by
+
+$$
+X_t - \mu = \phi(X_{t-1} - \mu) + Z_t + \theta Z_{t-1}
+$$
+
+The forecasts are
+
+$$
+\begin{aligned}
+    X_t(1) &= E(X_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) = \mu(1 - \phi) + \phi X_t + \theta Z_t \\\\
+    X_t(2) &= E(X_{t+2} \mid X_t, X_{t-1}, \cdots, X_1) = \mu(1 - \phi) + \phi X_t(1) \\\\
+    X_t(k) &= E(X_{t+k} \mid X_t, X_{t-1}, \cdots, X_1) = \mu(1 - \phi) + \phi X_t(k-1) \quad (k \geq 2)
+\end{aligned}
+$$
+
+The forecasting error is
+
+$$
+E(e_t(k)) = 0, \quad Var(e_t(k)) \approx Var(X_t) \quad \text{ as } k \rightarrow \infty
 $$
