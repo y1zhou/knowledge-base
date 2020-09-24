@@ -138,7 +138,7 @@ to prove $\\{(1, 2, 0)^\prime, (0, 0, 1)^\prime\\}$ is a basis of $W$.
 
 **Theorem:** Every vector in $V$ has a unique representation in terms of a given basis.
 
-Suppose $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is a basis of $V$. Suppose there exists two sets of coefficients $\\{a_1, \cdots, a_n\\}$ and $\\{b_1, \cdots, b_n\\}$ such that $\boldsymbol{x} = \sum a_i\boldsymbol{u}_i$ and $\boldsymbol{x} = \sum b_i \boldsymbol{u}_i$ where $a_i \neq b_i$ for some $i$. If we substract one from the other,
+Suppose $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is a basis of $V$. Suppose there exists two sets of coefficients $\\{a_1, \cdots, a_n\\}$ and $\\{b_1, \cdots, b_n\\}$ such that $\boldsymbol{x} = \sum a_i\boldsymbol{u}_i$ and $\boldsymbol{x} = \sum b_i \boldsymbol{u}_i$ where $a_i \neq b_i$ for some $i$. If we subtract one from the other,
 
 $$
 \boldsymbol{0} = \sum_{i=1}^n (a_i - b_i) \boldsymbol{u}_i = \sum_{i=1}^n c_i \boldsymbol{u}_i
@@ -291,7 +291,7 @@ It has a very natural interpretation: imagine a line connecting the two endpoint
 
 {{< figure src="distances.png" caption="The red line demonstrates the $L_2$ distance." numbered="true" >}}
 
-[^l1-distance]: For the `Manhattan distaince` or $L_1$ distance, think of it as travelling from $\boldsymbol{u}$ to $\boldsymbol{v}$ but you can only move horizontally or vertically.
+[^l1-distance]: For the `Manhattan distance` or $L_1$ distance, think of it as travelling from $\boldsymbol{u}$ to $\boldsymbol{v}$ but you can only move horizontally or vertically.
 
 ### Triangular inequality
 
@@ -477,6 +477,100 @@ For example, if $\boldsymbol{u} = (1, 1, 2, -1)^\prime$ and $\boldsymbol{v} = (0
 $$
 \begin{aligned}
     P(\boldsymbol{u} \mid \boldsymbol{v}) &= \frac{2 - 4 - 1}{4 + 4 + 1} (0, 2, -2, 1)^\prime \\\\
-    &= -\frac{1}{3} (0, 2, -2, 1)^\prime = \left( 0, \frac{2}{3}, -\frac{2}{3}, \frac{1}{3} \right)^\prime
+    &= -\frac{1}{3} (0, 2, -2, 1)^\prime = \left( 0, -\frac{2}{3}, \frac{2}{3}, -\frac{1}{3} \right)^\prime
 \end{aligned}
 $$
+
+We can also show $\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v}) \perp \boldsymbol{v}$ by showing that:
+
+$$
+(\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v}))^\prime \boldsymbol{v} = 0 \Leftrightarrow \boldsymbol{u}^\prime \boldsymbol{v} = P(\boldsymbol{u} \mid \boldsymbol{v})^\prime \boldsymbol{v}
+$$
+
+In other words, the inner product between $\boldsymbol{u}$ and $\boldsymbol{v}$ is equal to the inner product between the projection of $\boldsymbol{u}$ onto $\boldsymbol{v}$ and $\boldsymbol{v}$.
+
+$$
+\begin{aligned}
+    P(\boldsymbol{u} \mid \boldsymbol{v}) &= \\|P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 + \\|\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 \\\\
+    &= \\|b\boldsymbol{v}\\|^2 + \\|\boldsymbol{u} - b\boldsymbol{v}\\|^2 \\\\
+    &= b^2\\|\boldsymbol{v}\\|^2 + \\|\boldsymbol{u}\\|^2 + b^2 \\|\boldsymbol{v}\\|^2 - 2b\boldsymbol{u}^\prime\boldsymbol{v} \\\\
+    &= 2\left( \frac{\boldsymbol{u}^\prime \boldsymbol{v}}{\\|\boldsymbol{v}\\|^2} \right)^2 \\|\boldsymbol{v}\\|^2 + \\|\boldsymbol{u}\\|^2 - 2 \frac{(\boldsymbol{u}^\prime \boldsymbol{v})^2}{\\|\boldsymbol{v}\\|^2} \\\\
+    &= \\|\boldsymbol{u}\\|^2
+\end{aligned}
+$$
+
+#### Cauchy-Schwarz inequality
+
+By the Pythagorean theorem,
+
+$$
+\begin{aligned}
+    \\|\boldsymbol{u}\\|^2 &= \\|P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 + \\|\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 \\\\
+    & \geq \\|P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 \\\\
+    &= \\|b\boldsymbol{v}\\|^2 = \frac{(\boldsymbol{u}^\prime \boldsymbol{v})^2}{\\|\boldsymbol{v}\\|^2}
+\end{aligned}
+$$
+
+Thus,
+
+$$
+\\|\boldsymbol{u}\\|^2 \geq \frac{(\boldsymbol{u}^\prime \boldsymbol{v})^2}{\\|\boldsymbol{v}\\|^2} \Leftrightarrow (\boldsymbol{u}^\prime \boldsymbol{v})^2 \leq \\|\boldsymbol{u}\\|^2 \\|\boldsymbol{v}\\|^2
+$$
+
+#### Meaning of projection
+
+**Theorem:** Among all scalar multiples of $\boldsymbol{v}$, $a\boldsymbol{v}$ $a \in \mathbb{R}$, the projection of $\boldsymbol{u}$ onto $\boldsymbol{v}$ is the closest[^closest-vector] vector to $\boldsymbol{u}$.
+
+[^closest-vector]: Closest meaning that having the shortest distance to.
+
+To prove this, we will show
+
+$$
+\underset{a}{\text{argmin}} \\|\boldsymbol{u} - a\boldsymbol{v}\\|^2 = \frac{\boldsymbol{u}^\prime\boldsymbol{v}}{\\|\boldsymbol{v}\\|^2}
+$$
+
+Here we're minimizing the squared distance between $\boldsymbol{u}$ and $a\boldsymbol{v}$.
+
+$$
+\begin{aligned}
+    \\|\boldsymbol{u} - a\boldsymbol{v}\\|^2 &= \\|\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v}) + P(\boldsymbol{u} \mid \boldsymbol{v}) - a\boldsymbol{v}\\|^2 \\\\
+    &= \\|\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 + \\|P(\boldsymbol{u} \mid \boldsymbol{v}) - a\boldsymbol{v}\\|^2 + \underbrace{2(u - P(\boldsymbol{u} \mid \boldsymbol{v}))^\prime(P(\boldsymbol{u} \mid \boldsymbol{v}) - a\boldsymbol{v})}_{=0}
+\end{aligned}
+$$
+
+Note that the first term doesn't contain $a$, so we don't have to consider it when minimizing w.r.t. $a$. The second term $P(\boldsymbol{u} \mid \boldsymbol{v}) - a\boldsymbol{v}$ becomes zero when $a\boldsymbol{v} = P(\boldsymbol{u} \mid \boldsymbol{v})$, attaining its minimum value. Thus,
+
+$$
+\min \\|\boldsymbol{u} - a\boldsymbol{v}\\|^2 = \min \\|\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})\\|^2 \qquad \text{when } a = \frac{\boldsymbol{u}^\prime\boldsymbol{v}}{\\|\boldsymbol{v}\\|^2}
+$$
+
+For example, for vector $\boldsymbol{y} = (y_1, \cdots, y_n)^\prime \in \mathbb{R}^n$, our goal is to find a scalar $a$ that is closet to $\boldsymbol{y}$, i.e. find $a \boldsymbol{1}_n = (a, a, \cdots, a)^\prime$ that is closest to $\boldsymbol{y}$.
+
+$$
+\begin{aligned}
+    P(\boldsymbol{y} \mid \boldsymbol{1}_n) &= \left( \frac{\boldsymbol{y}^\prime \boldsymbol{1}_n}{1^2 + 1^2 + \cdots + 1^2} \right)\boldsymbol{1}_n \\\\
+    &= \frac{y_1 + y_2 + \cdots + y_n}{n} \boldsymbol{1}_n \\\\
+    &= \bar{y} \boldsymbol{1}_n
+\end{aligned}
+$$
+
+Therefore $\bar{y}$ is closest to the data $(y_1, \cdots, y_n)^\prime$, or
+
+$$
+\bar{y} = \underset{a}{\text{argmin}} \sum_{i=1}^n (y_i - a)^2 = \underset{a}{\text{argmin}} \\|\boldsymbol{y} - a\boldsymbol{1}_n\\|^2
+$$
+
+Geometrically speaking, the sample mean deviance vector is orthogonal to the vector of sample means:
+
+$$
+\begin{pmatrix}
+    y_1 - \bar{y} \\\\ y_2 - \bar{y} \\\\ \vdots \\\\ y_n - \bar{y}
+\end{pmatrix} \perp
+\begin{pmatrix}
+    \bar{y} \\\\ \bar{y} \\\\ \vdots \\\\ \bar{y}
+\end{pmatrix} \Leftrightarrow \frac{1}{n-1}\sum_{i=1}^n (y_i - \bar{y}) \perp \bar{y}
+$$
+
+This means the sample variance is uncorrelated with the sample mean. In terms of repeated sampling, if we plot the variance of each sample against the sample means, there should be no patterns.
+
+### Subspace projection

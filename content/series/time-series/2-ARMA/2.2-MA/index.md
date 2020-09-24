@@ -32,7 +32,7 @@ $$
 
 where $\mu$ is the overall mean, $\theta$ is a moving average coefficient, and $Z_t \overset{i.i.d.}{\sim} N(0, \sigma^2)$.
 
-Note that many books use $-\theta$ in the formula, but we're following R's convension with the $+\theta$.
+Note that many books use $-\theta$ in the formula, but we're following R's convention with the $+\theta$.
 
 ### Mean and variance
 
@@ -158,7 +158,7 @@ $$
 \end{aligned}
 $$
 
-The autocovariance functino for lag $k$ is:
+The autocovariance function for lag $k$ is:
 
 $$
 \begin{aligned}
@@ -179,7 +179,7 @@ $$
 \end{cases}
 $$
 
-To summarise the differences between the two models:
+To summarize the differences between the two models:
 
 | Model | ACF                   | PACF                  |
 | ----- | --------------------- | --------------------- |
@@ -192,7 +192,7 @@ To summarise the differences between the two models:
 
 We're interested in expressing an MA series as an AR series. AR series are more intuitive because $X_t$ is a linear combination of the past data, and the AR coefficients can be directly interpreted.
 
-Under certain conditons, we can invert an MA series to an AR series. Taking a zero-mean MA(1) series as an example:
+Under certain conditions, we can invert an MA series to an AR series. Taking a zero-mean MA(1) series as an example:
 
 $$
 X_t = Z_t + \theta Z_{t-1}, \quad Z_0 = 0

@@ -390,7 +390,7 @@ $$
 X_t = X_{t-1} + Z_t
 $$
 
-where $Z_t$ is $WN(0, \sigma^2)$. There's no paticular pattern, and we're just cumulatively summing i.i.d. (standard normal) random variables. In a random walk, $Z_t$ is the size of the steps, $X_t$ is the position of the random walker at time $t$, $E(X_t) = 0$, and $Var(X_t) = t\sigma^2$, meaning that it's **nonstationary**.
+where $Z_t$ is $WN(0, \sigma^2)$. There's no particular pattern, and we're just cumulatively summing i.i.d. (standard normal) random variables. In a random walk, $Z_t$ is the size of the steps, $X_t$ is the position of the random walker at time $t$, $E(X_t) = 0$, and $Var(X_t) = t\sigma^2$, meaning that it's **nonstationary**.
 
 Movement of common stock prices, position of small particles suspended in a fluid are examples of random walks. Of course we can generate simulated data[^rw-r-code] and study its behavior:
 

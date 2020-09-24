@@ -158,7 +158,7 @@ $$
 \end{pmatrix}
 $$
 
-The effect of premultiplying $\boldsymbol{A}$ by $\boldsymbol{D}$ is to multiply each element of the $i$th row of $\boldsymbol{A}$ by the $i$th diagonal element of $\boldsymbol{D}$. Similarly, the effect of postmultiplying $\boldsymbol{A}$ by a diagnomal matrix $\boldsymbol{D}$ of order $n$ is to multiply each element of the $j$th column of $\boldsymbol{A}$ by the $j$th diagonal element of $\boldsymbol{D}$.
+The effect of premultiplying $\boldsymbol{A}$ by $\boldsymbol{D}$ is to multiply each element of the $i$th row of $\boldsymbol{A}$ by the $i$th diagonal element of $\boldsymbol{D}$. Similarly, the effect of postmultiplying $\boldsymbol{A}$ by a diagonal matrix $\boldsymbol{D}$ of order $n$ is to multiply each element of the $j$th column of $\boldsymbol{A}$ by the $j$th diagonal element of $\boldsymbol{D}$.
 
 The effect of multiplying an $m \times n$ matrix $\boldsymbol{A}$ by a scalar $k$ is the same as that of pre/post-multiplying $\boldsymbol{A}$ by the $m \times m$ or $n \times n$ matrix $diag(k, \cdots, k)$.
 

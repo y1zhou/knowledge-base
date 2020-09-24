@@ -81,7 +81,7 @@ We can express $\boldsymbol{a}_3$ as $-\boldsymbol{a}_1 + \frac{3}{2}\boldsymbol
 
 **Lemma 1:** Any set of vectors that include a zero vector is linearly dependent. This can be easily shown by setting all other coefficients to 0 and the coefficient for the zero vector to a non-zero value.
 
-**Lemma 2:** A set of vectors $\\{\boldsymbol{a}_1, \cdots, \boldsymbol{a}_n\\}$ is linearly dependent if and only if there exists $\boldsymbol{a}_i$ such that $\boldsymbol{a}_i$ can be expressed as a linear combination of the rest. This is saying that we have some redundency in the set of vectors.
+**Lemma 2:** A set of vectors $\\{\boldsymbol{a}_1, \cdots, \boldsymbol{a}_n\\}$ is linearly dependent if and only if there exists $\boldsymbol{a}_i$ such that $\boldsymbol{a}_i$ can be expressed as a linear combination of the rest. This is saying that we have some redundancy in the set of vectors.
 
 To prove this, we first show the "if" ($\Leftarrow$) part. Assume that $\boldsymbol{a}_1, \cdots, \boldsymbol{a}_n$ are LD. By definition, there exists $x_1, \cdots, x_n$ that are not all zeros such that
 
@@ -89,7 +89,7 @@ $$
 \sum_{i=1}^n x_i \boldsymbol{a}_i = \boldsymbol{0}
 $$
 
-Let $x_k$ be a non-zero number amoung $x_1, \cdots, x_n$. We then have
+Let $x_k$ be a non-zero number among $x_1, \cdots, x_n$. We then have
 
 $$
 x_1\boldsymbol{a}_1 + x_2 \boldsymbol{a}_2 + \cdots + x_k\boldsymbol{a}_k + \cdots + x_n\boldsymbol{a}_n = \boldsymbol{0}

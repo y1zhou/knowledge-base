@@ -73,7 +73,7 @@ Here we're essentially investigating $\mu = E(X_t)$.
 
 ## AR
 
-In this section, we're going to use the AR(1) process as an example to introduce parameter estimation and model dignostics methods.
+In this section, we're going to use the AR(1) process as an example to introduce parameter estimation and model diagnostics methods.
 
 ### Estimation
 
@@ -156,7 +156,7 @@ $$
 X_t - \mu = \phi(X_{t-1} - \mu) + Z_t,
 $$
 
-the sum of sqaured errors is
+the sum of squared errors is
 
 $$
 SSE = \sum_{t=1}^T Z_t^2 = \sum_{t=2}^T (X_t - \delta - \phi X_{t-1})^2
@@ -201,7 +201,7 @@ $$
 e_t = \frac{X_t - \tilde{X}_t^{t-1}}{\sqrt{\hat{V} \left(X_t - \tilde{X}_t^{t-1} \right)}}
 $$
 
-where $\tilde{X}_t^{t-1}$ is the forecast for time $t$ using information up to time $t-1$, and $\hat{V}(X_t - \tilde{X}_t^{t-1})$ is the estimate of $Var(X_t - \tilde{X}_t^{t-1})$. If the correct model is chosen, these standardized residuals should approximately follow $N(0, 1)$. Thus, we'd expect about 95% of them to fall within $\pm 2$ and about 99% to fall within $\pm 3$. Standardized residulas falling outside of this range indicate an incorrect model may have been chosen.
+where $\tilde{X}_t^{t-1}$ is the forecast for time $t$ using information up to time $t-1$, and $\hat{V}(X_t - \tilde{X}_t^{t-1})$ is the estimate of $Var(X_t - \tilde{X}_t^{t-1})$. If the correct model is chosen, these standardized residuals should approximately follow $N(0, 1)$. Thus, we'd expect about 95% of them to fall within $\pm 2$ and about 99% to fall within $\pm 3$. Standardized residuals falling outside of this range indicate an incorrect model may have been chosen.
 
 We should also check the ACF/PACF of the standardized residuals. If the residuals are really i.i.d. normal, there should only be a spike at lag 0 and all the other lags should fall within the band:
 
