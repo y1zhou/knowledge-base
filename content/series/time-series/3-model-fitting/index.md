@@ -506,7 +506,7 @@ $$
     &= E(\mu + Z_{t+1} + \theta Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
     &= \mu + E(Z_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) + \theta E(Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
     &= \mu + 0 + \theta Z_t = \mu + \theta Z_t \\\\
-    \hat{X}_t(1) &= \hat\mu + \hat\theta Z_t
+    \hat{X}_t(1) &= \hat\mu + \hat\theta \hat{Z}_t
 \end{aligned}
 $$
 
@@ -524,8 +524,23 @@ $$
 The $100(1-\alpha)\\%$ prediction interval for $X_t(1)$ is thus
 
 $$
-\hat\mu + \hat\theta Z_t \pm Z_\frac{\alpha}{2} \cdot \hat\sigma
+\hat\mu + \hat\theta \hat{Z}_t \pm Z_\frac{\alpha}{2} \cdot \hat\sigma
 $$
+
+So how do we estimate $\hat{Z}_t$? One way of doing it is
+
+$$
+\begin{gathered}
+    X_t = Z_t + \hat\theta Z_{t-1} + \hat\mu \\\\
+    Z_t = X_t - \hat\theta Z_{t-1} - \hat\mu \\\\
+    Z_{t-1} = X_{t-1} - \hat\theta Z_{t-2} - \hat\mu \\\\
+    \vdots \\\\
+    Z_2 = X_2 - \hat\theta Z_1 - \hat\mu \\\\
+    Z_1 = X_1 - \hat\theta Z_0 - \hat\mu
+\end{gathered}
+$$
+
+where $Z_0 = 0$. Now going from bottom up we'd be able to estimate $Z_t$.
 
 ### Lag 2 forecast
 
