@@ -240,7 +240,7 @@ The ACF tails off to 0 after $q$ lags, and the PACF tails off to 0 after $p$ lag
 For an **AR(p) model**
 
 $$
-X_t - \phi)1 X_{t-1} - \cdots - \phi_p X_{t-p} = Z_t,
+X_t - \phi_1 X_{t-1} - \cdots - \phi_p X_{t-p} = Z_t,
 $$
 
 if we express this using the AR polynomial, we get

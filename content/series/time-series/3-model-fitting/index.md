@@ -503,10 +503,10 @@ $$
 $$
 \begin{aligned}
     X_t(1) &= E(X_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
-    &= E(\mu + Z_t + \theta Z_{t-1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+    &= E(\mu + Z_{t+1} + \theta Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
     &= \mu + E(Z_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) + \theta E(Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
     &= \mu + 0 + \theta Z_t = \mu + \theta Z_t \\\\
-    \hat{X}_t(1) &= \hat\mu _ \hat\theta Z_t
+    \hat{X}_t(1) &= \hat\mu + \hat\theta Z_t
 \end{aligned}
 $$
 
@@ -604,3 +604,5 @@ The forecasting error is
 $$
 E(e_t(k)) = 0, \quad Var(e_t(k)) \approx Var(X_t) \quad \text{ as } k \rightarrow \infty
 $$
+
+> Questions: 1. What does $\hat{Z}_t$ stand for in the prediction intervals? 2. The df in Ljung-Box test is lag $m$ - number of parameters. What if $m$ is smaller than the number?
