@@ -375,7 +375,7 @@ $$
 so the $100(1-\alpha)\\%$ prediction interval for $Y_{t+1}$ is
 
 $$
-\widehat{Y_t(1)} \pm z_{\frac{\alpha}{2}} \cdot \sqrt{\widehat{Var}(e_t(1))} = \hat\phi Y_t \pm z_\frac{\alpha}{2} \cdot \hat\sigma
+\widehat{Y\_t(1)} \pm z\_{\frac{\alpha}{2}} \cdot \sqrt{\widehat{Var}(e\_t(1))} = \hat\phi Y\_t \pm z\_\frac{\alpha}{2} \cdot \hat\sigma
 $$
 
 The $100(1-\alpha)\\%$ prediction interval for $X_{t+1}$ is
