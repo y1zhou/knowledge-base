@@ -236,7 +236,7 @@ The norm of a vector measures the "size" of a vector. Any function that satisfie
 In this class, we specifically use the `Euclidean norm` ($L_2$ norm), which is defined as
 
 $$
-\\|\boldsymbol{u}\\|_2 = \sqrt{\boldsymbol{u} \cdot \boldsymbol{u}} = \sqrt{\sum_{i=1}^n u_i^2}
+\\|\boldsymbol{u}\\|\_2 = \sqrt{\boldsymbol{u} \cdot \boldsymbol{u}} = \sqrt{\sum\_{i=1}^n u_i^2}
 $$
 
 Another commonly used norm is the $L_1$ norm, which is
@@ -456,6 +456,8 @@ For vectors $\boldsymbol{u}, \boldsymbol{v} \in V$, $P(\boldsymbol{u} \mid \bold
 1. $P(\boldsymbol{u} \mid \boldsymbol{v})$ is proportional to $\boldsymbol{v}$, i.e. $P(\boldsymbol{u} \mid \boldsymbol{v}) = b\boldsymbol{v}$ for some $b \in \mathbb{R}$.
 2. $\boldsymbol{u} - P(\boldsymbol{u} \mid \boldsymbol{v})$ is orthogonal to $\boldsymbol{v}$.
 
+> TODO: figure of projecting a vector onto another vector.
+
 To find the projection, we just need to find the scalar $b$. By condition 2, $u\boldsymbol{u} - b\boldsymbol{v} \perp \boldsymbol{v}$, so if we take the inner product:
 
 $$
@@ -574,3 +576,122 @@ $$
 This means the sample variance is uncorrelated with the sample mean. In terms of repeated sampling, if we plot the variance of each sample against the sample means, there should be no patterns.
 
 ### Subspace projection
+
+Vector $\boldsymbol{x}$ is `orthogonal to a vector space` $V$ if $\boldsymbol{x} \perp \boldsymbol{y}$ for all $\boldsymbol{y} \in V$. $P(\boldsymbol{u} \mid V)$ is called the `projection of a vector onto a subspace` if
+
+1. $P(\boldsymbol{u} \mid V) \in V$, and
+2. $\boldsymbol{u} - P(\boldsymbol{u} \mid V) \perp V$.
+
+In terms of inner products, we need to have
+
+$$
+\boldsymbol{u} \cdot \boldsymbol{v} = P(\boldsymbol{u} \mid V) \cdot \boldsymbol{v}
+$$
+
+**Lemma:** Suppose $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ spans $V$, then
+
+$$
+\boldsymbol{x} \perp V \Leftrightarrow \boldsymbol{x} \perp \boldsymbol{u}_j, \quad j = 1, \cdots, n
+$$
+
+In other words, we only need to see the orthogonality with vectors in a spanning set.
+
+Proving $\Rightarrow$ is trivial because it's true by definition of orthogonality to a vector space. To prove $\Leftarrow$, for all $\boldsymbol{v} \in V$, we will show if $\boldsymbol{x} \perp \boldsymbol{u}_j$, then $\boldsymbol{x} \perp \boldsymbol{v}$.
+
+As $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_n\\}$ is a spanning set, we can express $\boldsymbol{v}$ as a linear combination of the $\boldsymbol{u}$'s:
+
+$$
+\boldsymbol{v} = \sum_{j=1}^n \alpha_j \boldsymbol{u}_j \quad \text{for some } \alpha_j
+$$
+
+The inner product between $\boldsymbol{x}$ and $\boldsymbol{v}$ is
+
+$$
+\begin{aligned}
+    \boldsymbol{x} \cdot \boldsymbol{v} &= \boldsymbol{x} \cdot \left( \sum_{j=1}^n \alpha_j \boldsymbol{u}_j \right) \\\\
+    &= \sum_{j=1}^n \alpha_j (\boldsymbol{x} \cdot \boldsymbol{u}_j) \\\\
+    &= \sum_{j=1}^n \alpha_j \cdot 0 = 0
+\end{aligned}
+$$
+
+#### Theorem
+
+Suppose $V$ is a subspace of $\mathbb{R}^n$, and $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_k\\}$ is an **orthogonal basis** for $V$. For $\boldsymbol{u} \in \mathbb{R}^n$, the `projection` of $\boldsymbol{u}$ onto subspace $V$ is
+
+$$
+P(\boldsymbol{u} \mid V) = \sum_{i=1}^k P(\boldsymbol{u} \mid \boldsymbol{u}_i) = \sum_{i=1}^k \frac{\boldsymbol{u}^\prime \boldsymbol{u}_i}{\\|\boldsymbol{u}_i\\|^2} \boldsymbol{u}_i
+$$
+
+{{< figure src="projection_on_subspace.png" caption="Illustration of a vector $\boldsymbol{u}$ projected onto subspace $V$." numbered="true" >}}
+
+In the case of an orthonormal basis, this can be further simplified to $\sum_{i=1}^k (\boldsymbol{u}^\prime \boldsymbol{u}_i)\boldsymbol{u}_i$.
+
+To prove this, let $\hat{\boldsymbol{u}} = P(\boldsymbol{u} \mid V)$[^why-u-hat] and $\hat{\boldsymbol{u}}\_i = P(\boldsymbol{u} \mid \boldsymbol{u}\_i)$. The theorem says $\hat{\boldsymbol{u}} = \sum_{i=1}^k \hat{\boldsymbol{u}}\_i$. We need to show $\sum_{i=1}^k \hat{\boldsymbol{u}}\_i$ satisfies
+
+1. $\hat{\boldsymbol{u}} \in V$.
+2. For all $\boldsymbol{v} \in V$, $(\boldsymbol{u} - \hat{\boldsymbol{u}}) \cdot \boldsymbol{v} = 0$, or $(\boldsymbol{u} - \sum \hat{\boldsymbol{u}}\_i ) \cdot \boldsymbol{v} = 0$.
+
+[^why-u-hat]: We use the hat notation here because a prediction (e.g. in linear regression) is nothing but a projection.
+
+First we write $\boldsymbol{v} = \sum \alpha_i \boldsymbol{u}_i$. Then,
+
+$$
+\begin{aligned}
+    \left(\boldsymbol{u} - \sum_{i=1}^k \hat{\boldsymbol{u}}\_i \right) \cdot \boldsymbol{v} &= \boldsymbol{u} \cdot \boldsymbol{v} - \sum_{i=1}^k \hat{\boldsymbol{u}}_i \cdot \boldsymbol{v} \\\\
+    &= \boldsymbol{u} \cdot \left( \sum_{i=1}^k \alpha_i \boldsymbol{u}_i \right) - \sum_{i=1}^k \left( \hat{\boldsymbol{u}}_i \cdot \left( \sum_{j=1}^k \alpha_j \boldsymbol{u}_j \right) \right) \\\\
+    &= \sum_{i=1}^k \alpha_i (\boldsymbol{u} \cdot \boldsymbol{u}_i) - \sum_{i=1}^k \sum_j \alpha_{j=1}^k (\underbrace{\hat{\boldsymbol{u}}_i \cdot \boldsymbol{u}_j}_{\text{all zeros except } i=j}) \\\\
+    &= \sum_{i=1}^k \alpha_i (\boldsymbol{u} \cdot \boldsymbol{u}_i) - \sum_{i=1}^k \alpha_i (\hat{\boldsymbol{u}}_i \cdot \boldsymbol{u}_i) \\\\
+    &= 0 \text{ because } \boldsymbol{u} \cdot \boldsymbol{u}_i = \hat{\boldsymbol{u}}_i \cdot \boldsymbol{u}_i
+\end{aligned}
+$$
+
+#### Example
+
+Let $V = \mathcal{L}(\boldsymbol{u}_1, \boldsymbol{u}_2, \boldsymbol{u}_3)$ where
+
+$$
+\begin{gathered}
+    \boldsymbol{u}_1 = (1, 1, 1, 0, 0, 0)^\prime \\\\
+    \boldsymbol{u}_2 = (0, 0, 0, 1, 1, 0)^\prime \\\\
+    \boldsymbol{u}_3 = (0, 0, 0, 0, 0, 1)^\prime
+\end{gathered}
+$$
+
+We have $\boldsymbol{u} = (6, 10, 5, 4, 8, 7)^\prime \in \mathbb{R}^6$ and want to find the projection of $\boldsymbol{u}$ onto $V$.
+
+$$
+\begin{aligned}
+    P(\boldsymbol{u} \mid V) &= P(\boldsymbol{u} \mid \boldsymbol{u}_1) + P(\boldsymbol{u} \mid \boldsymbol{u}_2) + P(\boldsymbol{u} \mid \boldsymbol{u}_3) \\\\
+    &= \frac{6 + 10 + 5}{3}\boldsymbol{u}_1 + \frac{4 + 8}{2}\boldsymbol{u}_2 + \frac{7}{1}\boldsymbol{u}_3 \\\\
+    &= 7\boldsymbol{u}_1 + 6\boldsymbol{u}_2 + 7\boldsymbol{u}_3 \\\\
+    &= (7, 7, 7, 6, 6, 7)^\prime
+\end{aligned}
+$$
+
+This is the vector in $V$ that's the closest to $\boldsymbol{u}$.
+
+If the given basis was orthonormal:
+
+$$
+\begin{gathered}
+    \boldsymbol{z}_1 = (\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, 0, 0, 0)^\prime \\\\
+    \boldsymbol{z}_2 = (0, 0, 0, \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0)^\prime \\\\
+    \boldsymbol{z}_3 = (0, 0, 0, 0, 0, 1)^\prime
+\end{gathered}
+$$
+
+The projection
+
+$$
+\begin{aligned}
+    P(\boldsymbol{u} \mid V) &= (\boldsymbol{u} \cdot \boldsymbol{z}_1) \boldsymbol{z}_1 + (\boldsymbol{u} \cdot \boldsymbol{z}_2) \boldsymbol{z}_2 + (\boldsymbol{u} \cdot \boldsymbol{z}_3) \boldsymbol{z}_3 \\\\
+    &= \frac{6+10+5}{\sqrt{3}}\boldsymbol{z}_1 + \frac{4+8}{\sqrt{2}}\boldsymbol{z}_2 + 7\boldsymbol{z}_3 \\\\
+    &= (7, 7, 7, 6, 6, 7)^\prime
+\end{aligned}
+$$
+
+#### Orthogonalization
+
+So how do we make a basis to an orthogonal basis? This is the whole idea of the `Gram-Schmidt orthogonalization`. We start with a non-orthogonal basis $\\{\boldsymbol{u}_1, \cdots, \boldsymbol{u}_k\\}$ for $V$, and our goal is to find $\\{\boldsymbol{v}_1, \cdots, \boldsymbol{v}_k\\}$, an orthogonal basis for $V$.
+
+1. The first member in the orthogonal basis is the same as the first member in the given basis: $\boldsymbol{v}_1 = \boldsymbol{u}_1$.
