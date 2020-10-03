@@ -1,6 +1,6 @@
 ---
 title: "Moving Average Model"
-date: 2020-09-12T20:31:13-04:00
+date: 2020-09-04T20:31:13-04:00
 summary: "The mean, variance, ACF and PACF of moving average models. Instead of stationarity, a new property called invertibility is introduced." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: ["Statistics", "Time Series", "Autocorrelation", "R"] # list of related tags

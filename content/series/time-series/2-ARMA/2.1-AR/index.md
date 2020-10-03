@@ -1,6 +1,6 @@
 ---
 title: "Autoregressive Series"
-date: 2020-09-12T20:31:05-04:00
+date: 2020-08-28T20:31:05-04:00
 summary: "We talk about autoregressive models of different orders, and introduce their mean, variance, ACF and PACF values. Its stationarity is also briefly discussed." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: ["Statistics", "Time Series", "Autocorrelation", "R"] # list of related tags
