@@ -105,3 +105,75 @@ $$
     [^column-space-of-ab]: $\mathcal{C}(\boldsymbol{AB})$ and $\mathcal{C}(\boldsymbol{B})$ can't even be compared usless $m = n$. However their dimensions could be discussed.
 
 6. If an $m \times n$ matrix $\boldsymbol{A}$ with rank $r$ is written as $\boldsymbol{A} = \boldsymbol{BT}$ with $\boldsymbol{B}: m \times r$ and $\boldsymbol{T}: r \times n$, then $r(\boldsymbol{B}) = r(\boldsymbol{T}) = r$.
+
+    This means both $\boldsymbol{B}$ and $\boldsymbol{T}$ have full rank, specifically $\boldsymbol{B}$ has full column rank and $\boldsymbol{T}$ has full row rank. This is true because
+
+    $$
+    r = r(\boldsymbol{A}) = r(\boldsymbol{BT}) \leq r(\boldsymbol{B}) \leq r \Rightarrow r(\boldsymbol{B}) = r
+    $$
+
+7. The `null space` of $\boldsymbol{A}: m \times n$ is the collection of $n \times 1$ vectors that such that
+
+    $$
+    N(\boldsymbol{A}) = \\{\boldsymbol{x} \mid \boldsymbol{Ax} = \boldsymbol{0}\\}
+    $$
+
+    The null space is a subspace in $\mathbb{R}^n$. If $\boldsymbol{x} \in N(\boldsymbol{A})$, $\boldsymbol{x}$ is orthogonal to each row of $\boldsymbol{A}$, thus
+
+    $$
+    N(A) = \mathcal{R}(A)^\perp
+    $$
+
+8. A square matrix $\boldsymbol{A}: n \times n$ with rank $n$ is called `non-singular`. If $r(\boldsymbol{A}) < n$, it is `singular`.
+9. For matrices $\boldsymbol{A}: m \times n$ and $\boldsymbol{B}: m \times q$, the `horizontal concatenation` of $\boldsymbol{A}$ and $\boldsymbol{B}$ is an $m \times (n+q)$ matrix denoted $[\boldsymbol{A}, \boldsymbol{B}]$. Since $\mathcal{C}(\boldsymbol{A}) \subset \mathcal{C}([\boldsymbol{A}, \boldsymbol{B}])$, we have $r(\boldsymbol{A}) \leq r([\boldsymbol{A}, \boldsymbol{B}])$.
+10. $r([\boldsymbol{A}, \boldsymbol{B}]) \leq r(\boldsymbol{A}) + r(\boldsymbol{B})$. Think in terms of linearly independent columns.
+11. $\mathcal{C}(\boldsymbol{A} + \boldsymbol{B}) \subset \mathcal{C}([\boldsymbol{A}, \boldsymbol{B}])$. The reason is
+
+    $$
+    \begin{gathered}
+        \mathcal{C}(\boldsymbol{A} + \boldsymbol{B}) = \\{ (\boldsymbol{A} + \boldsymbol{B})\boldsymbol{x} = \boldsymbol{Ax} + \boldsymbol{Bx} \\} \\\\
+        \mathcal{C}([\boldsymbol{A}, \boldsymbol{B}]) = \left\\{ [\boldsymbol{A}, \boldsymbol{B}]\begin{pmatrix}
+            \boldsymbol{y}_1 \\\\ \boldsymbol{y}_2
+        \end{pmatrix} = \boldsymbol{Ay}_1 + \boldsymbol{By}_2 \right\\}
+    \end{gathered}
+    $$
+
+    From this we can see that
+
+    $$
+    r(\boldsymbol{A} + \boldsymbol{B}) \leq r([\boldsymbol{A}, \boldsymbol{B}]) \leq r(\boldsymbol{A}) + r(\boldsymbol{B})
+    $$
+
+12. $\mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A}) = \mathcal{C}(\boldsymbol{A}^\prime)$, and $\mathcal{C}(\boldsymbol{AA}^\prime) = \mathcal{C}(\boldsymbol{A})$. Similarly for the row spaces,
+
+    $$
+    \mathcal{R}(\boldsymbol{A}^\prime \boldsymbol{A}) = \mathcal{R}(\boldsymbol{A}), \quad \mathcal{R}(\boldsymbol{AA}^\prime) = \mathcal{R}(\boldsymbol{A}^\prime)
+    $$
+
+    and the ranks:
+
+    $$
+    r(\boldsymbol{A}^\prime \boldsymbol{A}) = r(\boldsymbol{A}) = r(\boldsymbol{AA}^\prime) = r(\boldsymbol{A}^\prime)
+    $$
+
+## Projection
+
+Recall that in [Projection to a subspace]({{< relref "/series/linear-algebra/4-geom-considerations/4.2-projection/index.md#subspace-projection" >}}) we showed that $P(\boldsymbol{x} \mid \mathcal{V})$ has the shortest distance to $\boldsymbol{x}$ among all $\boldsymbol{y} \in \mathcal{V}$, i.e. for any $\boldsymbol{y} \in \mathcal{V}$,
+
+$$
+\\|\boldsymbol{y} - \boldsymbol{x}\\|^2 \geq \\| P(\boldsymbol{x} \mid \mathcal{V}) - \boldsymbol{x} \\|^2
+$$
+
+The statistical application for this is that suppose we have data $\boldsymbol{y} = (y_1, \cdots, y_n)^\prime$, and our goal is to explain or predict $\boldsymbol{y}$ using another variable $\boldsymbol{x} = (x_1, \cdots, x_n)^\prime$.
+
+In simple linear regression (SLR), we find $\beta_0$ and $\beta_1$ such that $\beta_0 + \beta_1 \boldsymbol{x}$ best explains $\boldsymbol{y}$. In other words, we find the vector in the subspace
+
+$$
+\mathcal{V} = \\{ \beta_0 \boldsymbol{1}_n + \beta_1 \boldsymbol{x} \mid \beta_0, \beta_1 \in \mathbb{R} \\}
+$$
+
+that is closest to $\boldsymbol{y}$.
+
+{{< figure src="projection_to_subspace.png" caption="Projection of $\boldsymbol{y}$ onto the subspace spanned by $\\{\boldsymbol{1}, \boldsymbol{x}\\|$." numbered="true" >}}
+
+So how do we find the projection $P(\boldsymbol{y} \mid \mathcal{V})$? $\\{ \boldsymbol{1}_n, \boldsymbol{x} \\}$ is a basis.
