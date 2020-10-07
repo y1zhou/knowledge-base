@@ -57,19 +57,19 @@ $$
 Another commonly used norm is the $L_1$ norm, which is
 
 $$
-\\|\boldsymbol{u}\\|_1 = \sum_{i=1}^n |u_i|
+\\|\boldsymbol{u}\\|_1 = \sum\_{i=1}^n |u_i|
 $$
 
 In general, the $L_p$ norm is defined as
 
 $$
-\\|\boldsymbol{u}\\|_p = \left(\sum_{i=1}^n |u_i|^p \right)^\frac{1}{p}
+\\|\boldsymbol{u}\\|_p = \left(\sum\_{i=1}^n |u_i|^p \right)^\frac{1}{p}
 $$
 
 and the norms for $0 \leq p \leq 2$ are extensively studied. The `sup-norm` is
 
 $$
-\\|\boldsymbol{u}\\|_\infty = \max_{1 \leq i \leq n} |u_i|
+\\|\boldsymbol{u}\\|_\infty = \max\_{1 \leq i \leq n} |u_i|
 $$
 
 and finally the $L_0$ norm is
@@ -82,8 +82,8 @@ Using the vector $\boldsymbol{u} - (1, 0, 3, -4)^\prime$ as an example, the norm
 
 $$
 \begin{aligned}
-    &\\|\boldsymbol{u}\\|_2 = \sqrt{1 + 9 + 16}, &&\\|\boldsymbol{u}\\|_1 = 1 + 3 + 4, \\\\
-    &\\|\boldsymbol{u}\\|_\infty = 4, &&\\|\boldsymbol{u}\\|_0 = 3
+    &\\|\boldsymbol{u}\\|_2 = \sqrt{1 + 9 + 16}, &&\\|\boldsymbol{u}\\|\_1 = 1 + 3 + 4, \\\\
+    &\\|\boldsymbol{u}\\|\_\infty = 4, &&\\|\boldsymbol{u}\\|_0 = 3
 \end{aligned}
 $$
 
@@ -99,7 +99,7 @@ The distance between two vectors is denoted $d(\boldsymbol{u}, \boldsymbol{v})$,
 The `Euclidean distance` ($L_2$ distance) is the most common choice:
 
 $$
-\\|\boldsymbol{u} - \boldsymbol{v}\\|_2 = \sqrt{\sum_{i=1}^n (u_i - v_i)^2}
+\\|\boldsymbol{u} - \boldsymbol{v}\\|\_2 = \sqrt{\sum\_{i=1}^n (u_i - v_i)^2}
 $$
 
 It has a very natural interpretation: imagine a line connecting the two endpoints of the vectors. The $L_2$ distance is the length of this line[^l1-distance].
