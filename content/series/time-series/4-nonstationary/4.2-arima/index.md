@@ -252,7 +252,11 @@ The mean is stabilized after first order differencing, and both and ACF and PACF
 
 ## Estimation, diagnosis and forecasting
 
-The procedure is exactly the same as before, except that we include a step of differencing now. Using the ARIMA(1, 1, 1) series as an example:
+The procedure is exactly the same as before, except that we include a step of differencing now.
+
+### Estimation and diagnosis
+
+Using the ARIMA(1, 1, 1) series as an example:
 
 ```r
 set.seed(1)
@@ -293,3 +297,73 @@ df.fit
 ```
 
 We can also use the `tsdiag()` function to view diagnosis plots of the residuals of our model. In this case most of the standardized residuals fall within the $\pm 2$ band, the ACF of the residuals showed no spikes, and all the p-values for the Ljung-Box test were high, suggesting no violation of the model assumptions.
+
+### Prediction
+
+To forecast future values, note that we have
+
+$$
+\begin{gathered}
+  (1 - \phi B)(1-B)X_t = (1 + \theta B)Z_t \\\\
+  (1 - \phi B)(X_t - X_{t-1}) = Z_t + \theta Z_{t-1} \\\\
+  X_t - X_{t-1} - \phi X_{t-1} + \phi X_{t-2} = Z_t + \theta Z_{t-1} \\\\
+  X_t = X_{t-1} + \phi X_{t-1} - \phi X_{t-2} + Z_t + \theta Z_{t-1}
+\end{gathered}
+$$
+
+This is an easier form to find the forecasts.
+
+$$
+\begin{aligned}
+  X_t &= (1 + \phi)X_{t-1} - \phi X_{t-2} + Z_t + \theta Z_{t-1} \\\\
+  X_t(1) &= E(X_{t+1} \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+  &= E((1 + \phi)X_t - \phi X_{t-1} + Z_{t+1} + \theta Z_t \mid X_t, X_{t-1}, \cdots, X_1) \\\\
+  &= (1+\phi)X_t - \phi X_{t-1} + E(Z_{t+1}) + \theta Z_t \\\\
+  &= (1+\phi)X_t - \phi X_{t-1} + \theta Z_t
+\end{aligned}
+$$
+
+Similarly we can find lag 2 and lag $k$ forecasts:
+
+$$
+\begin{gathered}
+  X_t(2) = (1 + \phi)X_t(1) - \phi X_t \\\\
+  X_t(k) = (1 + \phi)X_t(k-1) - \phi X_t(k-2), k = 3, 4, \cdots
+\end{gathered}
+$$
+
+The forecasting error and variance:
+
+$$
+\begin{gathered}
+  e_t(1) = X_{t+1} - X_t(1) = Z_{t+1} \\\\
+  Var(e_t(1)) = \sigma^2
+\end{gathered}
+$$
+
+Thus, the $100(1-\alpha)\\%$ prediction interval for $X_t(1)$ is
+
+$$
+(1 + \hat\phi)X_t - \hat\phi X_{t-1} + \hat\theta Z_t \pm z_\frac{\alpha}{2} \cdot \hat\sigma
+$$
+
+In R, the same `predict()` function applies. For example,
+
+```r
+predict(x.fit, 5)
+# $pred
+# Time Series:
+# Start = 102
+# End = 106
+# Frequency = 1
+# [1] 65.06095 65.16643 65.22567 65.25894 65.27762
+
+# $se
+# Time Series:
+# Start = 102
+# End = 106
+# Frequency = 1
+# [1] 2.645013 4.413980 5.978836 7.372155 8.621670
+```
+
+Notice that although we generated $n=100$ values, the prediction starts from $102$. Also if we ran `length(x)` we'd get $101$ instead of $100$. This is because we lose one time point after differencing, and the `arima.sim()` function considers that and simulates one extra value.

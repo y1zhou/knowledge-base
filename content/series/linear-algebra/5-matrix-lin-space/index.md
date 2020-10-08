@@ -177,3 +177,35 @@ that is closest to $\boldsymbol{y}$.
 {{< figure src="projection_to_subspace.png" caption="Projection of $\boldsymbol{y}$ onto the subspace spanned by $\\{\boldsymbol{1}, \boldsymbol{x}\\|$." numbered="true" >}}
 
 So how do we find the projection $P(\boldsymbol{y} \mid \mathcal{V})$? $\\{ \boldsymbol{1}_n, \boldsymbol{x} \\}$ is a basis.
+
+By definition, we have
+
+$$
+\begin{gathered}
+    P(\boldsymbol{y} \mid \mathcal{V}) = \beta_0 \boldsymbol{1}_n + \beta_1 \boldsymbol{x} \\\\
+    \begin{cases}
+        \boldsymbol{y} - (\beta_0 \boldsymbol{1}_n + \beta_1 \boldsymbol{x}) \cdot \boldsymbol{1}_n = 0 \\\\
+        \boldsymbol{y} - (\beta_0 \boldsymbol{1}_n + \beta_1 \boldsymbol{x}) \cdot \boldsymbol{x} = 0
+    \end{cases}
+    \Rightarrow \begin{cases}
+        \boldsymbol{y}^\prime \boldsymbol{1}_n - \beta_0 n - \beta_1 \boldsymbol{x}^\prime \boldsymbol{1}_n = 0 \\\\
+        \boldsymbol{y}^\prime \boldsymbol{x} - \beta_0 \boldsymbol{x}^\prime \boldsymbol{1}_n - \beta_1 \boldsymbol{x}^\prime \boldsymbol{x} = 0
+    \end{cases} \\\\
+    \hat\beta_0 = \bar{y} - \beta_1 \bar{x} \\\\
+    \hat\beta_1 = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2} = \frac{S\_{xy}}{S\_{xx}}
+\end{gathered}
+$$
+
+What we have here is
+
+$$
+\hat{y} = \hat\beta_0 + \hat\beta_1 \boldsymbol{x}
+$$
+
+which is the projection of $\boldsymbol{y}$ onto $\mathcal{V}$. To ensure that $\boldsymbol{1}_n$ and $\boldsymbol{x}$ are orthogonal, we can use Gram-Schmidt orthogonalization:
+
+$$
+\boldsymbol{1}_n, \boldsymbol{x} \xrightarrow{G-S} \boldsymbol{1}_n, \boldsymbol{x} - \bar{x}\boldsymbol{1}_n = \begin{pmatrix}
+    x_1 - \bar{x} \\\\ \vdots \\\\ x_n - \bar{x}
+\end{pmatrix}
+$$
