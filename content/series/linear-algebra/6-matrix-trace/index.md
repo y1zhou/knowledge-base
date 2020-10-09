@@ -67,7 +67,7 @@ We can also use this fact to show that $tr(\boldsymbol{A}^\prime \boldsymbol{A})
 
 -   $\boldsymbol{A}^\prime \boldsymbol{AB} = \boldsymbol{A}^\prime \boldsymbol{AC} \Leftrightarrow \boldsymbol{AB} = \boldsymbol{AC}$.
 
-This one is related to future statistical analyses. Again $\Leftarrow$ is obvious. To prove $\Rightarrow$, we will show $\boldsymbol{AB} = \boldsymbol{AC}$ by seeing that $tr((\boldsymbol{AB} - \boldsymbol{AC})^\prime (\boldsymbol{AB} - \boldsymbol{AC})) = 0$.
+This one is related to future statistical analyses (e.g. linear regression). Again $\Leftarrow$ is obvious. To prove $\Rightarrow$, we will show $\boldsymbol{AB} = \boldsymbol{AC}$ by seeing that $tr((\boldsymbol{AB} - \boldsymbol{AC})^\prime (\boldsymbol{AB} - \boldsymbol{AC})) = 0$.
 
 We start with $\boldsymbol{A}^\prime \boldsymbol{AB} - \boldsymbol{A}^\prime \boldsymbol{AC} = 0$.
 
@@ -81,3 +81,104 @@ $$
 $$
 
 We will use this fact to show that $\mathcal{C}(\boldsymbol{A}) = \mathcal{C}(\boldsymbol{AA}^\prime)$.
+
+### Recap on column spaces
+
+Say $\boldsymbol{A}$ is an $m \times n$ matrix. If vector $\boldsymbol{y} \in \mathcal{C}(\boldsymbol{A})$, it means $\boldsymbol{y} = \boldsymbol{Ax}$ for some $\boldsymbol{x}$. Similarly if $\boldsymbol{y} \in \mathcal{C}(\boldsymbol{A})^\perp$, then $\boldsymbol{y} \perp \mathcal{C}(\boldsymbol{A})$. Since $\boldsymbol{y}$ is orthogonal to each column of $\boldsymbol{A}$, we have
+
+$$
+\boldsymbol{y}^\prime \boldsymbol{a}_j = 0 \quad \forall j = 1, \cdots, n \Rightarrow \boldsymbol{y}^\prime \boldsymbol{A} = \boldsymbol{0}^\prime
+$$
+
+Similarly, if $\boldsymbol{y}^\prime \in \mathcal{R}(\boldsymbol{A})$, then $\boldsymbol{y}^\prime = \boldsymbol{x}^\prime \boldsymbol{A}$ for some $\boldsymbol{x}$, and
+
+$$
+\boldsymbol{y}^\prime \in \underbrace{\mathcal{R}(\boldsymbol{A})^\perp}\_{=N(\boldsymbol{A})} \Leftrightarrow \boldsymbol{Ay} = \boldsymbol{0}_{m \times 1}
+$$
+
+-   Suppose $\mathcal{W}, \mathcal{V}$ are subspaces in $\mathbb{R}^n$, and $\mathcal{W} \subset \mathcal{V}$. Then, $\mathcal{V}^\perp \subset \mathcal{W}^\perp$.
+
+We can express the subspaces as spans:
+
+$$
+\begin{gathered}
+    \mathcal{W} = \mathcal{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_k) \\\\
+    \mathcal{V} = \mathcal{L}(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_k, \boldsymbol{u}\_{k+1}, \cdots, \boldsymbol{u}_m)
+\end{gathered}
+$$
+
+For any $\boldsymbol{y} \in \mathcal{V}^\perp$, we have
+
+$$
+\boldsymbol{y} \perp \mathcal{V} \Leftrightarrow \boldsymbol{y} \perp \boldsymbol{u}_i, i = 1, \cdots, m
+$$
+
+Which means $\boldsymbol{y} \perp \boldsymbol{u}_i, i = 1, \cdots, k$, thus $\boldsymbol{y} \perp \mathcal{W}$ and $\boldsymbol{y} \in \mathcal{W}^\perp$.
+
+### Proof
+
+We're now ready to prove $\mathcal{C}(\boldsymbol{A}^\prime) = \mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A})$. Usually is not that easy to prove set equality directly. Often we prove the LHS is a subset of the RHS and vice versa.
+
+We first show that $\mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A}) \subset \mathcal{C}(\boldsymbol{A}^\prime)$. This is obvious because $\mathcal{C}(\boldsymbol{AB}) \subset \mathcal{C}(\boldsymbol{A})$.
+
+To show that $\mathcal{C}(\boldsymbol{A}^\prime) \subset \mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A})$, we will show $\mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A})^\perp \subset \mathcal{C}(\boldsymbol{A}^\prime)^\perp$ instead. For all $\boldsymbol{y} \in \mathcal{C}(\boldsymbol{A}^\prime \boldsymbol{A})^\perp$,
+
+$$
+\begin{gathered}
+    \quad \boldsymbol{y}^\prime \boldsymbol{A}^\prime \boldsymbol{A} = \boldsymbol{0}^\prime
+    \xrightarrow{transpose} \boldsymbol{A}^\prime \boldsymbol{Ay} = \boldsymbol{0}\_{n \times 1} \\\\
+    \Rightarrow \boldsymbol{Ay} = \boldsymbol{0}\_{m \times 1} \xrightarrow{transpose} \boldsymbol{y}^\prime \boldsymbol{A} = \boldsymbol{0}^\prime \\\\
+    \boldsymbol{y} \in \mathcal{C}(\boldsymbol{A}^\prime)^\perp
+\end{gathered}
+$$
+
+Similarly, we can show that
+
+$$
+\begin{gathered}
+    \mathcal{C}(\boldsymbol{A}) = \mathcal{C}(\boldsymbol{AA}^\prime) \\\\
+    \mathcal{R}(\boldsymbol{A}) = \mathcal{R}(\boldsymbol{A}^\prime \boldsymbol{A}) \\\\
+    r(\boldsymbol{A}) = r(\boldsymbol{AA}^\prime) = r(\boldsymbol{A}^\prime\boldsymbol{A})
+\end{gathered}
+$$
+
+## One-way ANOVA example
+
+Suppose matrix $\boldsymbol{A}$ is given by
+
+$$
+\boldsymbol{A} = \begin{pmatrix}
+    1 & 1 & 0 \\\\
+    1 & 1 & 0 \\\\
+    1 & 0 & 1 \\\\
+    1 & 0 & 1
+\end{pmatrix}
+$$
+
+We can easily see that the second the third columns are linearly independent, but the first column is the sum of the other two columns, so $r(\boldsymbol{A}) = 2$. The column space of $\boldsymbol{A}$ is a subspace of $\mathbb{R}^4$. Suppose the data we collected is
+
+$$
+\boldsymbol{y} = \begin{pmatrix}
+    2 \\\\ 1 \\\\ 3 \\\\ 5
+\end{pmatrix}
+$$
+
+In ANOVA, we're going to need two more matrices:
+
+$$
+\boldsymbol{A}^\prime \boldsymbol{A} = \begin{pmatrix}
+    4 & 2 & 2 \\\\
+    2 & 2 & 0 \\\\
+    2 & 0 & 2
+\end{pmatrix}, \quad \boldsymbol{A}^\prime \boldsymbol{y} = \begin{pmatrix}
+    11 \\\\ 3 \\\\ 8
+\end{pmatrix}
+$$
+
+and we need to solve for $\boldsymbol{\beta} \in \mathbb{R}^3$:
+
+$$
+\boldsymbol{A}^\prime \boldsymbol{A\beta} = \boldsymbol{A}^\prime \boldsymbol{y}
+$$
+
+We're interested in how to solve this, if the solution is unique, or does a solution even exist. The next chapter is dedicated to linear systems.
