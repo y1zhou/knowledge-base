@@ -1,7 +1,7 @@
 ---
 title: "ARIMA Models"
 date: 2020-10-05T11:31:11-04:00
-summary: "" # appears in list of posts
+summary: "Combining differencing and ARMA models and we get ARIMA. The procedures of estimation, diagnosis and forecasting are very similar as that of ARMA models." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: ["Time Series", "Visualization", "R"] # list of related tags
 
@@ -18,8 +18,8 @@ weight: 42 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Lego!" # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "kn-UmDZQDjM" # Unsplash ID of the picture
 ---
 
 Previously we introduced ARMA models that combined the power of autoregressive series and moving average models. Recall that when modeling a series using the `arima` function, the `order` parameter had three integer components $(p, d, q)$ and we always set $d=0$. The three integers are the AR order, the degree of differencing, and the MA order.
