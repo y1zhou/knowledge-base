@@ -82,7 +82,7 @@ $$
 \end{gathered}
 $$
 
-As indicated above, this methods requires the time series $X_t$ to be positive. If there exists negative values, a certain constant can be added. In R, we can use `FitAR::BoxCox()` to find the MLE and a 95% confidence interval for $\lambda$.
+As indicated above, this method requires the time series $X_t$ to be positive. If there exists negative values, a certain constant can be added. In R, we can use `FitAR::BoxCox()` to find the MLE and a 95% confidence interval for $\lambda$.
 
 ## Example of sunspot dataset
 
@@ -115,7 +115,7 @@ sp2 <- sqrt(sunspot.year)
 plot_time_series(sp2)
 ```
 
-{{< figure src="sqrt_sunspot_ts.png" caption="Time series plot, ACF and PACF of the square root transformed sunspot dataset." numbered="true" >}}
+{{< figure src="sqrt_sunspot_ts.png" caption="Time series plot, ACF and PACF of the square-root transformed sunspot dataset." numbered="true" >}}
 
 The variance of the transformed series is a lot stabler, although at some points (e.g. year 1800) it's still not constant. The ACF decreases with a sine wave pattern, and the PACF has spikes at lags 1, 2, and up[ to lag 9. AR(9) is a candidate for this dataset.
 
@@ -198,7 +198,7 @@ m1
 gg_diagnostic(m1)
 ```
 
-In the diagnostic plots, quite a few standardized residuals are over the $\pm 2$ range. the ACF only has a spike at lag 0, indicating no autocorrelation in the residuals. ALl p-values for the Ljung-Box tests are very high. Overall there doesn't seem to be major violations of our model assumptions.
+In the diagnostic plots, quite a few standardized residuals are over the $\pm 2$ range. the ACF only has a spike at lag 0, indicating no autocorrelation in the residuals. All p-values for the Ljung-Box tests are very high. Overall there doesn't seem to be major violations of our model assumptions.
 
 {{< figure src="sunspot_m1_diag.png" caption="Diagnostic plots for the AR(9) model." numbered="true" >}}
 
@@ -258,12 +258,12 @@ To further compare the other two models, we can check their AIC, BIC, number of 
 We then fit the entire dataset and get our final model:
 
 $$
-(1 - 1.2278B  +0.5479B^2 - 0.1132B^4  +0.1149B^5 - 0.2154B^9)(X_t - 6.3985) = Z_t
+(1 - 1.2278B  +0.5479B^2 - 0.1132B^4  +0.1149B^5 - 0.2154B^9)(\sqrt{X_t} - 6.3985) = Z_t
 $$
 
-with $\hat\sigma^2 = 1.116$. We can use this final model to predict future values. Note that the y-axis is still transformed, and we can take the square to visualize the original scale. We can also simplify the plotting code using the `plot(forecast(model, 20))` function from the R package `forecast`.
+with $\hat\sigma^2 = 1.116$. We can use this final model to predict future values. Note that the y-axis is still transformed, and we can take the square to visualize the original scale. We can also simplify the plotting code using the `plot(forecast(model, 20))` function from the R package `forecast`. The function also takes a `lambda` parameter that could automatically transform the series back to its original scale.
 
-{{< figure src="sqrt_sunspot_pred.png" caption="20 forecasts for the sunspots dataset. The y-axis is square root transformed." numbered="true" >}}
+{{< figure src="sqrt_sunspot_pred.png" caption="20 forecasts for the sunspots dataset. The y-axis is square-root transformed." numbered="true" >}}
 
 ## Summary
 
