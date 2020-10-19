@@ -43,7 +43,7 @@ This effect could be removed using `seasonal differencing`. But before that, let
 
 ## Seasonal ARMA
 
-A seasonal pattern occurs when a time series is affected by seasonal factors such as the time of the year or the day of the week. {{<hl>}}Seasonality is always of a fixed and known period{{</hl>}}. The `frequency` is the number of observations before the seasonal pattern repeats[^frequency-def].
+A seasonal pattern occurs when a time series is affected by seasonal factors such as the time of the year or the day of the week. {{<hl>}}Seasonality is always of a fixed and known period.{{</hl>}} The `frequency` is the number of observations before the seasonal pattern repeats[^frequency-def].
 
 [^frequency-def]: This is the opposite of the definition of frequency in physics, where this would be called the period and its inverse would be called the frequency.
 
@@ -231,3 +231,173 @@ $$
 is $ARMA(0, 1) \times (1, 1)_{12}$.
 
 ### ACF and PACF
+
+In this section we're going to explore the theoretical ACF and PACF of multiplicative seasonal ARMA models of different orders[^theoretical-acf-pacf-r]. Just like how the (P)ACF of ARMA models were combinations of the (P)ACF of AR and MA models, we can think of multiplicative seasonal ARMA models as overlaying another seasonal component on the (P)ACF.
+
+[^theoretical-acf-pacf-r]:
+    Here's the R code for plotting the theoretical ACF and PACF.
+
+    ```r
+    gg_acf_pacf <- function(x_acf, x_pacf, title) {
+    p1 <- enframe(x_acf) %>%
+        mutate_all(as.numeric) %>%
+        ggplot(aes(x = name, y = value)) +
+        geom_segment(aes(x = name, xend = name, y = 0, yend = value)) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = seq(0, 50, 5)) +
+        labs(x = "Lag", y = "Theoretical ACF")
+    p2 <- enframe(x_pacf) %>%
+        mutate_all(as.numeric) %>%
+        ggplot(aes(x = name, y = value)) +
+        geom_segment(aes(x = name, xend = name, y = 0, yend = value)) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = seq(5, 50, 5)) +
+        labs(x = "Lag", y = "Theoretical PACF")
+
+    (p1 + ggtitle(title)) | p2
+    }
+    ```
+
+Starting with $ARMA(1, 0) \times (0, 1)_{12}$, we can use the following code to find its theoretical ACF and PACF:
+
+```r
+arma10_01_acf <- ARMAacf(ar = 0.8,
+                         ma = c(rep(0, 11), -0.5),
+                         lag.max = 50)
+arma10_01_pacf <- ARMAacf(ar = 0.8,
+                          ma = c(rep(0, 11), -0.5),
+                          lag.max = 50, pacf = T)
+
+gg_acf_pacf(arma10_01_acf, arma10_01_pacf,
+            expression(ARMA(1, 0) %*% plain("(0, 1)")[12]))
+```
+
+We look at the seasonal component first. In the ACF we see a spike at lag 12, and in the PACF we see spikes at lags that are multiples of 12. For the regular ARMA component, recall that for an AR(1) model, the ACF exponentially decays and the PACF should be cut off after lag 1. As a result, our ACF exponentially decays within each period, and the PACF has spikes at lags 1, 13, 25, 36 etc.
+
+{{< figure src="arma10_01_12.png" >}}
+
+Next up we have an $ARMA(0, 1) \times (0, 1)_{12}$ model. For the seasonal component, again we see a spike at lag 12 in the ACF and tailing-off spikes at multiples of 12 in the PACF. The regular MA(1) model generates the spikes at lags 1, 11 and 13 for the ACF, and tailing off patterns between the periods for the PACF.
+
+{{< figure src="arma01_01_12.png" >}}
+
+In the third example we have an $ARMA(1, 0) \times (1, 0)_{12}$ model:
+
+$$
+(1 - \Phi B^{12})(1 - \phi B)X_t = Z_t
+$$
+
+where $\phi = 0.5$ and $\Phi = 0.8$. In the `ARMAacf()` function the coefficients are given as `ar = c(0.5, rep(0, 10), 0.8, -0.5 * 0.8)`. With the seasonal AR(1) component, we see a tail off pattern at multiples of 12 in the ACF, and a spike at lag 12 in the PACF. The regular AR(1) contributes to the tail off pattern between the periods in the ACF, and the spikes at lags 1 and 13 in the PACF.
+
+{{< figure src="arma10_10_12.png" >}}
+
+The last example is $ARIMA(1, 1) \times (0, 1)_{12}$. The MA(1) seasonal component gives us the spike at lag 12 in the ACF, and the tailing off spikes at multiples of 12 in the PACF. The regular ARMA(1, 1) generates the tailing off patterns between periods in both plots.
+
+{{< figure src="arma11_01_12.png" >}}
+
+### Simulated examples
+
+So far we've been looking at plots of the theoretical ACF and PACF, and it's already difficult in some cases to identify the orders. If we check the ACF of simulated data, it gets even messier:
+
+```r
+set.seed(1)
+x <- arima.sim(list(order = c(13, 0, 0), ar = c(0.5, rep(0, 10), 0.8, -0.5 * 0.8)), 100)
+x_acf <- forecast::Acf(x, lag.max = 50, plot = F)
+x_pacf <- forecast::Pacf(x, lag.max = 50, plot = F)
+
+p1 <- gg_acf(x_acf)
+p2 <- gg_acf(x_pacf)
+
+(p1 + ggtitle(expression(plain(Simulated)~ARMA(1, 0) %*% plain("(1, 0)")[12])))
+```
+
+As we can see here, the tailing off at multiples of 12 in the ACF and the spike at lag 12 in the PACF coming from the seasonal AR(1) is still visible. Patterns from the regular AR(1) could also be seen, but clearly it's much more challenging to identify them compared with the third example above.
+
+{{< figure src="arma10_10_12_sim.png" >}}
+
+If we look at the plots for 100 observations simulated from the following model:
+
+$$
+(1 - 0.7B)X_t = (1 + 0.8B^{12})(1 - 0.5B)Z_t
+$$
+
+{{< figure src="arma11_01_12_sim.png" >}}
+
+Once again the patterns are not so clear-cut. We can also fit the true model and see how close the estimated parameters are:
+
+```r
+set.seed(1)
+x <- arima.sim(list(order = c(1, 0, 13), ar = 0.7,
+                    ma = c(-0.5, rep(0, 10), 0.8, -0.5*0.8)), 100)
+arima(x, order = c(1, 0, 1), include.mean = F,
+      seasonal = list(order = c(0, 0, 1), period = 12))
+# Call:
+# arima(x = x, order = c(1, 0, 1), seasonal = list(order = c(0, 0, 1), period = 12),
+#     include.mean = F)
+
+# Coefficients:
+#          ar1      ma1    sma1
+#       0.5510  -0.3742  0.8811
+# s.e.  0.2657   0.2887  0.2162
+
+# sigma^2 estimated as 0.6803:  log likelihood = -131.05,  aic = 270.09
+```
+
+## Seasonal ARIMA
+
+The idea behind the "I" in the seasonal ARIMA model is the same as when we combined differencing and ARMA models. If we observe a seasonal pattern in the time series plot, and the ACF slowly decreasing at multiples of the period, then we might want to apply seasonal differencing.
+
+### Seasonal differencing
+
+The `seasonal difference` is denoted $\nabla^S = 1 - B^S$. For example,
+
+$$
+(1 - B^{12})X_t = X_t - X_{t-12}
+$$
+
+This difference above is used with monthly data that exhibits seasonality. The idea is that differences from the previous year may be (on average) about the same for each month of a year.
+
+We have to decide the period $S$ in advance. For quarterly or monthly data, it's straightforward to just use $S = 4$ or $S = 12$. For other more complicated cases, we're going to use periodograms to help determine the period in a later chapter.
+
+Formally speaking, suppose our model can be decomposed into a seasonal component and white noise
+
+$$
+X_t = S_t + Z_t, \quad t = 1, 2, \cdots, T
+$$
+
+where $E(Z_t) = 0$, $S_{t+d} = S_t$, and $\sum_{j=1}^d S_j = 0$. Here $d$ is the period, so we're assuming the seasonal effect in say May this year is the same as the effect in May of last year. Then, to eliminate the seasonal component by differencing, we may use the lag-$d$ differencing operator:
+
+$$
+(1 - B^d)X_t = X_t - X_{t-d} = Z_t - Z_{t-d}
+$$
+
+If a trend and a seasonal component appear together, we may remove the seasonal trend with seasonal differencing[^order-of-differencing], and then remove the trend by applying a regression model, nonparametric smoothing, or regular differencing.
+
+[^order-of-differencing]: It doesn't really matter which differencing comes first. We can also remove the regular trend first and then deal with the seasonal trend.
+
+### Seasonal data simulation
+
+Let's try simulating a series and applying seasonal differencing on it. Our data generating model is
+
+$$
+Y_t = 1 + 2t + 20\sin(0.1\pi t) + X_t, \quad X_t \sim MA(1) = Z_t + 0.5 Z_{t-1}
+$$
+
+The `1 + 2t` part is a linearly increasing trend, and the `sin()` part is a seasonal component. The period is $2\pi / 0.1\pi = 20$.
+
+```r
+t <- seq(100)
+y <- 1 + 2*t + 20*sin(0.1*pi*t) +
+  arima.sim(list(order = c(0, 0, 1), ma = 0.5),
+            sd = 2, n = 100)
+```
+
+The same function `diff()` is used for differencing and seasonal differencing.
+
+```r
+dy <- diff(y, differences = 1)  # differencing
+dys <- diff(dy, lag = 20)  # seasonal differencing
+```
+
+After regular differencing, the increasing trend is removed from $Y_t$, but there's still a seasonal trend. The deseasonalized series shows none of the patterns observed in `y` or `dy`.
+
+{{< figure src="seasonal_diff.png" >}}
