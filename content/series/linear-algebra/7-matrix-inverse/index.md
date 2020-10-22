@@ -1,9 +1,9 @@
 ---
 title: "Matrix Inverse"
 date: 2020-10-12T12:42:03-04:00
-summary: "... for a nonsingular matrix." # appears in list of posts
+summary: "...for a nonsingular matrix. We talk about left and right inverses, *the* matrix inverse and orthogonal matrices." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra"] # list of related tags
+tags: ["Linear Algebra", "Matrix"] # list of related tags
 
 slug: "linear-algebra-matrix-inverse"
 toc: true # table of contents button in post
@@ -209,4 +209,10 @@ The identity matrix is also obviously orthogonal. We can also permute the column
 
     $$
     (\boldsymbol{Px})'(\boldsymbol{Px}) = \boldsymbol{x}'\boldsymbol{P}'\boldsymbol{Px} = \boldsymbol{x}'\boldsymbol{x} = \\|\boldsymbol{x}\\|^2
+    $$
+
+-   For any vector $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{R}^n$, their inner product is not changed by pre-multiplying an orthogonal matrix
+
+    $$
+    (\boldsymbol{Px})'(\boldsymbol{Py}) = \boldsymbol{x}'\boldsymbol{y}
     $$

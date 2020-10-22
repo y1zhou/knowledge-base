@@ -344,7 +344,7 @@ arima(x, order = c(1, 0, 1), include.mean = F,
 
 ## Seasonal ARIMA
 
-The idea behind the "I" in the seasonal ARIMA model is the same as when we combined differencing and ARMA models. If we observe a seasonal pattern in the time series plot, and the ACF slowly decreasing at multiples of the period, then we might want to apply seasonal differencing.
+The idea behind the "I" in the seasonal ARIMA (SARIMA) model is the same as when we combined differencing and ARMA models. If we observe a seasonal pattern in the time series plot, and the ACF slowly decreasing at multiples of the period, then we might want to apply seasonal differencing.
 
 ### Seasonal differencing
 
@@ -401,3 +401,94 @@ dys <- diff(dy, lag = 20)  # seasonal differencing
 After regular differencing, the increasing trend is removed from $Y_t$, but there's still a seasonal trend. The deseasonalized series shows none of the patterns observed in `y` or `dy`.
 
 {{< figure src="seasonal_diff.png" >}}
+
+### SARIMA model
+
+If $d$ and $D$ are non-negative integers, then $\\{X_t\\}$ is a seasonal $ARIMA(p, d, q) \times (P, D, Q)_s$ process with period $s$ if the differenced series $Y_t = (1 - B)^d (1 - B^s)D X_t$ is an ARMA process. The full model is
+
+$$
+\phi(B)\Phi(B)(1 - B)^d(1 - B^s)^D X_t = \theta(B)\Theta(B)Z_t
+$$
+
+where we have the terms in the order of regular AR, seasonal AR, regular differencing, seasonal differencing, regular MA and seasonal MA. Typically we set $D = 1$.
+
+For example, the model $SARIMA(1, 0, 1) \times (0, 1, 1)_6$ can be written as
+
+$$
+(1 - \phi B) (1 - B^6)X_t = (1 + \theta B)(1 + \Theta B^6)Z_t,
+$$
+
+and the model $SARIMA(0, 1, 2) \times (1, 1, 0)_{12}$ can be written as
+
+$$
+(1 - \Phi B^{12}) (1 - B)(1 - B^{12}) X_t = (1 + \theta_1 B + \theta_2 B^2)Z_t.
+$$
+
+If we increase some of the orders to two $(0, 1, 2) \times (2, 2, 1)_{12}$, the model gets a lot more complicated:
+
+$$
+(1 - \Phi_1 B^{12} - \Phi_2 B^{24}) (1 - B) (1 - B^{12})^2 X_t = (1 + \theta_1 B + \theta_2 B^2)(1 + \Theta B^{12})Z_t
+$$
+
+Multiplicative means that we're constructing the regular and seasonal AR/MA polynomials separately and then multiplying them together. Consider the simplest case of $(0, 0, 1) \times (0, 0, 1)_{12}$, we have
+
+$$
+\begin{aligned}
+    X_t &= (1 + \theta B)(1 + \Theta B^{12})Z_t \\\\
+    &= Z_t + \theta Z_{t-1} + \Theta Z_{t-12} + \theta\Theta Z_{t-13}
+\end{aligned}
+$$
+
+In this multiplicative case, we only need to estimate two parameters: $\theta$ and $\Theta$. If this was additive, it would be an MA(13) model.
+
+### SARIMA in R
+
+In R, we use the same `arima()` function for SARIMA models, only this time we need to specify one more parameter `seasonal`. Just like what we did at [the end of this section](#simulated-examples), the parameter should be a named list with elements `order` and `period` where `order` is a numeric vector of length 3 specifying $P$, $D$, and $Q$.
+
+When analyzing a series, the procedure is basically the same as that for the ARIMA model. One nuisance is the ADF test should be performed on the deseasonalized (but not regular-differenced) data. Once all the orders are figured out, use the original series in the `arima()` function.
+
+## Examples of seasonal differencing
+
+In real data analysis, we usually first determine $d$, $s$ and $D$, then $P$ and $Q$ from the ACF and PACF with $s$ lags, and finally $p$ and $q$ from the regular ACF and PACF. Here we are going to give some examples of applying seasonal differencing for different processes.
+
+### Stochastic trend
+
+We have a seasonal random walk plus a white noise
+
+$$
+X_t = S_t + Z_t, \quad S_t = S_{t-s} + \epsilon_t
+$$
+
+where $Z_t$ and $\epsilon_t$ are independent WNs with variances $\sigma^2$ and $\sigma_\epsilon^2$, respectively. Let's see what happens after seasonal differencing:
+
+$$
+\begin{aligned}
+    \nabla^s X_t &= X_t - X_{t-s} \\\\
+    &= S_t + Z_t - (S_{t-s} + Z_{t-s}) \\\\
+    &= S_t - S_{t-s} + Z_t - Z_{t-s} \\\\
+    &= \epsilon_t + Z_t - Z_{t-s}
+\end{aligned}
+$$
+
+which is an $MA(1)_s$, a stationary series that's a linear combination of normal random variables. In fact, we can replace $Z_t$ with any stationary time series, and seasonal differencing would still be able to remove the seasonal random walk trend.
+
+### Random walk and seasonal random walk
+
+The second example adds a random walk to the previous one:
+
+$$
+X_t = M_t + S_t + Z_t, \quad S_t = S_{t-s} + \epsilon_t, \quad M_t = M_{t-1} + \xi_t
+$$
+
+where $Z_t$, $\epsilon_t$ and $\xi_t$ are independent WNs. To remove the trends, we need regular differencing and seasonal differencing:
+
+$$
+\begin{aligned}
+    \nabla \nabla^s X_t &= \nabla(M_t + S_t + Z_t - M_{t-s} - S_{t-s} - Z_{t-s}) \\\\
+    &= \nabla(M_t - M_{t-s} + \epsilon_t + Z_t - Z_{t-s}) \\\\
+    &= (M_t - M_{t-s} + \epsilon_t + Z_t - Z_{t-s}) - (M_{t-1} - M_{t-s-1} + \epsilon_{t-1} + Z_{t-1} - Z_{t-s-1}) \\\\
+    &= \xi_t - \xi_{t-s} + \epsilon_t - \epsilon_{t-1} + Z_t - Z_{t-1} - Z_{t-s} + Z_{t-s-1}
+\end{aligned}
+$$
+
+The remaining part is again statioary. In fact, it's a SARIMA $(0, 0, 1) \times (0, 0, 1)_s$ process.
