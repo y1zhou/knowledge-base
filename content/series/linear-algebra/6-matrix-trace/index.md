@@ -1,9 +1,9 @@
 ---
 title: "Matrix Trace"
 date: 2020-10-07T13:07:16-04:00
-summary: "" # appears in list of posts
+summary: "Such a simple concept with so many properties and applications!" # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: [] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Operation", "Statistics"] # list of related tags
 
 slug: "linear-algebra-matrix-trace"
 toc: true # table of contents button in post
@@ -18,8 +18,8 @@ weight: 60 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Night sky with stars." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "SGX0EAkJyqQ" # Unsplash ID of the picture
 ---
 
 The `trace` of a square matrix $\boldsymbol{A}: n \times n$ is the sum of the diagonals:

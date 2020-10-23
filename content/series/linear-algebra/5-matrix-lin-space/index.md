@@ -18,8 +18,8 @@ weight: 50 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "74 Bowne St, Brooklyn, NY" # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "FQ06bmigBqg" # Unsplash ID of the picture
 ---
 
 In the previous two sections (vector space and geometrical considerations) we've been focusing on vector operations and properties. Now we're ready to come back to matrices. Associated with any matrix is a very important characteristic called the rank. There are several (consistent) ways of defining the rank. The most fundamental of these is in terms of the dimension of a linear space.
