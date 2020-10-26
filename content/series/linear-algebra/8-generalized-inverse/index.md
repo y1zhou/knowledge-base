@@ -22,7 +22,7 @@ header_image:
     unsplash_id: "PKjeiYAUm0M" # Unsplash ID of the picture
 ---
 
-In the previous chapter we discussed the inverse for non-singular matrices.
+In the previous chapter we discussed the matrix inverse, which was only meaningful for non-singular matrices. What about matrices that are not square, or don't have full rank?
 
 Let $\boldsymbol{A}$ be an $m \times n$ matrix with rank $r$. $\boldsymbol{G}: n \times m$ is the `generalized inverse` of $\boldsymbol{A}$, denoted by $\boldsymbol{A}^{-}$, that satisfies
 
@@ -134,18 +134,40 @@ $$
     \boldsymbol{A} = \boldsymbol{X}'\boldsymbol{X}, \quad \boldsymbol{B} = \boldsymbol{X}, \quad \boldsymbol{C} = \boldsymbol{X}'
     $$
 
-    See that $\mathcal{R}(\boldsymbol{B}) \subset \mathcal{R}(\boldsymbol{A})$ and $\mathcal{C}(\boldsymbol{C}) \subset \mathcal{C}(\boldsymbol{A})$. The predicted values are
+    See that $\mathcal{R}(\boldsymbol{B}) \subset \mathcal{R}(\boldsymbol{A})$ and $\mathcal{C}(\boldsymbol{C}) \subset \mathcal{C}(\boldsymbol{A})$ (they are actually equal). The predicted values for the response variable are
 
     $$
     \hat{\boldsymbol{y}} =\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^- \boldsymbol{X}'\boldsymbol{y} = \boldsymbol{BA}^- \boldsymbol{Cy}
     $$
 
-    This means that although there's infinitely number of choices
-
-    > TODO
+    This means that when $\boldsymbol{X}'\boldsymbol{X}$ is rank-deficient, although there's infinitely number of choices for the generalized inverse, the result of $\boldsymbol{X}(\boldsymbol{X}'\boldsymbol{X})^- \boldsymbol{X}'$ is invariant.
 
 -   If $\boldsymbol{A}$ has full row rank $m$, then $\boldsymbol{A}'(\boldsymbol{AA}')^{-1}$ is a right inverse.
 
     If $r(\boldsymbol{A}) = n$, then $(\boldsymbol{A}'\boldsymbol{A})^{-1}$ is a left inverse.
 
--   $\boldsymbol{A}'(\boldsymbol{AA}')^-$ is a generalized inverse of $\boldsymbol{A}$, and so is $(\boldsymbol{A}'\boldsymbol{A})^- \boldsymbol{A}$.
+-   $\boldsymbol{A}'(\boldsymbol{AA}')^-$ is a generalized inverse of $\boldsymbol{A}$, and so is $(\boldsymbol{A}'\boldsymbol{A})^- \boldsymbol{A}'$.
+
+    To show that a matrix $\boldsymbol{A}$ is the generalized inverse of some other matrix $\boldsymbol{B}$, the only way is to show $\boldsymbol{ABA} = \boldsymbol{A}$. In this case, we need to show $\boldsymbol{A} \boldsymbol{A}'(\boldsymbol{AA}')^- \boldsymbol{A} = \boldsymbol{A}$.
+
+    Note the fact that $(\boldsymbol{AA}')^-$ is the generalized inverse of $\boldsymbol{AA}'$, so
+
+    $$
+    (\boldsymbol{AA}') (\boldsymbol{AA}')^- (\boldsymbol{AA}') = \boldsymbol{AA}'
+    $$
+
+    Recall that $\boldsymbol{BAA}' = \boldsymbol{CAA}' \Longleftrightarrow \boldsymbol{BA} = \boldsymbol{CA}$, so if we set $\boldsymbol{B} = \boldsymbol{AA}'(\boldsymbol{AA}')^-$ and $\boldsymbol{C} = \boldsymbol{I}$, we can use this fact to get the equation that we want to prove.
+
+    This is another method to find the generalized inverse. Let's say we have
+
+    $$
+    \boldsymbol{A} = \begin{pmatrix}
+        0 & 0 & 0 \\\\
+        0 & 4 & 2 \\\\
+        0 & -2 & -1 \\\\
+        0 & 3 & 3 \\\\
+        0 & 8 & 4
+    \end{pmatrix}
+    $$
+
+    and we want to find its generalized inverse. We may instead find $\boldsymbol{A}'\boldsymbol{A}$, and $(\boldsymbol{AA}')^-\boldsymbol{A}'$ would be a generalized inverse of $\boldsymbol{A}$.
