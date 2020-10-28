@@ -1,9 +1,9 @@
 ---
 title: "Seasonal Time Series"
 date: 2020-10-13T23:36:46-04:00
-summary: "" # appears in list of posts
+summary: "We introduce seasonal differencing, seasonal ARMA models, and combine them to get SARIMA models." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
-tags: ["Time Series", "R"] # list of related tags
+tags: ["Time Series", "R", "Visualization"] # list of related tags
 
 slug: "seasonal-time-series"
 toc: true # table of contents button in post

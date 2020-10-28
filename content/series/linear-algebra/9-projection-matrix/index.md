@@ -1,9 +1,9 @@
 ---
 title: "Projection Matrix"
 date: 2020-10-23T13:21:22-04:00
-summary: "" # appears in list of posts
+summary: "We introduce idempotent matrices and the projection matrix. Both are very important concepts in statistical analyses such as linear regression." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra", "Matrix"] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Operation", "Statistics", "Regression"] # list of related tags
 
 slug: "linear-algebra-projection-matrix"
 toc: true # table of contents button in post
@@ -18,8 +18,8 @@ weight: 90 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Shadows of a green plant." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "hpx01Hfs9QY" # Unsplash ID of the picture
 ---
 
 ## Idempotent matrix

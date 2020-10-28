@@ -3,7 +3,13 @@ title: "Matrix Trace"
 date: 2020-10-07T13:07:16-04:00
 summary: "Such a simple concept with so many properties and applications!" # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra", "Matrix", "Operation", "Statistics"] # list of related tags
+tags: [
+        "Linear Algebra",
+        "Matrix",
+        "Operation",
+        "Statistics",
+        "Statistical Test",
+    ] # list of related tags
 
 slug: "linear-algebra-matrix-trace"
 toc: true # table of contents button in post

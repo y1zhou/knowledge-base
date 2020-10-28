@@ -3,7 +3,7 @@ title: "Matrix Inverse"
 date: 2020-10-12T12:42:03-04:00
 summary: "...for a nonsingular matrix. We talk about left and right inverses, *the* matrix inverse and orthogonal matrices." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra", "Matrix"] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Visualization"] # list of related tags
 
 slug: "linear-algebra-matrix-inverse"
 toc: true # table of contents button in post

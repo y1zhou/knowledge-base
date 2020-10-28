@@ -3,7 +3,7 @@ title: "Definitions in Arbitrary Linear Space"
 date: 2020-09-14T20:28:58-04:00
 summary: "This chapter provides an introduction to some fundamental geometrical ideas and results. We start by giving definitions for norm, distance, angle, inner product and orthogonality. The Cauchy-Schwarz inequality comes useful in many settings." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra", "Operations"] # list of related tags
+tags: ["Linear Algebra", "Operations", "Visualization"] # list of related tags
 
 slug: "linear-algebra-definitions-in-arbitrary-linear-space"
 toc: true # table of contents button in post

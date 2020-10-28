@@ -1,9 +1,9 @@
 ---
 title: "Generalized Inverse"
 date: 2020-10-21T12:45:56-04:00
-summary: "" # appears in list of posts
+summary: "The generalized matrix inverse that applies to any $m \\times n$ matrix." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra", "Matrix"] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Operation"] # list of related tags
 
 slug: "linear-algebra-generalized-inverse"
 toc: true # table of contents button in post

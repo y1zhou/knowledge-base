@@ -3,7 +3,7 @@ title: "Linear Space of Matrices"
 date: 2020-09-30T13:23:18-04:00
 summary: "The column space, row space and rank of a matrix and their properties." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra"] # list of related tags
+tags: ["Linear Algebra", "Visualization"] # list of related tags
 
 slug: "linear-algebra-matrix-linear-space"
 toc: true # table of contents button in post

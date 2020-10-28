@@ -18,8 +18,8 @@ weight: 21 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Chart of stock shares." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "IrRbSND5EUc" # Unsplash ID of the picture
 ---
 
 In this chapter, we introduce some of the key properties of an important class of time series known as ARMA (autoregressive moving average) series.
