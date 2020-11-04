@@ -109,7 +109,7 @@ $$
 \end{aligned}
 $$
 
-## Properties
+## Properties of the determinant
 
 Knowing how to calculate the determinant is far less important than knowing its properties. For larger matrices we almost always use software to find the deterinant.
 
@@ -192,4 +192,100 @@ Then the inverse of $\boldsymbol{A}$ can be found by
 
 $$
 \boldsymbol{A}^{-1} = \frac{1}{|\boldsymbol{A}|}\boldsymbol{A}^*
+$$
+
+Using the same example above, we have
+
+$$
+\begin{aligned}
+    |\boldsymbol{A}| &= 0 \times (-1)^{3+1} \left| \begin{pmatrix}
+        2 & 3 \\\\ 4 & 5
+    \end{pmatrix} \right| +
+    1 \times (-1)^{3+2} \left| \begin{pmatrix}
+        1 & 3 \\\\ 2 & 5
+    \end{pmatrix} \right| +
+    6 \times (-1)^{3+3} \left| \begin{pmatrix}
+        1 & 2 \\\\ 2 & 4
+    \end{pmatrix} \right| \\\\
+    &= -1 \times (-1) + 6 \times 0 \\\\
+    &= 1
+\end{aligned}
+$$
+
+So the inverse of $\boldsymbol{A}$ is just $\boldsymbol{A}^*$ in this case.
+
+### Properties of matrix inverse
+
+1. $|\boldsymbol{A}^{-1}| = \frac{1}{|\boldsymbol{A}|}$.
+
+    Since $\boldsymbol{AA}^{-1} = \boldsymbol{I}$,
+
+    $$
+    |\boldsymbol{AA}^{-1}| = |\boldsymbol{A}| |\boldsymbol{A}^{-1}| = 1
+    $$
+
+    Since $|\boldsymbol{A}| \neq 0$, we have
+
+    $$
+    |\boldsymbol{A}^{-1}| = \frac{1}{|\boldsymbol{A}|} = |\boldsymbol{A}|^{-1}
+    $$
+
+2. If $\boldsymbol{A}$ is non-singular and symmetric, $\boldsymbol{A}^{-1}$ is also non-singular and symmetric, i.e. $(\boldsymbol{A}^{-1})' = \boldsymbol{A}^{-1}$.
+
+    Again since $\boldsymbol{AA}^{-1} = \boldsymbol{I}$, if we take the transpose of both sides:
+
+    $$
+    \left(\boldsymbol{AA}^{-1} \right)' = \boldsymbol{I} = (\boldsymbol{A}^{-1})'\boldsymbol{A}' = (\boldsymbol{A}^{-1})'\boldsymbol{A}
+    $$
+
+    Thus we have $(\boldsymbol{A}^{-1})' = \boldsymbol{A}^{-1}$. As the inverse matrix is unique, it must be the same inverse that we started with.
+
+3. $(a\boldsymbol{I}_n + b \boldsymbol{J}_n)^{-1} = \frac{1}{a} \left(\boldsymbol{I}_n - \frac{b}{a + nb}\boldsymbol{J}_n \right)$. If $a=0$, the matrix is singular and the inverse doesn't exist. The proof for this is trivial, but it's a very important equation that's frequently used in statistical analyses such as time series analysis.
+
+    Note that the inverse also has a structure of $c\boldsymbol{I} + d\boldsymbol{J}$.
+
+4. $(\boldsymbol{A} + \boldsymbol{CBD})^{-1} = \boldsymbol{A}^{-1} - \boldsymbol{A}^{-1}\boldsymbol{C}(\boldsymbol{B}^{-1} + \boldsymbol{DA}^{-1}\boldsymbol{C})^{-1}\boldsymbol{DA}^{-1}$, assuming all inverses exist. Some special cases for this are:
+
+    1. $(\boldsymbol{A} + \boldsymbol{B})^{-1} = \boldsymbol{A}^{-1} - \boldsymbol{A}^{-1}(\boldsymbol{B}^{-1} + \boldsymbol{A}^{-1})^{-1}\boldsymbol{A}^{-1}$. This is also equal to $\boldsymbol{B}^{-1} - \boldsymbol{B}^{-1}(\boldsymbol{A}^{-1} + \boldsymbol{B}^{-1})^{-1}\boldsymbol{B}^{-1}$.
+    2. If $\boldsymbol{B} = \boldsymbol{I}$ and $\boldsymbol{C} = \boldsymbol{c}$, $\boldsymbol{D} = \boldsymbol{d}'$, then
+
+        $$
+        \begin{aligned}
+            (\boldsymbol{A} + \boldsymbol{cd}')^{-1} &= \boldsymbol{A}^{-1} - \boldsymbol{A}^{-1}\boldsymbol{c}(\boldsymbol{I} + \boldsymbol{d}'\boldsymbol{A}^{-1}\boldsymbol{c})^{-1}\boldsymbol{d}'\boldsymbol{A}^{-1} \\\\
+            &= \boldsymbol{A}^{-1} - \frac{\boldsymbol{A}^{-1}\boldsymbol{cd}'\boldsymbol{A}^{-1}}{1 + \boldsymbol{d}'\boldsymbol{A}^{-1}\boldsymbol{c}}
+        \end{aligned}
+        $$
+
+        To understand this, see that $\boldsymbol{B}$ must be a scalar as its dimensions are limited by $\boldsymbol{c}: n \times 1$ and $\boldsymbol{d}': 1 \times n$.
+
+5. For block-diagonals,
+
+    $$
+    \boldsymbol{A} = \begin{pmatrix}
+        \boldsymbol{A}\_{11} & \boldsymbol{0} \\\\
+        \boldsymbol{0} & \boldsymbol{A}\_{22}
+    \end{pmatrix}, \quad
+    \boldsymbol{A}^{-1} = \begin{pmatrix}
+        \boldsymbol{A}\_{11}^{-1} & \boldsymbol{0} \\\\
+        \boldsymbol{0} & \boldsymbol{A}\_{22}^{-1}
+    \end{pmatrix}
+    $$
+
+6. Another fact for block matrices that's really important in regression analysis (see [graphical models](https://en.wikipedia.org/wiki/Graphical_model) for more information):
+
+$$
+\boldsymbol{A} = \left(\begin{array}{c|c}
+    \boldsymbol{A}\_{11} & \boldsymbol{A}\_{12} \\\\
+    \hline
+    \boldsymbol{A}\_{21} & \boldsymbol{A}\_{22}
+\end{array}\right)
+$$
+
+Let $\boldsymbol{A}\_{11 \cdot 2} = \boldsymbol{A}\_{11} - \boldsymbol{A}\_{12}\boldsymbol{A}\_{22}^{-1}\boldsymbol{A}\_{21}$, and $\boldsymbol{A}\_{22 \cdot 1} = \boldsymbol{A}\_{22} - \boldsymbol{A}\_{21} \boldsymbol{A}\_{11}^{-1} \boldsymbol{A}\_{12}$. The structure of these seemingly complex formulae is important for understanding regression.
+
+$$
+\boldsymbol{A}^{-1} = \begin{pmatrix}
+    \boldsymbol{A}\_{11 \cdot 2}^{-1} & -\boldsymbol{A}\_{11}^{-1} \boldsymbol{A}\_{12} \boldsymbol{A}\_{22 \cdot 1}^{-1} \\\\
+    -\boldsymbol{A}\_{22 \cdot 1}^{-1} \boldsymbol{A}\_{21} \boldsymbol{A}\_{11 \cdot 2} & \boldsymbol{A}\_{22 \cdot 1}^{-1}
+\end{pmatrix}
 $$
