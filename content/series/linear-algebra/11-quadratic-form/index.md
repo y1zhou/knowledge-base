@@ -193,3 +193,65 @@ On the opposite side of NND matrices, we have non-positive definite (NPD) matric
 Given a real number $x$, if we say $x$ is not non-negative, then $x$ is negative. However, things are different for matrices. If a matrix is not NND, we can't safely say it's NPD. There exists a big "gray area" in the middle for matrices that are neither NND nor NPD called `indefinite` matrices. For those, $\boldsymbol{x}'\boldsymbol{Ax}$ can be negative and positive depending on $\boldsymbol{x}$.
 
 {{< figure src="matrix_types.png" >}}
+
+## Properties
+
+1.  If $\boldsymbol{A}$ is NND/PD/PSD, then $-\boldsymbol{A}$ is NPD/ND/NSD, respectively.
+2.  If $\boldsymbol{D}$ is a diagonal matrix $\boldsymbol{D} = diag(d_1, \cdots, d_n)$, then
+
+    $$
+    d_i \geq 0 \\, \forall i \Longleftrightarrow \boldsymbol{D} \text{ is NND}
+    $$
+
+    This is because
+
+    $$
+    \boldsymbol{x}'\boldsymbol{Dx} = d_1x_1^2 + d_2x_2^2 + \cdots + d_nx_n^2 \geq 0
+    $$
+
+    Following the same logic, we have
+
+    $$
+    d_i > 0 \\, \forall i \Longleftrightarrow \boldsymbol{D} \text{ is PD}
+    $$
+
+3.  Multiplying a positive scalar to $\boldsymbol{A}$ does not change the definiteness.
+4.  If $\boldsymbol{A}$ and $\boldsymbol{B}$ are both NND, then $\boldsymbol{A} + \boldsymbol{B}$ is NND[^nnd-other-cases].
+
+    $$
+    \boldsymbol{x}'(\boldsymbol{A} + \boldsymbol{B})\boldsymbol{x} = \boldsymbol{x}'\boldsymbol{Ax} + \boldsymbol{x}'\boldsymbol{Bx} \geq 0
+    $$
+
+    Similarly if $\boldsymbol{A}$ and $\boldsymbol{B}$ are both PD, then $\boldsymbol{A} + \boldsymbol{B}$ is PD.
+
+    However, if $\boldsymbol{A}$ and $\boldsymbol{B}$ are both PSD, $\boldsymbol{A} + \boldsymbol{B}$ is not necessarily PSD. $\boldsymbol{A} + \boldsymbol{B}$ is NND, but it could be PD or PSD.
+
+    Finally, if $\boldsymbol{A}$ is PSD and $\boldsymbol{B}$ is PD, then $\boldsymbol{A} + \boldsymbol{B}$ is PD.
+
+[^nnd-other-cases]: These conclusions cannot be generalized to $\boldsymbol{A} - \boldsymbol{B}$ or $\boldsymbol{AB}$.
+
+5. {{<hl>}}A PD matrix is non-singular.{{</hl>}} An important corollary of this is that a PSD matrix is singular. This is one of the reasons why we put an emphasis on differentiating these two cases -- singularity comes with a lot of properties!
+
+    To prove this, suppose $\boldsymbol{A}$ is singular. This means that the nullspace of $\boldsymbol{A}$ is not empty, i.e. there exists $\boldsymbol{x} \neq \boldsymbol{0}$ such that $\boldsymbol{x} \in \mathcal{N}(\boldsymbol{A})$. We then have
+
+    $$
+    \boldsymbol{Ax} = \boldsymbol{0} \Rightarrow \boldsymbol{x}'\boldsymbol{Ax} = 0
+    $$
+
+    We have found a non-zero $\boldsymbol{x}$ that can make the quadratic form zero, which is contradictory to "$\boldsymbol{A}$ is PD".
+
+6. Suppose $\boldsymbol{A}: n \times n$ and $\boldsymbol{P}: n \times m$.
+
+    1. If $\boldsymbol{A}$ is NND, then $\boldsymbol{P}'\boldsymbol{AP}$ is NND. This can be easily proven using the quadratic form:
+
+        $$
+        \boldsymbol{x}'\boldsymbol{P}'\boldsymbol{APx} = (\boldsymbol{Px})'\boldsymbol{A}(\boldsymbol{Px}) \Rightarrow \boldsymbol{y}'\boldsymbol{Ay} \geq 0
+        $$
+
+    2. If $\boldsymbol{A}$ is PD and $r(\boldsymbol{P}) = m$, then $\boldsymbol{P}'\boldsymbol{AP}$ is PD.
+
+        To show this, consider when $\boldsymbol{x}'\boldsymbol{P}'\boldsymbol{APx} = 0$. The fact that $\boldsymbol{A}$ is PD leads to $\boldsymbol{Px} = \boldsymbol{0}$. Since $r(\boldsymbol{P}) = m$, the $m \times m$ matrix $\boldsymbol{P}'\boldsymbol{P}$ is non-singular, and $\boldsymbol{P}'\boldsymbol{Px} = \boldsymbol{0}_m$ leads to $\boldsymbol{x} = \boldsymbol{0}$.
+
+        Similarly we can show that if $\boldsymbol{A}$ is PSD and $r(\boldsymbol{P}) = m$, then $\boldsymbol{P}'\boldsymbol{AP}$ is PSD.
+
+    3. If $\boldsymbol{A}$ is NND and $r(\boldsymbol{P}) < m$, then $\boldsymbol{P}'\boldsymbol{AP}$ is PSD. From the properties of matrix rank we know that $r(\boldsymbol{P}'\boldsymbol{AP}) < m$, so it's singular and can't be PD.
