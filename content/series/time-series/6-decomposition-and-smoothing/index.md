@@ -105,9 +105,9 @@ Some popular nonparametric methods are kernel smoothing (LOWESS), splines, and w
 
 The `decompose()` function in R can be used for both additive and multiplicative models. The `type` parameter can be specified as `"additive"` or `"multiplicative"`. Note that the seasonal span for a series needs to be defined using the `freq` parameter in the `ts()` function.
 
-The following example uses the dataset of quarterly beer production in Australia from 1956 to 1973. Data for the first 18 years are used to demonstrate the functions. The decomposed series looks like this[^beer-prod-r]:
+The following example uses the dataset of quarterly beer production in Australia from 1956 to 1973. Data for the first 18 years are used to demonstrate the functions. The series looks like this after additive decomposition[^beer-prod-r]:
 
-{{< figure src="ausbeer_decomp.png" caption="Seasonally decomposed Australian beer production." numbered="true" >}}
+{{< figure src="ausbeer_decomp_add.png" caption="Seasonally decomposed Australian beer production." numbered="true" >}}
 
 [^beer-prod-r]: R code for generating the figure:
 
@@ -124,6 +124,105 @@ The following example uses the dataset of quarterly beer production in Australia
 
     data("ausbeer", package = "fpp")
     beerprod <- window(ausbeer, end = c(1973, 4))
-    decomp_beer <- decompose(beerprod, type = "additive")
-    autoplot(decomp_beer, range.bars = F)
+    decomp_beer_add <- decompose(beerprod, type = "additive")
+    autoplot(decomp_beer_add, range.bars = F)
     ```
+
+The function plots the original data, the mean trend, the seasonal component, and the remainders[^remainder-vs-random]. See that the seasonal component stays constant for each quarter and is a regularly repeating pattern. We can also set the `type` parameter to "multiplicative" and get:
+
+[^remainder-vs-random]: The word "remainder" is used rather than "random" because maybe it's not really random!
+
+{{< figure src="ausbeer_decomp_multi.png" caption="Australian beer production series after multiplicative decomposition." numbered="true" >}}
+
+### Smoothing
+
+Smoothing is used to help us better see patterns in time series. Generally we try to smooth out the irregular roughness to get a cleaner signal. For seasonal data, we might also smooth out the seasonality so that the trend could be identified. Smoothing doesn't provide us with a model, but it can be a good step in describing various components of a series.
+
+The term `filter` is sometimes used to describe a smoothing procedure. For example, if the smoothed value for a particular time is calculated as a linear combination of the observations for surrounding time points, it might be said that we've applied a `linear filter` to the data.
+
+#### Moving average
+
+As we said earlier, a simple but effective method to estimate the trend is the moving average. For example, the trend values in the Australian beer example were determined as centered moving averages with length 4 (because there are four quarters per year). For time $t=3$, we first average the observed data values at times 1 to 4:
+
+$$
+\frac{1}{4} (X_1 + X_2 + X_3 + X_4)
+$$
+
+Then the average of the values at times 2 to 5:
+
+$$
+\frac{1}{4}(X_2 + X_3 + X_4 + X_5)
+$$
+
+Then we take the average of these two values to get
+
+$$
+\frac{1}{8}X_1 + \frac{1}{4}X_2 + \frac{1}{4}X_3 + \frac{1}{4}X_4 + \frac{1}{8}X_5
+$$
+
+We're doing this because the length is an even number. For length 5, we can simply take
+
+$$
+\frac{1}{5}(X_1 + X_2 + X_3 + X_4 + X_5)
+$$
+
+More generally, the `centered moving average` for time $t$ of a quarterly series is
+
+$$
+\frac{1}{8}X_{t-2} + \frac{1}{4}X_{t-1} + \frac{1}{4}X_t + \frac{1}{4}X_{t+1} + \frac{1}{8}X_{t+2}
+$$
+
+and for a monthly series:
+
+$$
+\frac{1}{24}X_{t-6} + \sum_{j=-5}^5 \frac{1}{12}X_{t+j} + \frac{1}{24}X_{t+6}
+$$
+
+The `decompose()` function uses this method (symmetric window with equal weight), and we can get the results with `decomp_beer_add$trend`. See how we have two `NA` values at the beginning and at the end because the moving average can't be calculated at these time points. This linear filter can be calculated manually in R using:
+
+```r
+trend_pattern <- filter(beerprod, sides = 2,
+                        filter = c(1/8, 1/4, 1/4, 1/4, 1/8))
+```
+
+Other variations of the moving average exist and may serve different purposes. For example, to remove a seasonal effect, we may calculate the moving average with a length equal to the seasonal span. We may only use the previous $n$ time points, i.e. the one-sided moving average:
+
+$$
+\frac{1}{4}(X_t + X_{t-1} + X_{t-2} + X_{t-3})
+$$
+
+In R, this can be found by
+
+```r
+filter(beerprod, filter = rep(1/4, 4), sides = 1)
+```
+
+#### Lowess
+
+Another more advanced decomposition method is the locally weighted scatterplot smoothing (LOWESS)[^lowess]. To understand what this is, we need to introduce the concept of kernel smoothing.
+
+[^lowess]: For a more in-depth introduction to Lowess, see [this chapter in the Nonparametric Methods course]({{< relref "/series/nonparam-stat/5-modern-methods/5.3-nonparametric-regression/index.md" >}}).
+
+In the simplest univariate case where $X_1, \cdots, X_n \overset{i.i.d.}{\sim} f_X$, our goal is to estimate the density function $f_X$. In parametric density estimation, we assume some density function (e.g. Binomial, Poisson, Normal, etc.) and estimate the parameters, often with MLE.
+
+Parametric density estimation is efficient when the assumptions on the distribution are met. In nonparametric density estimation, we estimate $\hat{f}_X(x)$ at a given $x$ without assuming a form of the distribution. At the expense of efficiency, we gain a lot of flexibility.
+
+The histogram is a naive approach of density estimation, although an obvious disadvantage is that it's discrete and not smooth. It also depends on the bin width $b$ and the starting point. `Kernel smoothing` is proposed to overcome some of these problems.
+
+Let $h$ be the bandwidth. We can express the density estimate at $x$ of the histogram as
+
+$$
+\begin{aligned}
+    \hat{f}_X(x) &= \frac{\text{Frequency}}{nb} \\\\
+    &= \frac{\text{number of }X_i \in (x-h, x+h)}{2nh} \\\\
+    &= \frac{\sum\_{i=1}^n I(X_i \in (x-h, x+h))}{2nh} \\\\
+    &= \frac{1}{2nh}\sum\_{i=1}^n I\left( |x - X_i| < h \right) \\\\
+    &= \frac{1}{2nh}\sum\_{i=1}^n I\left( \left|\frac{x - X_i}{h}\right| < 1 \right)
+\end{aligned}
+$$
+
+The discreteness comes from the indicator function. The idea of kernel smoothing is instead of this indicator function, we plug in a smoother `kernel function` $K$ that assigns larger weights for points closer to $x$ and lower weights for distant points:
+
+$$
+\hat{f}(x) = \frac{1}{2nh}\sum_{i=1}^n K\left( \frac{x - X_i}{h} \right)
+$$
