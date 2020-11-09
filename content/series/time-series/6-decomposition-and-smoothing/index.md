@@ -207,7 +207,7 @@ In the simplest univariate case where $X_1, \cdots, X_n \overset{i.i.d.}{\sim} f
 
 Parametric density estimation is efficient when the assumptions on the distribution are met. In nonparametric density estimation, we estimate $\hat{f}_X(x)$ at a given $x$ without assuming a form of the distribution. At the expense of efficiency, we gain a lot of flexibility.
 
-The histogram is a naive approach of density estimation, although an obvious disadvantage is that it's discrete and not smooth. It also depends on the bin width $b$ and the starting point. `Kernel smoothing` is proposed to overcome some of these problems.
+The histogram is a naive approach of density estimation, although an obvious disadvantage is that it's discrete and not smooth. It also depends on the bin width $b$ and the starting point. `Kernel density estimation` is proposed to overcome some of these problems.
 
 Let $h$ be the bandwidth. We can express the density estimate at $x$ of the histogram as
 
@@ -221,8 +221,36 @@ $$
 \end{aligned}
 $$
 
-The discreteness comes from the indicator function. The idea of kernel smoothing is instead of this indicator function, we plug in a smoother `kernel function` $K$ that assigns larger weights for points closer to $x$ and lower weights for distant points:
+The discreteness comes from the indicator function. The idea of kernel density estimation is instead of this indicator function, we plug in a smoother `kernel function` $K$ that assigns larger weights for points closer to $x$ and lower weights for distant points:
 
 $$
 \hat{f}(x) = \frac{1}{2nh}\sum_{i=1}^n K\left( \frac{x - X_i}{h} \right)
 $$
+
+For the bivariate case where we have $n$ pairs of observations $(X_1, Y_1)$, $\cdots$, $(X_n, Y_n)$ with
+
+$$
+Y_i = f(X_i) + \epsilon_i, \quad \epsilon_i \overset{i.i.d.}{\sim} N(0, \sigma^2)
+$$
+
+where $f(X_i) = E(Y_i \mid X_i)$ is an unknown regression function. `Kernel smoothing` works similarly to kernel density estimation. In the simplest form, we take the weighted average of neighboring points to $x$:
+
+$$
+\hat{f}(x) = \sum w_i (x, h) Y_i
+$$
+
+Some popular choices are local linear regression, local polynomial regression, and local constant regression.
+
+In R, we can use the `stl()` function to apply seasonal decomposition on a time series by Lowess. Afterwards, the `seasadj()` function could be used to get seasonally adjusted data.
+
+```r
+decomp_beer_loess <- stl(beerprod, s.window = "periodic")
+seasadj(decomp_beer_loess)
+```
+
+We can also combine this with the `forecast` package to model the remainder with an ARIMA, exponential smoothing, just the previous observation (naive), or a random walk:
+
+```r
+library(forecast)
+forecast(decom_beer_loess, method = "arima")  # or ets, naive, rwdrift
+```

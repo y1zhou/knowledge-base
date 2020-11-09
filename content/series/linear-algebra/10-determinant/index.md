@@ -162,7 +162,7 @@ Knowing how to calculate the determinant is far less important than knowing its 
 
 ## Calculating matrix inverse
 
-To find the inverse of a matrix, we need a final piece of definition called the `adjoint`. Adjoint of a matrix $\boldsymbol{A}$ is the transpose of an $n \times n$ matrix with co-factors
+To find the inverse of a matrix, we need a final piece of definition called the `adjugate`. The adjugate of a matrix $\boldsymbol{A}$ is the transpose of an $n \times n$ matrix with co-factors
 
 $$
 \boldsymbol{A}^* = \\{A_{ij}\\}'
