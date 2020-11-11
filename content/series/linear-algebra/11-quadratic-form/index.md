@@ -255,3 +255,105 @@ Given a real number $x$, if we say $x$ is not non-negative, then $x$ is negative
         Similarly we can show that if $\boldsymbol{A}$ is PSD and $r(\boldsymbol{P}) = m$, then $\boldsymbol{P}'\boldsymbol{AP}$ is PSD.
 
     3. If $\boldsymbol{A}$ is NND and $r(\boldsymbol{P}) < m$, then $\boldsymbol{P}'\boldsymbol{AP}$ is PSD. From the properties of matrix rank we know that $r(\boldsymbol{P}'\boldsymbol{AP}) < m$, so it's singular and can't be PD.
+
+7. Suppose $\boldsymbol{A}: n \times n$ and $\boldsymbol{P}: n \times n$ and non-singular.
+
+    1. From (6) we know if $\boldsymbol{A}$ is PD, then $\boldsymbol{P}'\boldsymbol{AP}$ is PD.
+    2. If $\boldsymbol{A}$ is PSD, then $\boldsymbol{P}'\boldsymbol{AP}$ is PSD.
+
+8. If $\boldsymbol{A}$ is PD, then $\boldsymbol{A}^{-1}$ is PD.
+
+    To prove this, it's sufficient to show that $(\boldsymbol{A}^{-1})'$ is PD.
+
+    $$
+    (\boldsymbol{A}^{-1})' = (\boldsymbol{A}^{-1})'\boldsymbol{A}\boldsymbol{A}^{-1} = \boldsymbol{P}'\boldsymbol{AP}
+    $$
+
+    where $\boldsymbol{P} = \boldsymbol{A}^{-1}$. From (7), we have $\boldsymbol{P}'\boldsymbol{AP}$ is PD, so $(\boldsymbol{A}^{-1})'$ is PD.
+
+9. Any principal submatrix of a PD (NND) matrix is PD (NND). A `principal submatrix` starts from the top-left corner of a square matrix, and is a square submatrix obtained by removing certain rows and columns.
+
+    To show this, let
+
+    $$
+    \boldsymbol{P}\_{n \times m} = \begin{pmatrix}
+        \boldsymbol{I}_m \\\\ \boldsymbol{0}\_{(n-m) \times m}
+    \end{pmatrix}
+    $$
+
+    and the rank of $\boldsymbol{P}$ is clearly $m$. $\boldsymbol{P}'\boldsymbol{AP}$ is the $m \times m$ principal submatrix of $\boldsymbol{A}$:
+
+    $$
+    \begin{pmatrix}
+        1 & 0 \\\\
+        0 & 1 \\\\
+        0 & 0
+    \end{pmatrix}'
+    \begin{pmatrix}
+        3 & 1 & 2 \\\\
+        1 & 2 & 6 \\\\
+        2 & 6 & 4
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0 \\\\
+        0 & 1 \\\\
+        0 & 0
+    \end{pmatrix} = \begin{pmatrix}
+        3 & 1 \\\\
+        1 & 2
+    \end{pmatrix}
+    $$
+
+    Use (6) to see that $\boldsymbol{P}'\boldsymbol{AP}$ is PD.
+
+    This can be used to prove certain matrices are not PD. For example,
+
+    $$
+    \boldsymbol{A} = \begin{pmatrix}
+        -1 & 0 & 3 & 12 \\\\
+        0 & -1 & 7 & 2 \\\\
+        \vdots & \vdots & \ddots & \vdots
+    \end{pmatrix}
+    $$
+
+    cannot be a positive definite matrix because the top-left submatrix is $-\boldsymbol{I}_{2}$, which is negative definite.
+
+10. Any diagonal elements of a PD (NND) matrix is positive (non-negative):
+
+    $$
+    \begin{gathered}
+        \boldsymbol{A}: PD \Rightarrow a_{ii} > 0 \\,\forall i \\\\
+        \boldsymbol{A}: NND \Rightarrow a_{ii} \geq 0 \\,\forall i
+    \end{gathered}
+    $$
+
+    Note that this doesn't go from right to left. To show this, let $\boldsymbol{p} = (0, \cdots, 0, 1, 0, \cdots, 0)'$ where only the $i$-th element is 1 and all the other $(n-1)$ elements are 0. $a_{ii} = \boldsymbol{p}'\boldsymbol{Ap}$ is positive definite, i.e. $a_{ii} > 0$.
+
+    Corollary of this, the trace of a PD matrix is positive, and the trace of an NND matrix is non-negative.
+
+11. Let $\boldsymbol{P}: n \times m$ be any rectangular matrix. {{<hl>}}Then, $\boldsymbol{P}'\boldsymbol{P}$ and $\boldsymbol{PP}'$ are both non-negative definite.{{</hl>}}
+
+    This is because for all $\boldsymbol{x}$, we have
+
+    $$
+    \boldsymbol{x}'\boldsymbol{P}'\boldsymbol{Px} = (\boldsymbol{Px})'(\boldsymbol{Px}) = \\|\boldsymbol{Px}\\|^2 \geq 0
+    $$
+
+    Or we can use (6) and set $\boldsymbol{A} = \boldsymbol{I}$.
+
+    {{<hl>}}If $r(\boldsymbol{P}) = m$, then $\boldsymbol{P}'\boldsymbol{P}$ is positive definite.
+    If $r(\boldsymbol{P}) = n$, then $\boldsymbol{PP}'$ is positive definite.{{</hl>}}
+
+12. If $\boldsymbol{D}$ is diagonal and $\boldsymbol{P}$ is non-singular, then
+
+    $$
+    \boldsymbol{P}'\boldsymbol{DP}: NND \Longleftrightarrow d_i \geq 0
+    $$
+
+13. If $\boldsymbol{A}$ is symmetric and idempotent, then $\boldsymbol{A}$ is NND.
+
+    $$
+    \boldsymbol{A} = \boldsymbol{A}^2 = \boldsymbol{A}'\boldsymbol{A}: NND
+    $$
+
+    The **only** positive definite symmetric idempotent matrix is $\boldsymbol{I}$. Any other projection matrix is positive semi-definite, i.e. singular.
