@@ -324,7 +324,7 @@ $$
 X_t = T_t + I_t
 $$
 
-where $T_t = \beta_{0, t} + \beta_{1, t} t$ is locally linear. This method may be used when there's trend but **no seasonality**.
+where $T_t = \beta\_{0, t} + \beta\_{1, t} t$ is locally linear. This method may be used when there's trend but **no seasonality**.
 
 Instead of using a single smoothing constant, this method combines exponentially smoothed estimates of the trend (slope $\beta_{1, t}$) and the level (intercept $\beta_{0, t}$). The forecast equation, also known as `Holt-Winters` forecasting, is
 
@@ -362,3 +362,98 @@ $$
 $$
 
 The procedure is equivalent to fitting an ARIMA(0, 2, 2) model. In R, the `forecast::holt()` function can be used. The parameters are very similar to the ones given in `ses()`, with an additional `beta` parameter.
+
+### Seasonal exponential smoothing
+
+The model for seasonal exponential smoothing adds another component to simple exponential smoothing:
+
+$$
+X_t = T_t + S_t + I_t
+$$
+
+where $T_t = \beta_{0, t}$ is locally constant. The basic forecast equation is
+
+$$
+\hat{X}\_{t+1} = \ell_t + s\_{t+1-p}
+$$
+
+where $p$ is the seasonal period, and
+
+$$
+\begin{gathered}
+    \ell_t = \alpha(X_t - s_{t-p}) + (1-\alpha)\ell_{t-1} \\\\
+    s_t = \beta(X_t - \ell_t) + (1-\beta)s_{t-p}
+\end{gathered}
+$$
+
+$\ell_t$ is the weighted average of the de-seasonalized observation and the previous prediction. $s_t$ is the weighted average of the de-trended observation and the previous seasonal component.
+
+The prediction at $t=T$ for $h$ lags is
+
+$$
+\hat{X}\_{T+h} = \ell_T + s\_{T-p+h} \times h, \quad h = 1, 2, \cdots
+$$
+
+This method is equivalent to ARIMA$(0, 1, p+1) \times (0, 1, 0)_p$. It's not of much practical use as it cannot handle nonlinear trends.
+
+#### Holt-Winters seasonal exponential smoothing
+
+A much more flexible method is `Holt-Winters seasonal exponential smoothing`. The **additive model** is
+
+$$
+X_t = T_t + S_t + I_t, \quad T_t = \beta_{0, t} + \beta_{1, t} t \text{ (locally linear)}
+$$
+
+and the basic forecast equation is
+
+$$
+\hat{X}\_{t+1} = \ell_t + b_t + s\_{t+1-p}
+$$
+
+where
+
+$$
+\begin{gathered}
+    \ell_t = \alpha(X_t - s_{t-p}) + (1-\alpha)(\ell_{t-1} + b_{t-1}), \quad 0 \leq \alpha \leq 1 \\\\
+    b_t = \gamma(\ell_t - \ell_{t-1}) + (1-\gamma)b_{t-1}, \quad 0 \leq \gamma \leq 1 \\\\
+    s_t = \delta(X_t - \ell_t) + (1-\delta)s_{t-p}, \quad 0 \leq \delta \leq 1
+\end{gathered}
+$$
+
+Prediction at time $t=T$ for $h$ lags is
+
+$$
+\hat{X}\_{T+h} = \ell_T + b_T \times h + s\_{T_p+h}, \quad h = 1, 2, \cdots
+$$
+
+This method is equivalent to an ARIMA$(0, 1, p+1) \times (0, 1, 0)_p$ model.
+
+We can also consider a **multiplicative model** when the variance increases over time:
+
+$$
+X_t = T_t \times S_t \times I_t, \quad T_t = \beta_{0, t} + \beta_{1, t}t
+$$
+
+The basic forecast equation is
+
+$$
+\hat{X}\_{t+1} = (\ell_t + b_t)s\_{t+1-p}
+$$
+
+where the intercept, slope and seasonal components are
+
+$$
+\begin{gathered}
+    \ell_t = \alpha \cdot \frac{X_t}{s_{t-p}} + (1-\alpha)(\ell_{t-1} + b_{t-1}) \\\\
+    b_t = \beta (\ell_t - \ell_{t-1}) + (1-\beta)b_{t-1} \\\\
+    s_t = \gamma \cdot \frac{X_t}{\ell_t} + (1-\gamma)s_{t-p}
+\end{gathered}
+$$
+
+and the prediction at $t=T$ for $h$ lags is
+
+$$
+\hat{X}\_{T+h} = (\ell_T + b_T \times h)s\_{T_p+h}, \quad h = 1, 2, \cdots
+$$
+
+In R, the `forecast::hw()` function can be used, setting `seasonal` to "additive" or "multiplicative" for the two models above.
