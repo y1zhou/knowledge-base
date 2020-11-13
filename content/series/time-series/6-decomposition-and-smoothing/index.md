@@ -254,3 +254,111 @@ We can also combine this with the `forecast` package to model the remainder with
 library(forecast)
 forecast(decom_beer_loess, method = "arima")  # or ets, naive, rwdrift
 ```
+
+### Exponential smoothing
+
+SARIMA used differencing to take care of the trend, but the components aren't really extracted. The decomposition methods extract the mean and seasonal trends and models the remainder.
+
+The technique soon to be introduced is for short-run prediction only, altough it's called a smoothing method.
+
+#### Single exponential smoothing
+
+In single (or simple) exponential smoothing, it's assumed a time series could be decomposed into the following model
+
+$$
+X_t = T_t + I_t
+$$
+
+where $T_t = \beta_{0, t}$ is a linear trend that's locally constant, and $I_t$ is the remainder. The basic forecasting equation is often given as
+
+$$
+\ell_{t+1} = \alpha X_t + (1-\alpha)\ell_t, \quad 0 \leq \alpha \leq 1
+$$
+
+We forecast the value of $X$ at time $t+1$ to be a weighted combination of the observed value at time $t$ and the forecasted value at time $t$. $\alpha$ is called the `smoothing constant`, and 0.2 is the default value for multiple programs for some mysterious reason.
+
+A relatively small $\alpha$ value means our one-step ahead forecast depends mostly on the previous prediction. If the series changes very quickly, then we may consider increasing $\alpha$ since the previous value doesn't help much with the next one.
+
+We can expand the recursive formula above to get
+
+$$
+\begin{aligned}
+    \ell_{t+1} &= \alpha X_t + (1-\alpha)[\alpha X_{t-1} + (1-\alpha)\ell_{t-1}] \\\\
+    &= \alpha X_t + \alpha(1-\alpha)X_{t-1} + \alpha(1-\alpha)^2 X_{t-2} + \cdots + \alpha(1-\alpha)^{t-1}\ell_1
+\end{aligned}
+$$
+
+where the `initial value` $\ell_1$ is either $X_1$ or $\sum_{t=1}^T X_t / T$. The method is called exponential smoothing because the weight is exponentially decreasing as we move back in the series. The prediction at $t=T$ for $h$ lags after is simply
+
+$$
+\hat{X}_{T+h} = \ell_T, \quad h = 1, 2, \cdots
+$$
+
+By now you may have noticed the relationship between this simple exponential smoothing and ARIMA models -- in fact, this method is equivalent to the use of an ARIMA(0, 1, 1) model:
+
+$$
+X_t - X_{t-1} = Z_t + \theta Z_{t-1} \Rightarrow X_{t+1} = X_t + Z_{t+1} + \theta Z_t
+$$
+
+If we set $Z_{t+1} = X_{t+1} - \hat{X}_{t+1}$, i.e. express it as the forecasting error term, then
+
+$$
+\begin{aligned}
+    \hat{X}\_{t+1} &= X\_{t+1} - Z_{t+1} \\\\
+    &= X_t + \theta Z_t \\\\
+    &= X_t + \theta(X_t - \hat{X}_t) \\\\
+    &= (1 + \theta) X_t - \theta \hat{X}_t \\\\
+    &= \alpha X_t + (1-\alpha)\hat{X}_t
+\end{aligned}
+$$
+
+Due to this equivalence, we can just fit an ARIMA(0, 1, 1) model to the observed dataset and use the results to determine the value of $\alpha$. This is "optimal" in the sense of choosing the best $\alpha$ for the observed data.
+
+In R, the `forecast::ses()` function could be used for simple exponential smoothing. We can specify `alpha = 0.2` and `initial = "simple"` to get the procedure described above. If `initial` is set to `optimal`, then the initial value is optimized along with the smoothing parameter.
+
+#### Double exponential smoothing
+
+The limitations with simple exponential smoothing is that it can't deal with trends beyond linear. In double (or linear) exponential smoothing, a slight nonlinear trend could be handled:
+
+$$
+X_t = T_t + I_t
+$$
+
+where $T_t = \beta_{0, t} + \beta_{1, t} t$ is locally linear. This method may be used when there's trend but **no seasonality**.
+
+Instead of using a single smoothing constant, this method combines exponentially smoothed estimates of the trend (slope $\beta_{1, t}$) and the level (intercept $\beta_{0, t}$). The forecast equation, also known as `Holt-Winters` forecasting, is
+
+$$
+\hat{X}_{t+1} = \ell_t + b_t
+$$
+
+where
+
+$$
+\begin{gathered}
+    \ell_t = \alpha_t + (1-\alpha)(\underbrace{\ell_{t-1} + b_{t-1}}_{\hat{X}_t}), \quad 0 \leq \alpha \leq 1 \\\\
+    b_t = \beta(\ell_t - \ell_{t-1}) + (1- \beta)b_{t-1}, \quad 0 \leq \beta \leq 1
+\end{gathered}
+$$
+
+The smoothed level is more or less equivalent to a simple exponential smoothing of the data, and the smoothed trend is somewhat like a simple exponential smoothing of the first differences.
+
+The `initial values` are $\ell_1 = X_1$ and $b_1 = X_2 - X_1$, or they can be obtained through simple linear regression:
+
+$$
+(\hat{\alpha}, \hat{\beta}) = \arg\min_{\alpha, \beta} SSE(\alpha, \beta)
+$$
+
+where the SSE is
+
+$$
+SSE(\alpha, \beta) = \sum_{t=1}^T (X_{t+1} - \ell_t - b_t)^2
+$$
+
+The prediction at $t=T$ for $h$ lags is
+
+$$
+\hat{X}_{T+h} = \ell_T + b_T \times h, \quad h = 1, 2, \cdots
+$$
+
+The procedure is equivalent to fitting an ARIMA(0, 2, 2) model. In R, the `forecast::holt()` function can be used. The parameters are very similar to the ones given in `ses()`, with an additional `beta` parameter.
