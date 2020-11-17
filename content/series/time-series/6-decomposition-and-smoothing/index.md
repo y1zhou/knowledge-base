@@ -1,7 +1,7 @@
 ---
 title: "Decomposition and Smoothing Methods"
 date: 2020-11-02T11:12:20-05:00
-summary: "" # appears in list of posts
+summary: "Decomposition procedures to extract trend, seasonal and other components from a time series. Smoothing techniques like moving average and Lowess are often used, and exponential smoothing (Holt-Winters) is another powerful tool." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: ["Time Series", "Statistics", "Visualization", "R"] # list of related tags
 
