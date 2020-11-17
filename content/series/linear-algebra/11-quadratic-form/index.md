@@ -357,3 +357,214 @@ Given a real number $x$, if we say $x$ is not non-negative, then $x$ is negative
     $$
 
     The **only** positive definite symmetric idempotent matrix is $\boldsymbol{I}$. Any other projection matrix is positive semi-definite, i.e. singular.
+
+## Decomposition of symmetric matrices
+
+### Theorem 1
+
+If $\boldsymbol{A}$ is a symmetric matrix, then there exists a non-singular matrix $\boldsymbol{Q}$ such that $\boldsymbol{Q}'\boldsymbol{AQ}$ is diagonal.
+
+For example,
+
+$$
+\boldsymbol{A} = \begin{pmatrix}
+    2 & 1 \\\\
+    1 & 3
+\end{pmatrix}, \quad \boldsymbol{Q} = \begin{pmatrix}
+    a & b \\\\
+    c & d
+\end{pmatrix}
+$$
+
+The $\boldsymbol{Q}$ matrix is not unique and there's always a triangular $\boldsymbol{Q}$.
+
+$$
+\begin{aligned}
+    \boldsymbol{Q}'\boldsymbol{AQ} &= \begin{pmatrix}
+        a & 0 \\\\
+        b & d
+    \end{pmatrix} \begin{pmatrix}
+        2 & 1 \\\\
+        1 & 3
+    \end{pmatrix}
+    \begin{pmatrix}
+        a & b \\\\
+        0 & d
+    \end{pmatrix} \\\\
+    &= \begin{pmatrix}
+        2a^2 & 2ab + ad \\\\
+        2ab + ad & \cdots
+    \end{pmatrix}
+\end{aligned}
+$$
+
+For this to be diagonal, we need $2ab+ad=0$, so
+
+$$
+\begin{cases}
+    a=0 \\\\ d = -2b
+\end{cases} \quad \text{or} \quad \boldsymbol{Q}: \text{ singular}
+$$
+
+We want the $\boldsymbol{Q}$ matrix to be singular, so the first case yields
+
+$$
+\boldsymbol{Q} = \begin{pmatrix}
+    a & b \\\\
+    0 & -2b
+\end{pmatrix} \xlongequal{e.g.} \begin{pmatrix}
+    1 & 1 \\\\
+    0 & -2
+\end{pmatrix}
+$$
+
+We're not proving this theorem here. An important **corollary** of this is if $\boldsymbol{A}$ is symmetric, then there exists a non-singular matrix $\boldsymbol{P}$ and a diagonal matrix $\boldsymbol{D}$ such that $\boldsymbol{A} = \boldsymbol{P}'\boldsymbol{DP}$. To show this, set $\boldsymbol{P} = \boldsymbol{Q}^{-1}$ and use the theorem:
+
+$$
+\begin{gathered}
+    \boldsymbol{Q}'\boldsymbol{AQ} = \boldsymbol{D} \\\\
+    \boldsymbol{Q}'\boldsymbol{A} = \boldsymbol{DQ}^{-1} \\\\
+    \boldsymbol{A} = (\boldsymbol{Q}')^{-1}\boldsymbol{DQ}^{-1} \\\\
+    \boldsymbol{A} = (\boldsymbol{Q}^{-1})'\boldsymbol{DQ}^{-1}
+\end{gathered}
+$$
+
+### Theorem 2
+
+$\boldsymbol{A}$ is a symmetric non-negative definite matrix and $r(\boldsymbol{A}) = r$ $\Longleftrightarrow$ there exists $\boldsymbol{B}: r \times n$ and $r(\boldsymbol{B}) = r$ such that $\boldsymbol{A} = \boldsymbol{B}'\boldsymbol{B}$.
+
+To prove ($\Leftarrow$), see that $\boldsymbol{B}'\boldsymbol{B}$ is non-negative definite when $\boldsymbol{B}$ is rank $r$.
+
+To see ($\Rightarrow$), by the **corollary** in Theorem 1 we have $\boldsymbol{A} = \boldsymbol{PDP}'$ for some non-singular and diagonal $\boldsymbol{D}$. Since $\boldsymbol{PDP}'$ is non-negative definite, $d_i \geq 0$ for all $i$. Since $r(\boldsymbol{A}) = r$, exactly $r$ of the diagonals are positive, and $(n-r)$ of the diagonals are zeros. We can rearrange the $d_i$'s such that
+
+$$
+d_1 \geq d_2 \geq \cdots \geq d_r > d_{r+1} = \cdots = d_n = 0
+$$
+
+and we rearrange the columns of $\boldsymbol{P}$ accordingly. Then we take
+
+$$
+\boldsymbol{B}'_{n \times r} = [\text{first } r \text{ columns of } \boldsymbol{P}] \begin{pmatrix}
+    \sqrt{d_1} & 0 & \cdots & 0 \\\\
+    0 & \sqrt{d_2} & \cdots & 0 \\\\
+    \vdots & \vdots & \ddots & \vdots \\\\
+    0 & 0 & \cdots & \sqrt{d_r}
+\end{pmatrix}
+$$
+
+from which we can see
+
+$$
+\boldsymbol{B} = \begin{pmatrix}
+    \sqrt{d_1} & 0 & \cdots & 0 \\\\
+    0 & \sqrt{d_2} & \cdots & 0 \\\\
+    \vdots & \vdots & \ddots & \vdots \\\\
+    0 & 0 & \cdots & \sqrt{d_r}
+\end{pmatrix}\_{r \times r} \begin{pmatrix}
+    \boldsymbol{p}_1' \\\\
+    \vdots \\\\
+    \boldsymbol{p}_r'
+\end{pmatrix}\_{r \times n}
+$$
+
+Now $\boldsymbol{B}'\boldsymbol{B}$ would be
+
+$$
+\begin{aligned}
+    \boldsymbol{B}'\boldsymbol{B} &= [\boldsymbol{p}_1, \cdots, \boldsymbol{p}_r]
+    \begin{pmatrix}
+        \sqrt{d_1} & & \\\\
+        & \ddots & \\\\
+        & & \sqrt{d_r}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \sqrt{d_1} & & \\\\
+        & \ddots & \\\\
+        & & \sqrt{d_r}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \boldsymbol{p}_1' \\\\
+        \vdots \\\\
+        \boldsymbol{p}_r'
+    \end{pmatrix} \\\\
+    &= [\boldsymbol{p}_1, \cdots, \boldsymbol{p}_n]
+    \left[\begin{array}{ccc|c}
+        d_1 & & & \\\\
+        & \ddots & & \huge0 \\\\
+        & & d_r & \\\\
+        \hline \\\\
+        & \huge0 & & \huge0
+    \end{array}\right]
+    \begin{pmatrix}
+        \boldsymbol{p}_1' \\\\
+        \vdots \\\\
+        \boldsymbol{p}_n'
+    \end{pmatrix} \\\\
+    &= \boldsymbol{PDP}' = \boldsymbol{A}
+\end{aligned}
+$$
+
+This decomposition is important in that it's related to the eigendecomposition that we'll see later.
+
+#### Corollary
+
+$$
+\boldsymbol{A}: \text{symmetric and NND} \Longleftrightarrow \exists \boldsymbol{B}: n \times n \text{ s.t. } \boldsymbol{A} = \boldsymbol{B}'\boldsymbol{B}
+$$
+
+Another version of this corollary is
+
+$$
+\boldsymbol{A}: \text{symmetric, NND, and } r(\boldsymbol{A}) = r \Longleftrightarrow \exists \boldsymbol{B}: m \times n (m \geq r) \text{ s.t. } \boldsymbol{A} = \boldsymbol{B}'\boldsymbol{B}
+$$
+
+Although there seems no restrictions on the rank of $\boldsymbol{B}$, see that if we have the left side, then we cannot hava $\boldsymbol{A} = \boldsymbol{B}'\boldsymbol{B}$ where $\boldsymbol{B}$ is $m \times n$ and $m < r$. The rank of $\boldsymbol{B}$ must be $r$.
+
+#### Properties
+
+1. If $\boldsymbol{A}$ is symmetric and NND, then
+
+    $$
+    \boldsymbol{Ax} = \boldsymbol{0} \Longleftrightarrow \boldsymbol{x}'\boldsymbol{Ax} = 0
+    $$
+
+    Proving ($\Rightarrow$) is trivial. For the other direction, see that $\boldsymbol{A} = \boldsymbol{P}'\boldsymbol{P}$ for some $\boldsymbol{P}$.
+
+    $$
+    \boldsymbol{x}'\boldsymbol{Ax} = \boldsymbol{x}'\boldsymbol{P}'\boldsymbol{Px} = \\|\boldsymbol{Px}\\|^2 = 0
+    $$
+
+    This means $\boldsymbol{Px} = \boldsymbol{0}$, thus $\boldsymbol{Ax} = \boldsymbol{P}'\boldsymbol{Px} = \boldsymbol{0}$.
+
+2. $\boldsymbol{A}$ is symmetric and positive definite $\Longleftrightarrow$ there exists a non-singular matrix $\boldsymbol{P}$ such that $\boldsymbol{A} = \boldsymbol{P}'\boldsymbol{P}$.
+
+3. The inverse of a positive definite matrix $\boldsymbol{A}$ is positive definite:
+
+    $$
+    \boldsymbol{A}^{-1} = \boldsymbol{P}^{-1}(\boldsymbol{P}')^{-1} = \boldsymbol{P}^{-1}(\boldsymbol{P}^{-1})'
+    $$
+
+    What if $\boldsymbol{A} = \boldsymbol{P}'\boldsymbol{DP}$ is a positive semi-definite matrix? Similarly $\boldsymbol{P}$ is non-singular and $d_i \geq 0$ with exactly $r$ elements being positive and the others being zero. We want to find the generalized inverse of $\boldsymbol{A}$.
+
+    We rearrange the diagonals of $\boldsymbol{D}$ such that
+
+    $$
+    \boldsymbol{D} = diag(d_1, \cdots, d_r, 0, \cdots, 0)
+    $$
+
+    One way to find a generalized inverse is to define
+
+    $$
+    \begin{gathered}
+        \boldsymbol{D}^* = diag\left(\frac{1}{d_1}, \cdots, \frac{1}{d_r}, 0, \cdots, 0 \right) \\\\
+        \boldsymbol{G} \triangleq \boldsymbol{P}^{-1}\boldsymbol{D}^* (\boldsymbol{P}')^{-1}
+    \end{gathered}
+    $$
+
+    Then we have
+
+    $$
+    \boldsymbol{AGA} = \boldsymbol{P}'\boldsymbol{DPP}^{-1}\boldsymbol{D}^* (\boldsymbol{P}')^{-1}\boldsymbol{P}'\boldsymbol{DP} = \boldsymbol{P}'\boldsymbol{DP} = \boldsymbol{A}
+    $$
+
+    So $\boldsymbol{G}$ is also NND. Note that this means we _can_ always find a positive semi-definite generalized inverse for $\boldsymbol{A}$. This doesn't mean _all_ $\boldsymbol{G}$'s are PSD!
