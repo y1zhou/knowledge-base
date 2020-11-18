@@ -1,7 +1,7 @@
 ---
 title: "Spectral Analysis"
 date: 2020-11-17T15:12:15-05:00
-summary: "" # appears in list of posts
+summary: "We talk about a method that helps us find the periodicity of a time series -- the spectral density." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
 tags: ["Time Series", "Statistics", "Visualization", "R"] # list of related tags
 
@@ -285,3 +285,64 @@ $$
 ### Calculation in R
 
 The `arma.spec()` function from the `astsa` R package could be used to get the spectral density for different ARMA models.
+
+```r
+library(astsa)
+
+# Theoretical spectral densities
+arma.spec(ar = 0.8)
+arma.spec(ar = c(0.6, 0.3))
+arma.spec(ma = 0.7)
+
+# Simulated AR data
+set.seed(42)
+x <- arima.sim(list(ar = 0.7), n = 200)
+arma.spec(ar = 0.7)  # theoretical values
+spec.ar(x)  # parametric estimation
+spectrum(x)  # nonparametric estimation
+spectrum(x, log = "no")  # plot on linear scale
+```
+
+Note that the `spectrum` function is defined with a scaling factor of $\frac{1}{freq(x)}$ and returns a spectral density over the range $(-\frac{freq(x)}{2}, \frac{freq(x)}{2}]$. The more common scaling factors are $2\pi$ or $1$, and the ranges are $(-0.5, 0.5]$ or $(-\pi, \pi]$, respectively.
+
+## Periodogram
+
+If $\\{X_t\\}$ is a stationary time series with autocovariance function $\gamma$ and spectral density $f$, then the sample autocovariance function $\hat\gamma$ of the observations $\\{x_1, \cdots, x_n\\}$ can be regarded as a sample analogue of $\gamma$. Following the same logic, the periodogram $I_n$ of the observations can be regarded as a sample analogue of $2\pi f$.
+
+The `periodogram` of $\\{x_1, \cdots, x_n\\}$ is
+
+$$
+I_n(\lambda) = \frac{1}{n} \left| \sum_{t=1}^n x_t e^{-it\lambda} \right|^2
+$$
+
+Let $\omega_k = \frac{2\pi k}{n}$ where $k$ is any integer between $-\frac{n-1}{2}$ and $\frac{n}{2}$. This is called the `Fourier frequencies` associated with sample size $n$. If $x_1, \cdots, x_n$ are real numbers, and $\omega_k$ is any of the non-zero Fourier frequencies in $(-\pi, \pi]$, then
+
+$$
+I_n(\omega_k) = \sum_{|h| < n} \hat\gamma(h)e^{-ih\omega_k}
+$$
+
+where $\hat\gamma(h)$ is the sample autocovariance function of $x_1, \cdots, x_n$.
+
+The periodogram can be used to identify the dominant periods (or frequencies) of a time series. It's helpful for identifying the cyclical behavior in a series, particularly when the cycles are not related to the commonly encountered monthly or quarterly seasonality.
+
+### Sunspot data example
+
+We use the `sunspot.year` data to explain how to interpret a periodogram. The dataset contains yearly numbers of sunspots from 1700 to 1988 (rounded to one digit).
+
+```r
+data("sunspot.year")
+x <- spectrum(sunspot.year, log = "no", plot = F)
+qplot(x = x$freq, y = x$spec, geom = "col",
+      xlab = "Frequency", ylab = "Periodogram")
+
+# Or use this function from the TSA package
+TSA::periodogram(sunspot.year)
+```
+
+{{< figure src="sunspot_periodogram.png" caption="Periodogram of the sunspots data." numbered="true" >}}
+
+The dominant peak occurs somewhere around a frequency of 0.09[^finding-max-spec]. This corresponds to a period of about $\frac{1}{0.09} \approx 11$ time periods. Thus, there appears to be a dominant periodicity of about 11 years in sunspot activity (because the observations are taken yearly).
+
+[^finding-max-spec]: This can be found with `x$freq[which.max(x$spec)]`.
+
+We're also ignoring the spike(s) around frequency zero, because the low-frequency behavior corresponds to **trends** rather than seasonal/periodical components.
