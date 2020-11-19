@@ -1,9 +1,9 @@
 ---
 title: "Quadratic Form"
 date: 2020-11-04T16:45:31-05:00
-summary: "" # appears in list of posts
+summary: "This long post covers the quadratic form and the positive definiteness of matrices. The decomposition of symmetric matrices is slightly touched on, and the entire post is mainly to prepare for the next chapter -- eigenvalues and eigenvectors." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
-tags: ["Linear Algebra"] # list of related tags
+tags: ["Linear Algebra", "Matrix", "Statistics"] # list of related tags
 
 slug: "linear-algebra-quadratic-form"
 toc: true # table of contents button in post
@@ -568,3 +568,70 @@ Although there seems no restrictions on the rank of $\boldsymbol{B}$, see that i
     $$
 
     So $\boldsymbol{G}$ is also NND. Note that this means we _can_ always find a positive semi-definite generalized inverse for $\boldsymbol{A}$. This doesn't mean _all_ $\boldsymbol{G}$'s are PSD!
+
+4. If $\boldsymbol{A}$ is symmetric and non-negative definite, and $tr(\boldsymbol{A}) = 0$, then $\boldsymbol{A} = \boldsymbol{0}$.
+
+    From the fact that $\boldsymbol{A}$ is NND, we can rewrite it as $\boldsymbol{A} = \boldsymbol{BB}'$ for some $\boldsymbol{B}$. We then have
+
+    $$
+    tr(\boldsymbol{BB}') = \sum_{i, j} b_{ij}^2 = 0 \Rightarrow \boldsymbol{B} = \boldsymbol{0} \Rightarrow \boldsymbol{A} = \boldsymbol{0}
+    $$
+
+5. If $\boldsymbol{A}$ is positive definite and $\boldsymbol{B}$ is non-negative definite and symmetric[^definiteness-of-ab], $tr(\boldsymbol{AB}) > 0$.
+
+    If the rank of $\boldsymbol{B}$ is $r$, we can rewrite $\boldsymbol{B} = \boldsymbol{Q}'\boldsymbol{Q}$ where $\boldsymbol{Q}$ is $r \times n$. Then,
+
+    $$
+    tr(\boldsymbol{AB}) = tr(\boldsymbol{AQ}'\boldsymbol{Q}) = tr(\boldsymbol{QAQ}')
+    $$
+
+    $\boldsymbol{QAQ}'$ is a positive definite matrix, and its trace is strictly positive.
+
+[^definiteness-of-ab]: $\boldsymbol{AB}$ is not necessarily non-negative definite.
+
+6. $\boldsymbol{A}$ is an $n \times n$ symmetric non-negative definite matrix[^statistical-context], and we partition it into
+
+    $$
+    \boldsymbol{A} = \begin{pmatrix}
+        \boldsymbol{T}\_{r \times r} & \boldsymbol{U}\_{r \times s} \\\\
+        \boldsymbol{V}\_{s \times r} & \boldsymbol{W}\_{s \times s}
+    \end{pmatrix}
+    $$
+
+    where $\boldsymbol{T}$ and $\boldsymbol{W}$ are square. Then,
+
+    $$
+    \begin{gathered}
+        \mathcal{C}(\boldsymbol{U}) \subset \mathcal{C}(\boldsymbol{T}), \quad \mathcal{R}(\boldsymbol{V}) \subset \mathcal{R}(\boldsymbol{T}) \\\\
+        \mathcal{C}(\boldsymbol{V}) \subset \mathcal{C}(\boldsymbol{W}), \quad \mathcal{R}(\boldsymbol{U}) \subset \mathcal{R}(\boldsymbol{W})
+    \end{gathered}
+    $$
+
+    To prove these, again we can rewrite $\boldsymbol{A} = \boldsymbol{B}'\boldsymbol{B}$ where $\boldsymbol{B}: n \times n$. Consider the partition $\boldsymbol{B} = [\boldsymbol{E}\_{n \times r} \quad \boldsymbol{F}\_{n \times s}]$. Matrix $\boldsymbol{A}$ is
+
+    $$
+    \boldsymbol{A} = \begin{pmatrix}
+        \boldsymbol{E}' \\\\ \boldsymbol{F}'
+    \end{pmatrix}
+    [\boldsymbol{E} \quad \boldsymbol{F}]
+    = \begin{pmatrix}
+        \boldsymbol{E}'\boldsymbol{E} & \boldsymbol{E}'\boldsymbol{F} \\\\
+        \boldsymbol{F}'\boldsymbol{E} & \boldsymbol{F}'\boldsymbol{F}
+    \end{pmatrix}
+    = \begin{pmatrix}
+        \boldsymbol{T} & \boldsymbol{U} \\\\
+        \boldsymbol{V} & \boldsymbol{W}
+    \end{pmatrix}
+    $$
+
+    This is pretty much the end of the proof. For example, $\mathcal{C}(\boldsymbol{U}) = \mathcal{C}(\boldsymbol{E}'\boldsymbol{F}) \subset \mathcal{C}(\boldsymbol{E}')$, and $\mathcal{C}(\boldsymbol{T}) = \mathcal{C}(\boldsymbol{E}'\boldsymbol{E}) = \mathcal{C}(\boldsymbol{E}')$.
+
+[^statistical-context]: In the statistical context, $\boldsymbol{A}$ is a variance-covariance matrix, $\boldsymbol{T}$ is the covariance matrix of part of the variables, $\boldsymbol{W}$ is the covariance matrix of the other part of the variables, and $\boldsymbol{U}$ and $\boldsymbol{V}$ are the cross-covariance matrices.
+
+7. Some properties about the determinant:
+
+    - If $\boldsymbol{A}$ is positive definite, then $|\boldsymbol{A}| > 0$.
+
+        One way to prove this is to write $\boldsymbol{A}$ as $\boldsymbol{BB}'$ where $\boldsymbol{B}$ is non=singular. $|\boldsymbol{A}| = |\boldsymbol{B}||\boldsymbol{B}'| = |\boldsymbol{B}|^2 > 0$.
+
+    - If $\boldsymbol{A}$ is positive semi-definite, then $|\boldsymbol{A}| = 0$.
