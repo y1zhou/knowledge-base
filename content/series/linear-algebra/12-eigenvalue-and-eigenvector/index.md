@@ -291,3 +291,131 @@ In general, the algebraic multiplicity and geometric multiplicity of an eigenval
     $$
 
     Similarly for $\lambda_1 = 5$ we can find $\boldsymbol{x}_3 = \frac{1}{\sqrt{3}}(1, 1, 1)'$.
+
+## Similar matrices
+
+{{<alert info>}}
+This section is not much related to the discussions above, but can come useful in some cases.
+{{</alert>}}
+
+If matrix $\boldsymbol{B} = \boldsymbol{C}^{-1}\boldsymbol{AC}$, then we say $\boldsymbol{B}$ and $\boldsymbol{A}$ are `similar`. This is equivalent to
+
+$$
+\boldsymbol{CB} = \boldsymbol{AC}
+$$
+
+We've actually seen one of these examples before when we were discussing symmetric matrix [diagonalization]({{<relref "../11-quadratic-form/index.md#theorem-1">}}). If $\boldsymbol{A}$ is symmetric, it can be written as $\boldsymbol{A} = \boldsymbol{P}^{-1}\boldsymbol{DP}$. A symmetric matrix is similar to a diagonal matrix.
+
+It is implied that both matrices are square. Some properties of similar matrices are:
+
+1. **Rank**: $r(\boldsymbol{B}) = r(\boldsymbol{A})$.
+2. **Trace**: The trace of similar matrices are also equal.
+
+    $$
+    tr(\boldsymbol{B}) = tr(\boldsymbol{C}^{-1}\boldsymbol{AC}) = tr(\boldsymbol{ACC}^{-1}) = tr(\boldsymbol{A})
+    $$
+
+3. **Determinant**: assuming both matrices are square,
+
+    $$
+    |\boldsymbol{B}| = |\boldsymbol{C}^{-1}\boldsymbol{AC}| = |\boldsymbol{C}^{-1}| |\boldsymbol{A}| |\boldsymbol{C}| = |\boldsymbol{A}|
+    $$
+
+    Here we used the fact that when $|\boldsymbol{C}| \neq 0$, $|\boldsymbol{C}^{-1}| = \frac{1}{|\boldsymbol{C}|}$.
+
+4. **Eigenvalues**: the eigenvalues of $\boldsymbol{B}$ makes $|\boldsymbol{B} - \lambda\boldsymbol{I}| = 0$.
+
+    $$
+    \begin{aligned}
+        |\boldsymbol{B} - \lambda\boldsymbol{I}| &= |\boldsymbol{C}^{-1}\boldsymbol{AC} - \lambda\boldsymbol{I}| \\\\
+        &= |\boldsymbol{C}^{-1}\boldsymbol{AC} - \lambda\boldsymbol{C}^{-1}\boldsymbol{IC}| \\\\
+        &= \left| \boldsymbol{C}^{-1} (\boldsymbol{A} - \lambda\boldsymbol{I})\boldsymbol{C} \right| \\\\
+        &= | \boldsymbol{C}^{-1}| |\boldsymbol{A} - \lambda\boldsymbol{I}| |\boldsymbol{C}| \\\\
+        &= |\boldsymbol{A} - \lambda\boldsymbol{I}|
+    \end{aligned}
+    $$
+
+    So $\boldsymbol{A}$ and $\boldsymbol{B}$ share the same set of eigenvalues.
+
+5. **Eigenvectors**: keep in mind that $\boldsymbol{B} = \boldsymbol{C}^{-1}\boldsymbol{AC}$.
+
+    $$
+    \begin{gathered}
+        \boldsymbol{Ax} = \lambda\boldsymbol{x} \\\\
+        \boldsymbol{C}^{-1}\boldsymbol{Ax} = \lambda\boldsymbol{C}^{-1}\boldsymbol{x} \\\\
+        \boldsymbol{C}^{-1}\boldsymbol{ACC}^{-1}\boldsymbol{x} = \lambda\boldsymbol{C}^{-1}\boldsymbol{x} \\\\
+        \boldsymbol{BC}^{-1}\boldsymbol{x} = \lambda\boldsymbol{C}^{-1}\boldsymbol{x}
+    \end{gathered}
+    $$
+
+    This means if $\boldsymbol{x}$ is an eigenvector of $\boldsymbol{A}$, then $\boldsymbol{C}^{-1}\boldsymbol{x}$ is an eigenvector of $\boldsymbol{B}$. The eigenvectors are **not** shared but can be easily found.
+
+## Important theorems
+
+We are going to establish two very important theorems about eigenvalues and eigenvectors.
+
+### Theorem 1
+
+{{<hl>}}Eigenvectors that are associated with distinct eigenvalues are linearly independent.{{</hl>}}
+
+**Proof**: let $\boldsymbol{v}_1, \cdots, \boldsymbol{v}_n$ be eigenvectors of $\boldsymbol{A}$ with distinct $\lambda_1, \cdots, \lambda_n$, i.e. $\lambda_i \neq \lambda_j$. Suppose $\boldsymbol{v}_i$'s are linearly dependent, consider
+
+$$
+\sum_{i=1}^n \alpha_i\boldsymbol{v}_i = \boldsymbol{0}
+$$
+
+There exists at least one $\alpha_i \neq 0$. For convenience, we rearrange the coefficients so that $\alpha_n \neq 0$. This means we can express $\boldsymbol{v}_n$ as a linear combination of the other $\boldsymbol{v}_i$'s.
+
+$$
+\begin{equation}\label{eq:vn}
+    \boldsymbol{v}_n = b_1 \boldsymbol{v}_1 + \cdots + b\_{n-1}\boldsymbol{v}\_{n-1}, \quad b_i = \frac{\alpha_i}{\alpha_n}
+\end{equation}
+$$
+
+Because $\boldsymbol{v}_n \neq \boldsymbol{0}$, not all $b_i$'s are zeros. Now we multiply $\boldsymbol{A}$ to Eq.$\eqref{eq:vn}$:
+
+$$
+\begin{align}
+    \boldsymbol{Av}_n &= b_1 \boldsymbol{Av}_1 + \cdots + b\_{n-1}\boldsymbol{Av}\_{n-1} \\\\
+    \lambda_n\boldsymbol{v}_n &= b_1 \lambda_1\boldsymbol{v}_1 + \cdots + b\_{n-1} \lambda\_{n-1}\boldsymbol{v}\_{n-1} \label{eq:avn}
+\end{align}
+$$
+
+Then we multiply $\lambda_n$ to Eq.$\eqref{eq:vn}$ to get
+
+$$
+\begin{equation}\label{eq:lambdavn}
+    \lambda_n\boldsymbol{v}_n = b_1\lambda_n\boldsymbol{v}_1 + \cdots + b\_{n-1}\lambda_n\boldsymbol{v}\_{n-1}
+\end{equation}
+$$
+
+See that $\eqref{eq:avn} - \eqref{eq:lambdavn}$
+
+$$
+\boldsymbol{0} = b_1(\lambda_1 - \lambda_n)\boldsymbol{v}_1 + \cdots + b\_{n-1}(\lambda\_{n-1} - \lambda_n)\boldsymbol{v}\_{n-1}
+$$
+
+Because the eigenvalues are assumed to be distinct, $\lambda_i - \lambda_n \neq 0$. We also assumed that not all $b_i$'s are zero. This means $\boldsymbol{v}_1, \cdots, \boldsymbol{v}\_{n-1}$ are linearly independent.
+
+If we continue this process, we can eliminate $\boldsymbol{v}\_{n-1}$ from the set, then $\boldsymbol{v}\_{n-2}$, etc. In the end, we'd be able to find that $\boldsymbol{v}_1 = \boldsymbol{0}$, which contradicts that fact that it's an eigenvector. Thus, the $\boldsymbol{v}_i$'s must be linearly independent.
+
+### Theorem 2
+
+{{<hl>}}Eigenvectors of a symmetric matrix (associated with distinct eigenvalues) are orthogonal.{{</hl>}}
+
+**Proof**: for $\boldsymbol{Ax}_1 = \lambda_1\boldsymbol{x}_1$ and $\boldsymbol{Ax}_2 = \lambda_2\boldsymbol{x}_2$, we need to show that if $\lambda_1 \neq \lambda_2$, then $\boldsymbol{x}_1'\boldsymbol{x}_2 = 0$. See that
+
+$$
+\begin{gathered}
+    \boldsymbol{x}_2'\boldsymbol{Ax}_1 = \lambda_1 \boldsymbol{x}_2'\boldsymbol{x}_1 \\\\
+    \boldsymbol{x}_1'\boldsymbol{Ax}_2 = \lambda_2 \boldsymbol{x}_1'\boldsymbol{x}_2
+\end{gathered}
+$$
+
+The LHS are equal because $\boldsymbol{A}$ is symmetric, so
+
+$$
+\lambda_1 \boldsymbol{x}_2'\boldsymbol{x}_1 = \lambda_2 \boldsymbol{x}_1'\boldsymbol{x}_2 = \lambda_2\boldsymbol{x}_2'\boldsymbol{x}_1 \Rightarrow (\lambda_1 - \lambda_2)\boldsymbol{x}_2'\boldsymbol{x}_1 = 0
+$$
+
+Since $\lambda_1 \neq \lambda_2$, $\boldsymbol{x}_2'\boldsymbol{x}_1 = 0$.
