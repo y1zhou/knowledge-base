@@ -25,7 +25,7 @@ weight: 10 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
+    caption: "Measuring tools on a map." # Give credits here, or whatever captions you want to add (support markdown)
     unsplash_id: "dQf7RZhMOJU" # Unsplash ID of the picture
 ---
 
