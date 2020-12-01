@@ -419,3 +419,135 @@ $$
 $$
 
 Since $\lambda_1 \neq \lambda_2$, $\boldsymbol{x}_2'\boldsymbol{x}_1 = 0$.
+
+## Spectral decomposition
+
+The `eigendecomposition` or spectral decomposition is the factorization of a matrix into a canonical form, where the matrix is represented in terms of its eigenvalues and eigenvectors.
+
+Let $\boldsymbol{A}$ be an $n \times n$ matrix with $n$ linearly independent eigenvectors $\boldsymbol{q}_i$, then $\boldsymbol{A}$ can be factorized as
+
+$$
+\boldsymbol{A} = \boldsymbol{QDQ}'
+$$
+
+where $\boldsymbol{Q}$ is an $n \times n$ matrix whose $i$-th column is the $\boldsymbol{q}_i$, and $\boldsymbol{D}$ is a diagonal matrix whose diagonal elements are the corresponding eigenvalues. We can show that the $\boldsymbol{A}$ matrix is expressed as the sum of $n$ rank 1 matrices:
+
+$$
+\boldsymbol{A} = \lambda_1 \boldsymbol{q}_1\boldsymbol{q}_1' + \lambda_2 \boldsymbol{q}_2\boldsymbol{q}_2' + \cdots + \lambda_n \boldsymbol{q}_n\boldsymbol{q}_n' = \sum\_{i=1}^n \lambda_i \boldsymbol{q}_i\boldsymbol{q}_i'
+$$
+
+If $\boldsymbol{A}$ has rank $r$, i.e. the first $r$ eigenvalues are non-zero, then $\boldsymbol{A}$ is the sum of the first $r$ rank 1 matrices.
+
+### Low-rank approximation
+
+Suppose $\boldsymbol{A}$ is non-negative definite so that $\lambda_i \geq 0$. The `leading eigenvalues` are the first $R$ eigenvalues that are much larger[^much-larger] than the others:
+
+$$
+\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_R \gg \lambda\_{R+1} \geq \cdots \geq \lambda_r > 0
+$$
+
+[^much-larger]: The "much larger" here is very subjective, but in real data it happens quite often.
+
+If this is the case, then $\boldsymbol{A}$ can be approximated by the sum of the first $R$ rank 1 matrices $\boldsymbol{A} \approx \sum\_{i=1}^R \lambda_i \boldsymbol{q}_i\boldsymbol{q}_i'$ where $R \ll r$. This is called `low-rank approximation` and is frequently used in machine learning.
+
+### Properties
+
+{{<alert info>}}
+A quick recap on the relationship between eigenvalues and the definiteness of matrices:
+
+-   If all $\lambda_i \geq 0$, then $\boldsymbol{A}$ is non-negative definite.
+-   If all $\lambda_i > 0$, then $\boldsymbol{A}$ is positive definite.
+-   If all $\lambda_i < 0$, then $\boldsymbol{A}$ is negative definite.
+-   If some $\lambda_i > 0$ and some $\lambda_i < 0$, then $\boldsymbol{A}$ is indefinite.
+
+{{</alert>}}
+
+1. Finding the **trace** (again) with the eigendecomposition:
+
+    $$
+    tr(\boldsymbol{A}) = tr(\boldsymbol{QDQ}') = tr(\boldsymbol{DQ}'\boldsymbol{Q}) = tr(\boldsymbol{DI}) = tr(\boldsymbol{D}) = \sum\_{i=1}^n \lambda_i
+    $$
+
+2. **Determinant**:
+
+    $$
+    \begin{aligned}
+        \det(\boldsymbol{A}) = \det(\boldsymbol{QDQ}') &= \det(\boldsymbol{Q}) \det(\boldsymbol{D}) \det(\boldsymbol{Q}') \\\\
+        &= \det(\boldsymbol{Q}) \det(\boldsymbol{Q}') \det(\boldsymbol{D}) \\\\
+        &= \det(\boldsymbol{QQ}') \det(\boldsymbol{D}) \\\\
+        &= \det(\boldsymbol{D}) = \prod\_{i=1}^n \lambda_i
+    \end{aligned}
+    $$
+
+3. Where does the eigendecomposition come from? we can post-multiply $\boldsymbol{Q}$ to both sides:
+
+    $$
+    \boldsymbol{AQ} = \boldsymbol{QDQ}'\boldsymbol{Q} = \boldsymbol{QD}
+    $$
+
+    Now if we express $\boldsymbol{Q}$ using its column vectors and $\boldsymbol{D}$ its diagonals,
+
+    $$
+    \begin{gathered}
+        \boldsymbol{A}[\boldsymbol{q}_1, \cdots, \boldsymbol{q}_n] = [\boldsymbol{q}_1, \cdots, \boldsymbol{q}_n] \begin{pmatrix}
+            \lambda_1 & & \\\\
+            & \ddots & \\\\
+            & & \lambda_n
+        \end{pmatrix} \\\\
+        [\boldsymbol{Aq}_1, \cdots, \boldsymbol{Aq}_n] = [\lambda_1\boldsymbol{q}_1, \cdots, \lambda_n\boldsymbol{q}_n] \\\\
+        \boldsymbol{Aq}_i = \lambda_i \boldsymbol{q}_i
+    \end{gathered}
+    $$
+
+    which is just the eigenvalue-eigenvector pair coming from Eq.$\eqref{eq:ev}$.
+
+4. **Powers**: $\lambda_i^m$ is the eigenvalue for $\boldsymbol{A}^m$.
+
+    $$
+    \begin{aligned}
+        \boldsymbol{A} &= \boldsymbol{QDQ}' \\\\
+        \boldsymbol{A}^2 &= \boldsymbol{QDQ}'\boldsymbol{QDQ}' = \boldsymbol{QD}^2\boldsymbol{Q}' \\\\
+        &\quad\vdots \\\\
+        \boldsymbol{A}^m &= \boldsymbol{QD}^m\boldsymbol{Q}' \\\\
+    \end{aligned}
+    $$
+
+    This means for eigenvalues that are smaller than one, if we keep multiplying the matrix by itself then the eigenvalue goes to zero.
+
+5. **Inverse**: if $\boldsymbol{A}$ is non-singular, i.e. none of the eigenvalues are zero,
+
+    $$
+    \boldsymbol{A}^{-1} = \left(\boldsymbol{QDQ}'\right)^{-1} = \left(\boldsymbol{Q}'\right)^{-1} \boldsymbol{D}^{-1} \boldsymbol{Q}^{-1} = \boldsymbol{QD}^{-1}\boldsymbol{Q}'
+    $$
+
+6. **Square root of a matrix**. The definition is $\boldsymbol{A}^\frac{1}{2}\boldsymbol{A}^\frac{1}{2} = \boldsymbol{A}$. If $\boldsymbol{A}$ is non-negative definite, then
+
+    $$
+    \boldsymbol{A}^\frac{1}{2} \triangleq \boldsymbol{QD}^\frac{1}{2}\boldsymbol{Q}', \quad \boldsymbol{D}^\frac{1}{2} = \begin{pmatrix}
+        \sqrt{\lambda_1} & & \\\\
+        & \ddots & \\\\
+        & & \sqrt{\lambda_n}
+    \end{pmatrix}
+    $$
+
+7. For an **idempotent and symmetric matrix** $\boldsymbol{A}$, if $\lambda$ is an eigenvalue of $\boldsymbol{A}$, $\boldsymbol{Ax} = \lambda\boldsymbol{x}$ for some non-zero vector $\boldsymbol{x}$.
+
+    $$
+    \lambda\boldsymbol{x} = \boldsymbol{Ax} = \boldsymbol{A}^2\boldsymbol{x} = \lambda\boldsymbol{Ax} = \lambda^2\boldsymbol{x}
+    $$
+
+    So from $\lambda^2 = \lambda$, $\lambda$ can only be 0 or 1. If all $\lambda_i = 1$, $\boldsymbol{A} = \boldsymbol{I}$. Another interesting property is
+
+    $$
+    \\#(\lambda_i = 1) = \sum\_{i=1}^n \lambda_i = tr(\boldsymbol{A}) = r(\boldsymbol{A})
+    $$
+
+8. For an **orthogonal matrix** $\boldsymbol{P}$, take the norm square:
+
+    $$
+    \begin{gathered}
+        \boldsymbol{x}'\boldsymbol{P}'\boldsymbol{Px} = \lambda^2\boldsymbol{x}'\boldsymbol{x} \\\\
+        \boldsymbol{x}'\boldsymbol{x} = \lambda^2\boldsymbol{x}'\boldsymbol{x} \\\\
+        \lambda^2 = 1 \Rightarrow \lambda = \pm 1
+    \end{gathered}
+    $$
