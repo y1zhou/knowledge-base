@@ -450,7 +450,7 @@ $$
 
 If this is the case, then $\boldsymbol{A}$ can be approximated by the sum of the first $R$ rank 1 matrices $\boldsymbol{A} \approx \sum\_{i=1}^R \lambda_i \boldsymbol{q}_i\boldsymbol{q}_i'$ where $R \ll r$. This is called `low-rank approximation` and is frequently used in machine learning.
 
-### Properties
+### Relationship with previous concepts
 
 {{<alert info>}}
 A quick recap on the relationship between eigenvalues and the definiteness of matrices:
@@ -551,3 +551,68 @@ A quick recap on the relationship between eigenvalues and the definiteness of ma
         \lambda^2 = 1 \Rightarrow \lambda = \pm 1
     \end{gathered}
     $$
+
+9. We've established that for a symmetric matrix $\boldsymbol{A}$,
+
+    $$
+    \begin{aligned}
+        \boldsymbol{A} &= \boldsymbol{QDQ}' \\\\
+        &= d_1\boldsymbol{q}_1\boldsymbol{q}_1' + \cdots + d_n\boldsymbol{q}_n\boldsymbol{q}_n' \\\\
+        &= \sum\_{i=1}^n d_i\boldsymbol{q}_i\boldsymbol{q}_i'
+    \end{aligned}
+    $$
+
+    Note that each $\boldsymbol{q}_i\boldsymbol{q}_i'$ is an $n \times n$ matrix. If we look at the $j$-th diagonal element of matrix $\boldsymbol{A}$,
+
+    $$
+    \boldsymbol{a}\_{jj} = \sum\_{i=1}^n d_i q\_{ji} q\_{ji} = \sum\_{i=1}^n d_i q\_{ji}^2
+    $$
+
+    We know that the $q\_{ji}^2$ part is always non-negative, so the diagonal element's sign depends on the corresponding eigenvalue. For off-diagonal elements of $\boldsymbol{A}$,
+
+    $$
+    \boldsymbol{a}\_{jk} = TODO
+    $$
+
+10. If $\boldsymbol{A}$ has rank $r$ and $r < n$, then we can partition $\boldsymbol{Q}$ into an $n \times r$ matrix $\boldsymbol{Q}_1$ and $n \times (n-r)$ matrix $\boldsymbol{Q}_2$:
+
+    $$
+    \begin{aligned}
+        \boldsymbol{A} &= \boldsymbol{QDQ}' \\\\
+        &= [\boldsymbol{Q}_1, \boldsymbol{Q}_2] \begin{pmatrix}
+        \lambda_1 & & & & & \\\\
+        & \ddots & & & & \\\\
+        & & \lambda_r & & & \\\\
+        & & & 0 & & \\\\
+        & & & & \ddots & \\\\
+        & & & & & 0
+    \end{pmatrix} \begin{pmatrix}
+        \boldsymbol{Q}_1' \\\\ \boldsymbol{Q}_2'
+    \end{pmatrix} \\\\
+    &= \boldsymbol{Q}_1 \boldsymbol{D}_1 \boldsymbol{Q}_1' + \boldsymbol{Q}_2 \boldsymbol{0} \boldsymbol{Q}_2'
+    \end{aligned}
+    $$
+
+    The columns of $\boldsymbol{Q}_1$ are in the column space of $\boldsymbol{A}$, which means $\boldsymbol{Q}_1$ has an orthonormal basis for $\mathcal{C}(\boldsymbol{A})$. Following the same logic, we have $\boldsymbol{Q}_2$ has an orthonormal basis for $\mathcal{N}(\boldsymbol{A})$.
+
+    Thus, {{<hl>}}$\boldsymbol{Q}_1\boldsymbol{Q}_1'$ is the projection matrix to $\mathcal{C}(\boldsymbol{A})$, and $\boldsymbol{Q}_2\boldsymbol{Q}_2'$ is the projection matrix to $\mathcal{N}(\boldsymbol{A})$.{{</hl>}}
+
+11. If $\boldsymbol{A}$ has ordered eigenvalues $\lambda_1 \geq \cdots \geq \lambda_n$, then $\lambda_1 \boldsymbol{I} - \boldsymbol{A}$ is always non-negative definite.
+
+    We can prove this by changing the identity matrix to $\boldsymbol{QQ}'$, where $\boldsymbol{Q}$ is the eigenvector matrix for $\boldsymbol{A}$:
+
+    $$
+    \begin{aligned}
+        \lambda_1 \boldsymbol{QQ}' - \boldsymbol{QDQ}' &= \boldsymbol{Q}(\lambda_1 \boldsymbol{I}) \boldsymbol{Q}' - \boldsymbol{QDQ}' \\\\
+        &= \boldsymbol{Q} \begin{pmatrix}
+            \lambda_1 - \lambda_1 & & & \\\\
+            & \lambda_1 - \lambda_2 & & \\\\
+            & & \ddots & \\\\
+            & & & \lambda_1 - \lambda_n
+        \end{pmatrix} \boldsymbol{Q}'
+    \end{aligned}
+    $$
+
+    So $\lambda_1 - \lambda_1, \cdots, \lambda_1 - \lambda_n$ are eigenvalues of $\lambda_1 \boldsymbol{I} - \boldsymbol{A}$. Since all eigenvalues are non-negative, the matrix is non-negative definite.
+
+    Similarly, $\boldsymbol{A} - \lambda_n \boldsymbol{I}$ is non-negative definite.
