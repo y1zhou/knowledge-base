@@ -616,3 +616,119 @@ A quick recap on the relationship between eigenvalues and the definiteness of ma
     So $\lambda_1 - \lambda_1, \cdots, \lambda_1 - \lambda_n$ are eigenvalues of $\lambda_1 \boldsymbol{I} - \boldsymbol{A}$. Since all eigenvalues are non-negative, the matrix is non-negative definite.
 
     Similarly, $\boldsymbol{A} - \lambda_n \boldsymbol{I}$ is non-negative definite.
+
+## Singular value decomposition
+
+The eigendecomposition is a powerful factorization tool, but it only works on square matrices. The <abbr title="Singular Value Decomposition">SVD</abbr> generalizes the eigendecomposition to **any** $m \times n$ matrix.
+
+Suppose $\boldsymbol{A}$ is an $m \times n$ matrix with rank $r$. Obviously we cannot apply eigenvalue decomposition directly on this matrix, but we can try to make it into a square (and symmetric) matrix:
+
+1. $\boldsymbol{AA}'$ is a non-negative definite, symmetric $m \times m$ matrix with rank $r$. Note that $\mathcal{C}(\boldsymbol{AA}') = \mathcal{C}(\boldsymbol{A})$. By eigendecomposition, we have
+
+    $$
+    \begin{equation}\label{eq:svd-P-matrix}
+        \boldsymbol{AA}' = \boldsymbol{P}\_{m \times m} \boldsymbol{D}\_{m \times m}^* \boldsymbol{P}\_{m \times m}'
+    \end{equation}
+    $$
+
+    Given it has rank $r$, we can further partition $\boldsymbol{P}$ into $m \times r$ matrix $\boldsymbol{P}_1$ and $m \times (m-r)$ matrix $\boldsymbol{P}_2$:
+
+    $$
+    \eqref{eq:svd-P-matrix} = [\boldsymbol{P}_1, \boldsymbol{P}_2] \begin{pmatrix}
+        (\boldsymbol{D}_1)\_{r \times r}^* & \boldsymbol{0} \\\\
+        \boldsymbol{0} & \boldsymbol{0}
+    \end{pmatrix}
+    \begin{pmatrix}
+        \boldsymbol{P}_1' \\\\ \boldsymbol{P}_2'
+    \end{pmatrix} = \boldsymbol{P}_1 \boldsymbol{D}_1^* \boldsymbol{P}_1'
+    $$
+
+    The columns of $\boldsymbol{P}_1$ form a basis for $\mathcal{C}(\boldsymbol{A})$.
+
+2. $\boldsymbol{A}'\boldsymbol{A}$ is also non-negative definite, symmetric with rank $r$, but its dimensions are $n \times n$ and we have $\mathcal{R}(\boldsymbol{A}'\boldsymbol{A}) = \mathcal{R}(\boldsymbol{A})$.
+
+    $$
+    \begin{equation}\label{eq:svd-Q-matrix}
+    \boldsymbol{A}'\boldsymbol{A} = \boldsymbol{Q}\_{n \times n} \boldsymbol{D}^{\*\*} \boldsymbol{Q}' = [\boldsymbol{Q}_1, \boldsymbol{Q}_2] \begin{pmatrix}
+            \boldsymbol{D}_1^{\*\*} & \boldsymbol{0} \\\\
+            \boldsymbol{0} & \boldsymbol{0}
+        \end{pmatrix}
+        \begin{pmatrix}
+            \boldsymbol{Q}_1' \\\\ \boldsymbol{Q}_2'
+        \end{pmatrix} = \boldsymbol{Q}_1 \boldsymbol{D}_1^{\*\*} \boldsymbol{Q}_1'
+    \end{equation}
+    $$
+
+    Similarly, the $r$ columns of $\boldsymbol{Q}_1$ are a basis for $\mathcal{R}(\boldsymbol{A})$.
+
+Now we want to show that $\boldsymbol{AA}'$ and $\boldsymbol{A}'\boldsymbol{A}$ have the same eigenvalues, i.e. $\boldsymbol{D}_1^* = \boldsymbol{D}_1^{\*\*}$. If $\lambda$ is an eigenvalue of $\boldsymbol{AA}'$,
+
+$$
+\boldsymbol{AA}' \boldsymbol{x} = \lambda \boldsymbol{x}
+$$
+
+for some $\boldsymbol{x} \neq \boldsymbol{0}$. We're going to pre-multiply $\boldsymbol{A}'$ to both sides:
+
+$$
+\begin{gathered}
+    \boldsymbol{A}'\boldsymbol{AA}' \boldsymbol{x} = \lambda \boldsymbol{A}'\boldsymbol{x} \\\\
+    \boldsymbol{A}'\boldsymbol{Ay} = \lambda\boldsymbol{y}, \quad \boldsymbol{y} = \boldsymbol{A}'\boldsymbol{x}
+\end{gathered}
+$$
+
+Thus, $\lambda$ is an eigenvalue of $\boldsymbol{A}'\boldsymbol{A}$, QED.
+
+### Definition
+
+The `singular value decomposition` of $\boldsymbol{A}$ decomposes the $m \times n$ matrix into
+
+$$
+\boldsymbol{A} = \boldsymbol{PDQ}'
+$$
+
+where $\boldsymbol{P}: m \times m$ and $\boldsymbol{Q}: n \times n$ are orthogonal matrices, and $\boldsymbol{D}: m \times n$ is rectangular diagonal[^rectangular-diagonal]. $\boldsymbol{P}$ is called the `left singular vector matrix`, and $\boldsymbol{Q}$ is the `right singular vector matrix`.
+
+[^rectangular-diagonal]: All entries not of the form $d\_{ii}$ are zeros. Think of this as a square diagonal matrix horizontally or vertically concatenated with a zero matrix.
+
+If the rank of $\boldsymbol{A}$ is $r$, then we can partition the orthogonal matrices similarly:
+
+$$
+\boldsymbol{A} = [\boldsymbol{P}_1, \boldsymbol{P}_2] \begin{pmatrix}
+    \boldsymbol{D}_1 & \boldsymbol{0} \\\\
+    \boldsymbol{0} & \boldsymbol{0}
+\end{pmatrix} \begin{pmatrix}
+    \boldsymbol{Q}_1' \\\\ \boldsymbol{Q}_2'
+\end{pmatrix} = \boldsymbol{P}_1 \boldsymbol{D}_1 \boldsymbol{Q}_1'
+$$
+
+This is [compact SVD](https://en.wikipedia.org/wiki/Singular_value_decomposition#Reduced_SVDs) and is more economical than the full SVD. The dimensions should be $m \times r$ for $\boldsymbol{P}_1$, $r \times r$ for $\boldsymbol{D}_1$, and $r \times n$ for $\boldsymbol{Q}_1'$. Diagonal elements of $\boldsymbol{D}_1$ are called `singular values`.
+
+Note that $\boldsymbol{P}$ is nothing but the eigenvector matrix of $\boldsymbol{AA}'$, which is exactly the same $\boldsymbol{P}$ matrix in Eq.$\eqref{eq:svd-P-matrix}$. Similarly, $\boldsymbol{Q}$ is the same matrix from Eq.$\eqref{eq:svd-Q-matrix}$, the eigenvector matrix of $\boldsymbol{A}'\boldsymbol{A}$.
+
+We also have $\boldsymbol{D}_1 = \sqrt{\boldsymbol{D}_1^*} = \sqrt{\boldsymbol{D}_1^{\*\*}}$. The singular values of $\boldsymbol{A}$ is the same as the square root of the eigenvalues of $\boldsymbol{AA}'$ or $\boldsymbol{A}'\boldsymbol{A}$. This means no matter what form $\boldsymbol{A}$ takes, its **singular values are strictly positive**. This provides a good measure for the "magnitude" of the matrix.
+
+In practice, singular vectors are often only the part of $\boldsymbol{P}$ or $\boldsymbol{Q}$ that correspond to non-zero singular values, i.e. $\boldsymbol{P}_1$ and $\boldsymbol{Q}_1$. $\boldsymbol{P}_1$ has an orthonormal basis for $\mathcal{C}(\boldsymbol{A})$, and $\boldsymbol{Q}_1$ has an orthonormal basis for $\boldsymbol{R}(\boldsymbol{A})$. Similarly, $\boldsymbol{P}_2$ has an orthonormal basis for $\mathcal{C}(\boldsymbol{A})^\perp$, and $\boldsymbol{Q}_2$ for $\mathcal{N}(\boldsymbol{A})$.
+
+With these, we have
+
+$$
+\begin{gathered}
+    \boldsymbol{P}_1'\boldsymbol{P}_1 = \boldsymbol{I}_r = \boldsymbol{Q}_1'\boldsymbol{Q}_1 \\\\
+    \boldsymbol{P}_1'\boldsymbol{P}_2 = \boldsymbol{0}\_{r \times (m - r)} \\\\
+    \boldsymbol{Q}_1'\boldsymbol{Q}_2 = \boldsymbol{0}\_{r \times (n - r)} \\\\
+\end{gathered}
+$$
+
+Finally, if we represent the singular vectors as individual columns,
+
+$$
+\boldsymbol{A} = [\boldsymbol{p}_1, \cdots, \boldsymbol{p}_r] \begin{pmatrix}
+    d_1 & & \\\\
+    & \ddots & \\\\
+    & & d_r
+\end{pmatrix} \begin{pmatrix}
+    \boldsymbol{q}_1' \\\\ \vdots \\\\ \boldsymbol{q}_r'
+\end{pmatrix} = \sum\_{i=1}^r d_i \boldsymbol{p}_i \boldsymbol{q}_i'
+$$
+
+which is the sum of $r$ rank 1 matrices. We can approximate this with some $R < r$, namely the `truncated SVD`.
