@@ -732,3 +732,88 @@ $$
 $$
 
 which is the sum of $r$ rank 1 matrices. We can approximate this with some $R < r$, namely the `truncated SVD`.
+
+### Moore-Penrose inverse
+
+The Moore-Penrose inverse of a matrix is the most widely known generalization of the inverse matrix. For any $m \times n$ matrix $\boldsymbol{A}$ with rank $r$, if $\boldsymbol{G}$ satisfies the following four criteria:
+
+1. $\boldsymbol{AGA} = \boldsymbol{A}$,
+2. $\boldsymbol{GAG} = \boldsymbol{G}$,
+3. $\boldsymbol{AG}$ is symmetric,
+4. $\boldsymbol{GA}$ is symmetric.
+
+$\boldsymbol{G}$ is the `Moore-Penrose inverse`. It is **uniquely defined**, and is often denoted $\boldsymbol{A}^+$.
+
+A simple example is the rank decomposition $\boldsymbol{A} = \boldsymbol{BT}$ where $\boldsymbol{B}: m \times r$ and $\boldsymbol{T}: r \times n$, then
+
+$$
+\boldsymbol{G} = T'(TT')^{-1}(B'B)^{-1}B'
+$$
+
+is the Moore-Penrose inverse, and it's invariant to the choice of $\boldsymbol{B}$ and $\boldsymbol{T}$. See that $\boldsymbol{G}$ satisfies all four conditions above.
+
+The Moore-Penrose inverse can be computed using the singular value decomposition. If $\boldsymbol{A} = \boldsymbol{PDQ}'$ is the compact SVD of $\boldsymbol{A}$, then
+
+$$
+\boldsymbol{A}^+ = \boldsymbol{QD}^{-1}\boldsymbol{P}'
+$$
+
+is the Moore-Penrose inverse of $\boldsymbol{A}$.
+
+So why do we need this special case of generalized inverses? Generalized inverses always exist but are not in general unique. The last two conditions results in the uniqueness of the Moore-Penrose inverse, and it's useful for [computing the least squares solution to a system of linear equations](https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse#Applications).
+
+## Kronecker product
+
+If $\boldsymbol{A}$ is an $m \times n$ matrix and $\boldsymbol{B}$ is a $p \times q$ matrix, then the `Kronecker product` is the $pm \times qn$ block matrix
+
+$$
+\boldsymbol{A} \otimes \boldsymbol{B} = \begin{pmatrix}
+    a_{11}\boldsymbol{B} & \cdots & a_{1n}\boldsymbol{B} \\\\
+    \vdots & \ddots & \vdots \\\\
+    a_{m1}\boldsymbol{B} & \cdots & a_{mn}\boldsymbol{B}
+\end{pmatrix}
+$$
+
+Note that each of the elements here is a $p \times q$ matrix, so this operation is not commutative. In statistical applications, either or both of $\boldsymbol{A}$ and/or $\boldsymbol{B}$ is the identity matrix, matrix of ones, etc.
+
+For example, in an one-way ANOVA model
+
+$$
+y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad i = 1, 2, \quad j = 1, 2, 3
+$$
+
+In matrix notation, we want to express the model as
+
+$$
+\boldsymbol{y} = \boldsymbol{X\beta} + \boldsymbol{\epsilon}
+$$
+
+where
+
+$$
+\begin{gathered}
+    \boldsymbol{y} = (y_{11}, y_{12}, y_{13}, y_{21}, y_{22}, y_{23})' \\\\
+    \boldsymbol{\beta} = (\mu, \alpha_1, \alpha_2)'
+\end{gathered}
+$$
+
+To construct the matrix $\boldsymbol{X}$, we can write it out explicitly
+
+$$
+\boldsymbol{X} = \begin{pmatrix}
+    1 & 1 & 0 \\\\
+    1 & 1 & 0 \\\\
+    1 & 1 & 0 \\\\
+    1 & 0 & 1 \\\\
+    1 & 0 & 1 \\\\
+    1 & 0 & 1
+\end{pmatrix}
+$$
+
+which wasn't too hard because the design is simple, but we can see that things could quickly get out of control for more complicated designs. A neater way to express $\boldsymbol{X}$ is using the Kronecker product:
+
+$$
+\boldsymbol{X} = \begin{pmatrix}
+    \boldsymbol{1}_6 & \boldsymbol{I}_2 \otimes \boldsymbol{1}_3
+\end{pmatrix}
+$$
