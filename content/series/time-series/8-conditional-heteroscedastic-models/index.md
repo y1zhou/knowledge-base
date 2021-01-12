@@ -1,9 +1,9 @@
 ---
 title: "Conditional Heteroscedastic Models"
 date: 2020-11-23T18:22:39-05:00
-summary: "" # appears in list of posts
+summary: "Introducing volatility to our time series models. The properties and building procedures of ARCH and GARCH models are discussed." # appears in list of posts
 categories: ["Time Series"] # main category; shown in post metadata
-tags: ["Time Series"] # list of related tags
+tags: ["Time Series", "Autocorrelation", "Visualization"] # list of related tags
 
 slug: "time-series-conditional-heteroscedastic-models"
 toc: true # table of contents button in post
@@ -18,8 +18,8 @@ weight: 80 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Sunset through waves." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "zeu8_cIBezc" # Unsplash ID of the picture
 ---
 
 This final chapter in on a type of model that's popular within financial time series. The source of most of the material is [listed here](https://faculty.chicagobooth.edu/ruey-s-tsay/teaching).
@@ -52,7 +52,7 @@ $$
 VaR_\alpha(L) = \inf\\{ l \in \mathbb{R}: F_L(l) \geq \alpha \\}
 $$
 
-where $F$ is the <abbr title="Cumulative Distribution Function">CDF</abbr> of the loss function, and the confidence level of the VaR is $1-\alpha$. In other words, the VaR is defined as the potential loss in the worst case scenerio at $1-\alpha$ confidence level.
+where $F$ is the <abbr title="Cumulative Distribution Function">CDF</abbr> of the loss function, and the confidence level of the VaR is $1-\alpha$. In other words, the VaR is defined as the potential loss in the worst case scenario at $1-\alpha$ confidence level.
 
 Modeling the volatility of a time series can improve the efficiency in parameter estimation and the accuracy in interval forecast.
 
@@ -145,7 +145,7 @@ The intercept seems small enough for us to go for a zero-mean model, but let's n
 
 The spikes in the later lags of the PACF indicate that the model for the mean part ($\mu_t$) could be improved. As for the ACF and PACF of the squared residuals, we can see strong autocorrelation, which indicates the volatility is not constant over time and should be modeled.
 
-{{< figure src="residuals_sq_ACF_PACF.png" caption="ACF and PACF of the residuals." numbered="true" >}}
+{{< figure src="residuals_sq_ACF_PACF.png" caption="ACF and PACF of the squared residuals." numbered="true" >}}
 
 The correlation we found in the mean part could also be affected by the volatility changes. The ARCH effect is somewhat obvious, but we can also use the Ljung-Box test on the squared residuals and conclude that there is serial correlation.
 
@@ -224,7 +224,7 @@ $$
 
 1. Positive and negative shocks have the same effects on volatility. In practice, it's well known that the price of a financial asset responds differently to positive and negative shocks.
 2. ARCH model with Gaussian innovation is not good enough for capturing excess kurtosis of a financial time series. Skewed and $t$-distributions are often used.
-3. Lower-order (small $m$) ARCH models often don't perform well, and we end up with a lot of parameters to estimate in order to model the volatility. This led to the development of <abbr title="Generalized Autoregressive Conditional Heteroskedasticity">GARCH</abbr> models.
+3. Lower-order (small $m$) ARCH models often don't perform well, and we end up with a lot of parameters to estimate in order to model the volatility. This led to the development of <abbr title="Generalized Autoregressive Conditional Heteroscedasiticity">GARCH</abbr> models.
 4. The ARCH model does not provide any new insight for understanding the sources of variation of a financial time series.
 
 ### Building an ARCH model
@@ -289,3 +289,157 @@ $$
     $$
     \hat\sigma_h(l) = \alpha_0 + \sum\_{i=1}^m \alpha_i \hat\sigma_h(l-i)
     $$
+
+### Model fitting in R
+
+The `fGarch` package could be used to fit ARCH (and later GARCH) models. The input data are the raw log returns, not the residuals or squared residuals. For ARCH models, we set the second parameter of `garch()` to 0.
+
+```r
+m <- garchFit(formula = ~ garch(1, 0), data = log_return, trace = F)
+summary(m)
+# Title:
+#  GARCH Modelling
+
+# Call:
+#  garchFit(formula = ~garch(1, 0), data = log_return, trace = F)
+
+# Mean and Variance Equation:
+#  data ~ garch(1, 0)
+# <environment: 0x000002863be9e240>
+#  [data = log_return]
+
+# Conditional Distribution:
+#  norm
+
+# Coefficient(s):
+#         mu       omega      alpha1
+# 4.2733e-04  6.3858e-05  3.3075e-01
+
+# Std. Errors:
+#  based on Hessian
+
+# Error Analysis:
+#         Estimate  Std. Error  t value Pr(>|t|)
+# mu     4.273e-04   7.038e-05    6.072 1.27e-09 ***
+# omega  6.386e-05   9.852e-07   64.816  < 2e-16 ***
+# alpha1 3.308e-01   1.571e-02   21.051  < 2e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Log Likelihood:
+#  50352.15    normalized:  3.280911
+
+# Standardised Residuals Tests:
+#                                 Statistic p-Value
+#  Jarque-Bera Test   R    Chi^2  45483.73  0
+#  Shapiro-Wilk Test  R    W      NA        NA
+#  Ljung-Box Test     R    Q(10)  77.8096   1.347256e-12
+#  Ljung-Box Test     R    Q(15)  95.02417  1.135758e-13
+#  Ljung-Box Test     R    Q(20)  103.5256  2.930989e-13
+#  Ljung-Box Test     R^2  Q(10)  2654.464  0
+#  Ljung-Box Test     R^2  Q(15)  3486.78   0
+#  Ljung-Box Test     R^2  Q(20)  4055.941  0
+#  LM Arch Test       R    TR^2   1738.581  0
+
+# Information Criterion Statistics:
+#       AIC       BIC       SIC      HQIC
+# -6.561432 -6.559938 -6.561432 -6.560937
+```
+
+The fitted model above is
+
+$$
+r_t = \mu_t + a_t = 4.2733 \times 10^{-4} + a_t,\quad \sigma_t^2 = 6.3858 \times 10^{-5} + 0.33075 a\_{t-1}^2
+$$
+
+In the `Standardised Residuals Tests` part, the Jarque-Bera test and Shapiro-Wilk test are tests for normality. The Ljung-Box tests are grouping the time points into blocks, and testing for autocorrelation within the blocks. `R` stands for residuals and `R^2` for squared residuals. It seems there's still strong serial correlation within the standardized residuals, so we may have to increase the order of the ARCH model.
+
+In the `garchFit()` function, we can also specify the `cond.dist` parameter to some other conditional distribution, such as `snorm` for skewed normal, `std` for Student $t$-distribution, and `sstd` for skewed $t$-distribution.
+
+## GARCH model
+
+As we briefly discussed in [the weaknesses of ARCH models](#weakness-of-arch-models), the ARCH model has certain shortcomings, and some of those are addressed by the `Generalized Autoregressive Conditional Heteroscedasticity` model. A GARCH$(m, s)$ model is
+
+$$
+a_t = \sigma_t \epsilon_t, \quad \sigma_t^2 = \textcolor{blue}{\alpha_0 + \sum\_{i=1}^m \alpha_i a\_{t-i}^2} + \textcolor{red}{\sum\_{j=1}^s \beta_j \sigma\_{t-j}^2},
+$$
+
+where , $\alpha_0 > 0$, $\alpha_i \geq 0$ for $i > 0$ and $\beta_j \geq 0$ for $j > 0$. $\epsilon_t$ is a sequence of i.i.d. random variables with mean 0 and variance 1. It's often assumed to follow the standard normal or standardized $t$-distribution in practice. Note that the blue part in the equation is just an ARCH model.
+
+Although the specification of the GARCH model seems more complicated than that of the ARCH model, the latter often requires many more parameters to adequately describe the volatility process.
+
+### Properties of GARCH(1, 1)
+
+The model is
+
+$$
+a_t = \sigma_t \epsilon_t, \quad \sigma_t^2 = \alpha_0 + \alpha_1 a\_{t-1}^2 + \beta_1 \sigma\_{t-1}^2
+$$
+
+where $\alpha_0 > 0$, $\alpha_1 \geq 0$, and $\beta_1 \geq 0$. A large $a\_{t-1}^2$ or $\sigma\_{t-1}^2$ gives rise to a large $\sigma_t^2$. This means a large $a\_{t-1}^2$ or $\sigma\_{t-1}^2$ tends to be followed by another large $a_t^2$, generating the behavior of volatility clustering on financial time series.
+
+The tail distribution of a GARCH(1, 1) process is heavier than that of a normal distribution.
+
+### Building a GARCH model
+
+The procedure of building ARCH models can also be used to build a GARCH model. It should be noted that determining the order of a GARCH model is not easy, and in most applications only lower order GARCH models are used, e.g. GARCH(1, 1), GARCH(2, 1) and GARCH(1, 2).
+
+In terms of forecasting, we'll only discuss cases for a GARCH(1, 1) model. The 1-step ahead forecast, i.e. point forecast of $a\_{h+1}$ is
+
+$$
+\hat\delta_h(1) = Var(a\_{h+1} \mid F_h) = \alpha_0 + \alpha_1 a_h^2 + \beta_1 \sigma_h^2
+$$
+
+Provided that $\alpha_1 + \beta_1 < 1$, the 2-step ahead forecast is
+
+$$
+\begin{aligned}
+    \sigma_{h+2}^2 &= \alpha_0 + \alpha_1 a_{t+1}^2 + \beta_1 \sigma_{t+1}^2 \\\\
+    &= \alpha_0 + \alpha_1 \sigma_{h+1}^2 \epsilon\_{h+1}^2 + \beta_1 \sigma\_{t+1}^2 \\\\
+    &= \alpha_0 + (\alpha_1 + \beta_1 \sigma\_{t+1}^2) + \alpha_1 \sigma\_{h+1}^2 (\epsilon\_{h+1}^2 -1) \\\\
+    \hat\sigma_h(2) &= Var(a\_{h+2} \mid \mathcal{F}_h) = \alpha_0 + (\alpha_1 + \beta_1)\hat\sigma_h(1)
+\end{aligned}
+$$
+
+Following the same procedure, we can find the $l$-step ahead forecast to be
+
+$$
+\begin{aligned}
+    \hat\delta_h(l) &= \alpha_0 + (\alpha_1 + \beta_1)\hat\delta_h(l-1) \\\\
+    &= \alpha_0 + \alpha_0(\alpha_1 + \beta_1) + (\alpha_1 + \beta_1)^2\hat\delta_h(l-2) \\\\
+    &\hspace{0.5em}\vdots \\\\
+    &= \frac{\alpha_0\left[ 1 - (\alpha_1 + \beta_1)^{l-1} \right]}{1 - (\alpha_1 + \beta_1)} + (\alpha_1 + \beta_1)^{l-1}\hat\delta_h(1) \\\\
+    &\rightarrow \frac{\alpha_0}{1 - (\alpha_1 + \beta_1)}, \quad \text{as } l \rightarrow \infty
+\end{aligned}
+$$
+
+Consequently, the multiple-ahead volatility forecasts of a GARCH(1, 1) model converge to the unconditional variance of $a_t$ as the forecast horizon increases to infinity provided that $Var(a_t) < \infty$.
+
+### ARMA(p, q)-GARCH(m, s) model with Gaussian innovation
+
+If there is a mean part in the series, then we fit it using an ARMA model, and then check for ARCH effects in the residuals:
+
+$$
+r_t = \mu_t + a_t, \quad a_t = \sigma_t \epsilon_t
+$$
+
+The model is
+
+$$
+\begin{gathered}
+    \mu_t = \phi_0 + \sum\_{i=1}^p \phi_i r\_{t-i} + \sum\_{i=1}^q \theta_i a\_{t-i} \\\\
+    \sigma_t^2 = \alpha_0 + \sum\_{i=1}^m \alpha_i a\_{t-i}^2 + \sum\_{j=1}^s \beta_j \sigma\_{t-j}^2
+\end{gathered}
+$$
+
+where $\epsilon_t$ is a sequence of i.i.d. Gaussian random variables with mean 0 and variance 1. $\alpha_0 > 0$, $\alpha_i \geq 0$ for all $i > 0$ and $\beta_j \geq 0$ for all $j > 0$.
+
+To fit a GARCH model in R, we use the same `fGarch::garchFit()` function, but the second parameter of `garch()` should be set to a positive integer. Again we can play with the `cond.dist` parameter to get optimal results.
+
+To fit an ARMA$(p, q)$-GARCH$(m, s)$ model, the R code would be something like
+
+```r
+m <- garchFit(formula = ~ arma(p, q) + garch(m, s),
+              data = dat, trace = F)
+summary(m)
+```
