@@ -1,7 +1,7 @@
 ---
 title: "Eigenvalues and Eigenvectors"
 date: 2020-11-18T18:45:52-05:00
-summary: "" # appears in list of posts
+summary: "Probably the most important lecture in this course -- we start from the calculation of eigenvalues and eigenvectors, and move on to related topics such as the eigendecomposition, singular value decomposition, and the Moore-Penrose inverse." # appears in list of posts
 categories: ["Linear Algebra"] # main category; shown in post metadata
 tags: ["Linear Algebra", "Statistics"] # list of related tags
 
@@ -774,9 +774,17 @@ $$
 \end{pmatrix}
 $$
 
-Note that each of the elements here is a $p \times q$ matrix, so this operation is not commutative. In statistical applications, either or both of $\boldsymbol{A}$ and/or $\boldsymbol{B}$ is the identity matrix, matrix of ones, etc.
+Note that each of the elements here is a $p \times q$ matrix, so this operation is not commutative.
 
-For example, in an one-way ANOVA model
+$$
+\boldsymbol{B} \otimes \boldsymbol{A} = \begin{pmatrix}
+    b_{11}\boldsymbol{A} & \cdots & b_{1q}\boldsymbol{A} \\\\
+    \vdots & \ddots & \vdots \\\\
+    b_{p1}\boldsymbol{A} & \cdots & b_{pq}\boldsymbol{A}
+\end{pmatrix}
+$$
+
+In statistical applications, either or both of $\boldsymbol{A}$ and/or $\boldsymbol{B}$ is the identity matrix, matrix of ones, etc. For example, in an one-way ANOVA model
 
 $$
 y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad i = 1, 2, \quad j = 1, 2, 3
