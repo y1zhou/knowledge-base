@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Bayesian Statistics"
 date: 2021-01-13T10:20:00-04:00
-summary: "" # appears in list of posts
+summary: "First lecture of the course, and a brief history of Bayesian statistics." # appears in list of posts
 categories: ["Bayesian Statistics"] # main category; shown in post metadata
 tags: ["Statistics", "Bayesian Statistics"] # list of related tags
 
@@ -18,8 +18,8 @@ weight: 10 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Bookstore in Warsaw, Poland." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "YTUZcmmf1eU" # Unsplash ID of the picture
 ---
 
 > **Prerequisites**: you should be comfortable with algebra and calculus (primarily integration). Familiarity with probability theory is strongly encouraged, as we will review important ideas as they show up throughout the course. Exposure to applied statistical methods (including regression) will be useful but not essential.
