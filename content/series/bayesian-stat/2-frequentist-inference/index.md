@@ -185,6 +185,44 @@ Under the frequentist framework, it does not mean there's a 95% probability that
 
 In practice we usually collect one dataset and get one CI, so is possible that the CI doesn't contain the true $\theta$. The frequentist methods give us confidence that our procedures will work well _in general_, before observing any data.
 
+### Simulation in R
+
+Consider the random variable $Y$ which counts the number of defective phones from a random sample of $n=25$ phones at this particular site. For this simulation, we will assume we know the underlying population parameter $\theta = 0.15$.
+
+```r
+# Define parameters for our model
+n <- 25
+theta <- 0.15
+
+# Generate 500 obs. (values of Y) from binomial model
+Yg <- rbinom(500, n, theta)
+
+# Compute sample mean and standard deviation
+s_mean <- mean(Yg)  # 3.772
+s_sd <- sd(Yg)  # 1.744162
+
+# True mean and sd
+true_mean <- n * theta  # 3.75
+true_sd <- sqrt(n * theta * (1-theta))  # 1.785357
+```
+
+The sample estimates are consistent with the true values. Next we will examine the frequentist notion of confidence when estimating parameter $\theta$ by a confidence interval. We calculate a 95% CI for each of the 500 simulations, and compute the proportion of 95% CIs which contain $\theta = 0.15$.
+
+```r
+theta_hat <- Yg / n
+
+# Compute 95% CIs for each observation
+ci_lower <- theta_hat - 1.96 * sqrt(theta_hat * (1-theta_hat) / n)
+ci_upper <- theta_hat + 1.96 * sqrt(theta_hat * (1-theta_hat) / n)
+
+# Assess the coverage of each 95% CI
+cover <- (ci_lower < theta & theta < ci_upper)
+cover_prob <- sum(cover) / 500
+100 * cover_prob  # 92.4%
+```
+
+This confidence interval formula tends to exhibit undercoverage, meaning that for this particular model, the percentage of the 95% CIs which include $\theta$ will be less than 95%. This occurs because the normal approximation we used has certain constraints, and one of them, $n\theta > 5$, is not satisfied.
+
 ## A potential issue
 
 Let's say we assume the same model and gather another random sample of 25 phones, but this time none of the phones inspected were defective, i.e. $y = 0$. The likelihood function is thus
@@ -201,7 +239,9 @@ $$
 
 This seems problematic and several issues arise. Do we really believe our point estimate of $\theta$ here? It seems unlikely that the company has never made a defective phone. The 95% CI itself is just a single point and doesn't reflect the uncertainty in our estimate.
 
-The third issue arises from both examples. Often times there are conditions to be checked for the CI to be valid. In this case, $n\hat\theta \geq 5$ and $n(1 - \hat\theta) \geq 5$. These are violated in both examples.
+The third issue arises from both examples. Often times there are conditions to be checked for the CI to be valid. In this case, $n\hat\theta \geq 5$ and $n(1 - \hat\theta) \geq 5$[^normal-approximation]. These are violated in both examples.
+
+[^normal-approximation]: These conditions arise from the confidence interval being a normal approximation. For details, see [this section from the mathematical statistics course]({{< ref "/series/maths-stat/3-continuous-random-variables/3.2-common-continuous-rvs/index.md#approximation-to-the-binomial" >}}).
 
 ### One proposed resolution
 
