@@ -206,7 +206,9 @@ true_mean <- n * theta  # 3.75
 true_sd <- sqrt(n * theta * (1-theta))  # 1.785357
 ```
 
-The sample estimates are consistent with the true values. Next we will examine the frequentist notion of confidence when estimating parameter $\theta$ by a confidence interval. We calculate a 95% CI for each of the 500 simulations, and compute the proportion of 95% CIs which contain $\theta = 0.15$.
+The sample estimates are consistent with the true values. The deviation could be explained by the fact that we are drawing a finite number of values from our population model. As the number of simulated values increases, we expect the true and sample mean/standard diviation to be closer to each other (Law of Large Numbers).
+
+Next we will examine the frequentist notion of confidence when estimating parameter $\theta$ by a confidence interval. We calculate a 95% CI for each of the 500 simulations, and compute the proportion of 95% CIs which contain $\theta = 0.15$.
 
 ```r
 theta_hat <- Yg / n
@@ -221,7 +223,9 @@ cover_prob <- sum(cover) / 500
 100 * cover_prob  # 92.4%
 ```
 
-This confidence interval formula tends to exhibit undercoverage, meaning that for this particular model, the percentage of the 95% CIs which include $\theta$ will be less than 95%. This occurs because the normal approximation we used has certain constraints, and one of them, $n\theta > 5$, is not satisfied.
+This confidence interval formula tends to exhibit undercoverage, meaning that for this particular model, the percentage of the 95% CIs which include $\theta$ will be less than 95%.
+
+The main reason comes from the derivation of the confidence interval formula for proportions. The formula relies on the fact that the sampling distribution of $\hat\theta$ is approximately normally distributed when certain conditions are met ($n\theta \geq 5$ and $n(1-\theta) \geq 5$). In our case, $n\theta = 3.75 < 5$, meaning that the normal approximation may not perform as well as one would hope. We would expect improved coverage properties as the sample size increases in general, as this leads itself to a more normally-distributed histogram of $\hat\theta$ values.
 
 ## A potential issue
 
