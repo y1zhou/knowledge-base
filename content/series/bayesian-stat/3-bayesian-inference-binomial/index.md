@@ -1,9 +1,9 @@
 ---
 title: "Bayesian Inference for the Binomial Model"
 date: 2021-01-25T10:20:00-05:00
-summary: "" # appears in list of posts
+summary: "The general procedure for Bayesian analysis. We use two different prior models and compare the resulting posteriors (visually and mathematically)." # appears in list of posts
 categories: ["Bayesian Statistics"] # main category; shown in post metadata
-tags: ["Statistics", "Bayesian Statistics"] # list of related tags
+tags: ["Statistics", "Bayesian Statistics", "Visualization", "Estimation"] # list of related tags
 
 slug: "bayesian-stat-bayesian-inference-binomial"
 toc: true # table of contents button in post
@@ -18,8 +18,8 @@ weight: 30 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Person working on a test." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "s9CC2SKySJM" # Unsplash ID of the picture
 ---
 
 In this lecture we will talk about the same model as in last week, but from a Bayesian perspective. A lot of the details (calculations, choices of priors) are omitted but will be discussed in the next lecture.
@@ -89,7 +89,9 @@ The probability mass function is
 
 <div>
 $$
-p(y \mid \theta) = \binom{n}{y} \theta^y (1-\theta)^{n-y}, \quad y = 0, 1, \cdots, n
+\begin{equation}\label{eq:binom-pdf}
+    p(y \mid \theta) = \binom{n}{y} \theta^y (1-\theta)^{n-y}, \quad y = 0, 1, \cdots, n
+\end{equation}
 $$
 </div>
 
@@ -123,26 +125,28 @@ p(y) = \int_{-\infty}^\infty p(y \mid \theta) p(\theta) d\theta
 $$
 </div>
 
-> Using the `kernel trick`, we will show that the posterior is a beta distribution:
->
-> TODO
->
-> <div>
-> $$
-> \left.\begin{aligned}
->     y \mid \theta \sim Bin(n, \theta) \\
->     \theta \sim Unif(0, 1)
-> \end{aligned}\right\} \Rightarrow \theta \mid y \sim Beta(y+1, n-y+1)
-> $$
-> </div>
+Using the `kernel trick`[^kernel-trick], we will show that the posterior is a beta distribution:
 
-The beta distribution is a continuous distribution with two parameters, which is defined on the interval from 0 to 1. For our specific data, we have $n = 129$ and $y = 118$, so
+[^kernel-trick]: After writing out the posterior distribution using Bayes' Theorem, we make the denominator look like the integrals of a pdf of some known distribution so that we don't have to solve it.
+
+<div>
+$$
+\left.\begin{aligned}
+    y \mid \theta \sim Bin(n, \theta) \\
+    \theta \sim Unif(0, 1)
+\end{aligned}\right\} \Rightarrow \theta \mid y \sim Beta(y+1, n-y+1)
+$$
+</div>
+
+Here we skip the calculations because the uniform prior is a special case of the later beta prior. The beta distribution is a continuous distribution with two parameters, which is defined on the interval from 0 to 1. For our specific data, we have $n = 129$ and $y = 118$, so
 
 <div>
 $$
     \theta \mid_{y=118} \sim Beta(118+1, 129-118+1) = Beta(119, 12)
 $$
 </div>
+
+#### Visualizing the model
 
 We can visualize how the observed data updates prior 1 beliefs into posterior 1 beliefs about $\theta$[^report-bayesian]:
 
@@ -191,26 +195,88 @@ What if we had knowledge of results from a previous General Social Survey, which
 -   Center: based on this previous study, we might guess $\theta$ is relatively close to $45 / 60 = 0.75$.
 -   Spread: if 75% is plausible, how much "less plausible" is 76%, i.e. how quickly does the prior distribution go down towards zero? This might depend on the sample size of the previous study -- a larger sample size means we might place more trust in the prior beliefs, and that results in less spread in the prior distribution.
 
-An appropriate choice of prior is $\theta \sim Beta(a = 45, b = 15)$ where $a$ and $b$ are `hyperparameters`. We can choose different hyperparameters to adapt to our prior beliefs about $\theta$. In this case, our prior distribution is centered around 75%.
+An appropriate choice of prior is $\theta \sim Beta(a = 45, b = 15)$ where $a$ and $b$ are `hyperparameters`. We can choose different hyperparameters[^hyperparam-interpretation] to adapt to our prior beliefs about $\theta$. In this case, our prior distribution is centered around 75%.
 
-In this specific case, the prior hyperparameters have nice interpretations: $a$ is the prior number of successes, $b$ is the prior number of failures, and $a+b$ is the prior sample size.
+[^hyperparam-interpretation]: In this specific case, the prior hyperparameters have nice interpretations: $a$ is the prior number of successes, $b$ is the prior number of failures, and $a+b$ is the prior sample size.
 
-> We will show that this choice of sampling and prior model once again results in a beta posterior:
->
-> TODO
->
-> <div>
-> $$
->     \left.\begin{aligned}
->         y \mid \theta \sim Bin(n, \theta) \\
->         \theta \sim Beta(a, b)
->     \end{aligned} \right\} \implies \theta \mid y \sim Beta(y+a, n-y+b)
-> $$
-> </div>
->
-> We will also show that the uniform prior we originally specified is equivalent to a $Beta(a=1, b=1)$ distribution, thus this result is a generalization of what we stated for posterior 1.
->
-> TODO
+We will show that this choice of sampling and prior model once again results in a beta posterior. Recall from $\eqref{eq:binom-pdf}$ that our sampling distribution $p(y \mid \theta)$ is binomial. The pdf of prior 2 is
+
+<div>
+$$
+    \begin{equation}\label{eq:beta-pdf}
+        p(\theta) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \theta^{a-1} (1-\theta)^{b-1}, \quad 0 < \theta < 1
+    \end{equation}
+$$
+</div>
+
+where
+
+<div>
+$$
+    \Gamma(z) = \int_0^\infty \theta^{z-1} e^{-z} dz
+$$
+</div>
+
+is the `gamma function`. Using Bayes' Theorem, the posterior distribution is
+
+<div>
+$$
+    \begin{align}
+        p(\theta \mid y) &= \frac{p(y \mid \theta) p(\theta)}{p(y)} = \frac{\textcolor{crimson}{p(y \mid \theta)} \textcolor{orange}{p(\theta)}}{\int_{-\infty}^\infty \textcolor{crimson}{p(y \mid \theta)} \textcolor{orange}{p(\theta)} d\theta} \\
+        &= \cfrac{\textcolor{crimson}{\binom{n}{y}\theta^y (1-\theta)^{n-y}} \textcolor{orange}{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \theta^{a-1} (1-\theta)^{b-1}}}{\int_{-\infty}^\infty \textcolor{crimson}{\binom{n}{y}\theta^y (1-\theta)^{n-y}} \textcolor{orange}{\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \theta^{a-1} (1-\theta)^{b-1}} d\theta} \label{eq:posterior2}
+    \end{align}
+$$
+</div>
+
+If we look at the denominator, some constant terms that don't depend on $\theta$ can be taken out of the integral:
+
+<div>
+$$
+    \begin{align}
+        \cdots &= \textcolor{green}{\binom{n}{y}\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}} \int_{-\infty}^\infty \theta^y (1-\theta)^{n-y} \theta^{a-1} (1-\theta)^{b-1} d\theta \\
+        &= \textcolor{green}{c} \int_{-\infty}^\infty \theta^{y+a-1} (1-\theta)^{n-y+b-1} d\theta \label{eq:posterior2-denom}
+    \end{align}
+$$
+</div>
+
+Now let `$\tilde{a} = y+a$` and `$\tilde{b} = n-y+b$`, we have
+
+<div>
+$$
+    \begin{align}
+        \eqref{eq:posterior2-denom} &= c \int_{-\infty}^\infty \theta^{\tilde{a}-1} (1-\theta)^{\tilde{b}-1} d\theta \\
+        &= c \cdot \frac{\Gamma(\tilde{a})\Gamma(\tilde{b})}{\Gamma(\tilde{a}+\tilde{b})} \cdot \frac{\Gamma(\tilde{a}+\tilde{b})}{\Gamma(\tilde{a})\Gamma(\tilde{b})} \int_{-\infty}^\infty \theta^{\tilde{a}-1} (1-\theta)^{\tilde{b}-1} d\theta \\
+        &= c \cdot \frac{\Gamma(\tilde{a})\Gamma(\tilde{b})}{\Gamma(\tilde{a}+\tilde{b})} \int_{-\infty}^\infty \frac{\Gamma(\tilde{a}+\tilde{b})}{\Gamma(\tilde{a})\Gamma(\tilde{b})} \theta^{\tilde{a}-1} (1-\theta)^{\tilde{b}-1} d\theta \label{eq:posterior2-denom-final}
+    \end{align}
+$$
+</div>
+
+See that the integral in `$\eqref{eq:posterior2-denom-final}$` takes the same form as the pdf of the beta distribution in `$\eqref{eq:beta-pdf}$`. Thus the entire integral part evaluates to 1, and the denominator is just a constant term. Going back to the posterior model,
+
+<div>
+$$
+    \begin{aligned}
+        \eqref{eq:posterior2} &= \cfrac{c \theta^{y+a-1} (1-\theta)^{n-y+b-1}}{c \cdot \frac{\Gamma(\tilde{a})\Gamma(\tilde{b})}{\Gamma(\tilde{a}+\tilde{b})}} \\
+        &= \frac{\Gamma(\tilde{a}+\tilde{b})}{\Gamma(\tilde{a})\Gamma(\tilde{b})} \theta^{\tilde{a}-1} (1-\theta)^{\tilde{b}-1} \\
+        &= \text{pdf of } Beta(\tilde{a}, \tilde{b})
+    \end{aligned}
+$$
+</div>
+
+So with the informative prior, we have
+
+<div>
+$$
+    \left.\begin{aligned}
+        y \mid \theta \sim Bin(n, \theta) \\
+        \theta \sim Beta(a, b)
+    \end{aligned} \right\} \implies \theta \mid y \sim Beta(y+a, n-y+b)
+$$
+</div>
+
+We can also see that the uniform prior we originally specified is equivalent to a $Beta(a=1, b=1)$ distribution, thus this result is a generalization of what we stated for posterior 1.
+
+#### Visualizing the model
 
 With a slight modification of the code above, we can visualize how the observed data updates our informative prior 2 beliefs into our posterior 2 beliefs about $\theta$:
 
