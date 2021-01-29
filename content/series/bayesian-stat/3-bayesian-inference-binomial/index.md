@@ -213,7 +213,7 @@ where
 
 <div>
 $$
-    \Gamma(z) = \int_0^\infty \theta^{z-1} e^{-z} dz
+    \Gamma(z) = \int_0^\infty x^{z-1} e^{-x} dx
 $$
 </div>
 
@@ -251,7 +251,7 @@ $$
 $$
 </div>
 
-See that the integral in `$\eqref{eq:posterior2-denom-final}$` takes the same form as the pdf of the beta distribution in `$\eqref{eq:beta-pdf}$`. Thus the entire integral part evaluates to 1, and the denominator is just a constant term. Going back to the posterior model,
+See that the integrand in `$\eqref{eq:posterior2-denom-final}$` takes the same form as the pdf of the beta distribution in `$\eqref{eq:beta-pdf}$`. Thus the entire integral part evaluates to 1, and the denominator is just a constant term. Going back to the posterior model,
 
 <div>
 $$
@@ -388,7 +388,7 @@ Now we can summarize and compare posteriors 1 and 2:
 | MAP                |                                0.915 |                                0.866 |
 | 95% posterior CI   |                       (0.854, 0.951) |                       (0.810, 0.908) |
 
-Posterior 2 is shifted left of 1, since we specified an informative prior which was centered around $\theta = 0.75$. Both posteriors are concentrated on a small set of values.
+Posterior 2 is shifted to the left of 1, since we specified an informative prior which was centered around $\theta = 0.75$. Both posteriors are concentrated on a small set of values.
 
 ## Concluding remarks
 
