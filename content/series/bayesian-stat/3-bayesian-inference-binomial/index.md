@@ -179,7 +179,6 @@ data.frame(theta, Prior = prior1_pdf, Posterior = post1_pdf) %>%
   ggline(x = "theta", y = "Density", color = "Distribution",
          xlab = expression(theta), ylab = "Density",
          palette = "npg", plot_type = "l", numeric.x.axis = T)
-
 ```
 
 {{< figure src="noninformative_prior_pdf.png" caption="Non-informative prior 1 and posterior 1 for happiness rate $\theta$." numbered="true" >}}
@@ -282,6 +281,102 @@ With a slight modification of the code above, we can visualize how the observed 
 
 {{< figure src="informative_prior_pdf.png" caption="Informative prior 2 and posterior 2 for happiness rate $\theta$." numbered="true" >}}
 
+### Shortcut for computing posterior
+
+We compute the posterior distribution via Bayes' Theorem. Computing the normalizing constant (denominator) is a key part of deriving the posterior. We used the [kernel](<https://en.wikipedia.org/wiki/Kernel_(statistics)#Bayesian_statistics>) trick to evaluate the integral, by recognizing that the integrand looked like a $Beta(y+a, n-y+b)$ density function.
+
+In many cases, the normalizing constant is difficult, if not impossible, to compute directly. But do we actually _need to_ compute this constant? Suppose we are interested in estimating $\theta$ by either `$\theta_1=0.3$` or `$\theta_2 = 0.9$`. Given data $y$, we want to know which value is a better estimate. One way to think about this is we would prefer `$\theta_1$` if
+
+<div>
+$$
+    p(\theta_1 \mid y) > p(\theta_2 \mid y) \implies \frac{p(\theta_1 \mid y)}{p(\theta_2 \mid y)} > 1
+$$
+</div>
+
+This is like a likelihood ratio, but in terms of posterior densities. Note that
+
+<div>
+$$
+    \frac{p(\theta_1 \mid y)}{p(\theta_2 \mid y)} = \frac{p(y \mid \theta_1) p(\theta_1) / p(y)}{p(y \mid \theta_2) p(\theta_2) / p(y)} = \frac{p(y \mid \theta_1) p(\theta_1)}{p(y \mid \theta_2) p(\theta_2)}
+$$
+</div>
+
+does **not** dependent on the normalizing constant $p(y)$. This means {{<hl>}}the posterior's shape only depends on the numerator.{{</hl>}} If we plot the true posterior and the numerator side by side, they will be exactly the same shape. $p(y)$ only adjusts how tall the peak is so that the density integrals to 1. We'd prefer `$\theta_2$` over `$\theta_1$` regardless of which plot we look at.
+
+{{< figure src="numerator_shape.png" caption="The shape of the posterior is the same as the numerator." numbered="true" >}}
+
+In light of this, a simpler way to compute the posterior is to work with `proportionality statements`:
+
+<div>
+$$
+    \begin{aligned}
+        p(\theta \mid y) &= \frac{p(y \mid \theta) p(\theta)}{\textcolor{crimson}{p(y)}} \propto p(y \mid \theta) p(\theta) \\
+        &\propto \textcolor{crimson}{\binom{n}{y}} \theta^y (1-\theta)^{n-y} \textcolor{crimson}{\frac{\Gamma(a+b)}{\Gamma(a) \Gamma(b)}} \theta^{a-1} (1-\theta)^{b-1} \\
+        &\propto \theta^{y+a-1} (1-\theta)^{n-y+b-1} \implies \text{kernel of } Beta(y+a, n-y+b)
+    \end{aligned}
+$$
+</div>
+
+All the colored terms are constant with respect to $\theta$. Thus, the posterior _is_ a $Beta(y+a, n-y+b)$ distribution. We will use this strategy throughout the rest of the course, where instead of evaluating the denominator, we will just focus on proportionality statements with the numerator and see if it looks like a distribution we recognize.
+
+## Conjugacy
+
+For the binomial model with a beta prior, we were able to *directly* recognize the posterior distribution. Sadly this doesn't always happen. Suppose we specified the following prior model instead:
+
+<div>
+$$
+    p(\theta) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(\theta-\mu)^2}{2\sigma^2}}, \quad -\infty < \theta < \infty
+$$
+</div>
+
+for some small $\sigma$. This corresponds to the normal distribution that is centered at $\mu$, and $\sigma$ controls the amount of spread. Now if we try to derive the posterior distribution,
+
+<div>
+$$
+    \begin{aligned}
+        p(\theta \mid y) & \propto p(y \mid \theta) p(\theta) \\
+        &\propto \textcolor{crimson}{\binom{n}{y}} \theta^y (1-\theta)^{n-y} \textcolor{crimson}{\frac{1}{\sqrt{2\pi\sigma^2}}} e^{-\frac{(\theta-\mu)^2}{2\sigma^2}} \\
+        &\propto \theta^y (1-\theta)^{n-y} e^{-\frac{(\theta-\mu)^2}{2\sigma^2}}
+    \end{aligned}
+$$
+</div>
+
+This is no longer the kernel of some distribution that we recognize. This doesn't mean our prior belief or the sampling model is wrong. We'd still get a valid posterior distribution, but we won't be able to find the normalizing constant in closed form. In later lectures we'll talk more about how to handle situations like this.
+
+The prior $\theta \sim Beta(a, b)$ was conveniently chosen because we obtain a closed-form posterior distribution. This choice of convenience is known as a conjugate prior. Formally speaking, let $\mathcal{F}$ be the class of sampling models $p(y \mid \theta)$ and $\mathcal{P}$ be the class of prior distributions $p(\theta)$. We say the prior class $\mathcal{P}$ is `conjugate` for sampling model class $\mathcal{F}$ if:
+
+<div>
+$$
+    p(\theta) \in \mathcal{P} \text{ and } p(y \mid \theta) \in \mathcal{F} \implies p(\theta \mid y) \in \mathcal{P}.
+$$
+</div>
+
+Intuitively, the prior $p(\theta)$ and posterior $p(\theta \mid y)$ come from the same family of distributions. For example, in the binomial model we have
+
+<div>
+$$
+    \begin{aligned}
+        &\text{Prior}: \theta \sim Beta(a, b) \\
+        &\text{Posterior}: \theta \mid y \sim Beta(y+a, n-y+b)
+    \end{aligned}
+$$
+</div>
+
+We can say the beta prior is conjugate for the binomial model, since our posterior is also beta-distributed.
+
+### Pros and Cons
+
+Pros to conjugate prior specification:
+
+- Allows direct computation of posterior, i.e. a closed-form, recognizable posterior distribution.
+- Easy to understand and very interpretable.
+- Good starting choice.
+
+Cons to conjugate prior specification:
+
+- Now always available for every model, particularly if $\theta$ consists of a large number of parameters (high-dimensional).
+- Restrictive in terms of modeling choices. It might not always be the choice which best reflects prior beliefs about $\theta$.
+
 ## Numerical posterior summaries
 
 It is useful to produce numerical summaries of the posterior distribution:
@@ -360,11 +455,15 @@ $$
 
 The frequentist CI works regardless of what sample we took from the population. More specifically, it is not conditional on the specific observed data because it's based off repeatedly generated data from the population. That being said, credible intervals and confidence intervals often coincide with each other. In the Bayesian setting, we always report credible intervals.
 
-To select $l(Y)$ and $u(Y)$, we construct a `percentile-based interval`.
+### Types of credible intervals
+
+Now the question is how do we select $l(Y)$ and $u(Y)$. There are two different ways to construct intervals by determining these endpoints: a `percentile-based interval`, or a `highest posterior density (HPD) region`.
+
+#### Percentile-based interval
 
 {{< figure src="percentile_interval.png" caption="Zoomed-in posterior 1 for happiness rate $\theta$ and the 95% credible interval." numbered="true" >}}
 
-If we choose $l(Y)$ and $u(Y)$ as percentiles, then we will have $\eqref{eq:credible-interval}$. We want $1-\alpha$ in the shaded region. Choosing percentiles means we want `$\frac{\alpha}{2}$` probabilities in the left and right tails. The cutoff points can be found by
+If we choose $l(Y)$ and $u(Y)$ as percentiles of the posterior, then we will have $\eqref{eq:credible-interval}$. We want $1-\alpha$ in the shaded region. Choosing percentiles means we want `$\frac{\alpha}{2}$` probabilities in the left and right tails. The cutoff points can be found by
 
 <div>
 $$
@@ -375,7 +474,18 @@ $$
 $$
 </div>
 
-The numbers are found in R using the `qbeta()` function. For example, $l(Y)$ can be found by `qbeta(0.025, y+1, n-y+1)`. We could say that with probability 0.95, the true rate $\theta$ is between 0.854 and 0.951. This is a much more straightforward interpretation than the frequentist interpretation of confidence intervals.
+The numbers are found in R using the `qbeta()` function. For example, the 2.5-th percentile $l(Y)$ can be found by `qbeta(0.025, y+1, n-y+1)`. We could say that with probability 0.95, the true rate $\theta$ is between 0.854 and 0.951. This is a much more straightforward interpretation than the frequentist interpretation of confidence intervals.
+
+#### HPD region
+
+The percentile-based interval is easy to compute and is most commonly used. However, some values of $\theta$ outside of a percentile-based CI might have higher posterior densities than the values within (due to the "asymmetry").
+
+The HPD region is constructed in a way to resolve this issue. $l(Y)$ and $u(Y)$ are chosen to satisfy:
+
+1. $P(l(Y) < \theta < u(Y) \mid Y=y) = 1-\alpha$.
+2. Any value of $\theta$ between $l(Y)$ and $u(Y)$ must have higher posterior density than values outside the interval.
+
+In R, the `HDInterval::hdi()` function can be used to find the HPD region. As a comparison to the 95% percentile CI of (0.854, 0.951), the HPD region is (0.858, 0.955). In this case the two are not very different because the posterior is quite symmetric, but the HPD region comes handy when the posterior is skewed or multimodal.
 
 ## Comparing the two posteriors
 
@@ -390,6 +500,44 @@ Now we can summarize and compare posteriors 1 and 2:
 
 Posterior 2 is shifted to the left of 1, since we specified an informative prior which was centered around $\theta = 0.75$. Both posteriors are concentrated on a small set of values.
 
+## Sensitivity analysis
+
+Re-visiting our prior specification, suppose we believed from past studies that the true rate of generally happy females aged 65 or older was closer to 75%. Consider the conjugate prior for $\theta$ ($\theta \sim Beta(a, b)$), with the following hyperparameter choices:
+
+| Prior | "Prior" sample size |  $a$ |  $b$ |
+| :---- | ------------------: | ---: | ---: |
+| 1     |                   2 |    1 |    1 |
+| 2     |                   4 |    3 |    1 |
+| 3     |                  60 |   45 |   15 |
+| 4     |                 120 |   90 |   30 |
+
+Recall that the prior mean of $\theta$ is $E(\theta) = a/(a+b)$. We can interpret $a$ as the "prior" number of successes, and $b$ as the "prior" number of failures. We can control $a$ and $b$ so that the prior mean is centered around 0.75. If we increase the prior sample size, we put more emphasize on the prior beliefs.
+
+In the table above, prior 1 is the non-informative prior, and the other three are centered at $\theta = 0.75$. The posterior distribution under these prior choices are:
+
+<div>
+$$
+    \begin{gathered}
+        (1): \theta \mid y=118 \sim Beta(119, 12) \\
+        (2): \theta \mid y=118 \sim Beta(121, 12) \\
+        (3): \theta \mid y=118 \sim Beta(163, 26) \\
+        (4): \theta \mid y=118 \sim Beta(206, 41)
+    \end{gathered}
+$$
+</div>
+
+A study of how sensitive the posterior is to our prior assumptions is called a `sensitivity analysis`. We're looking at how sensitive is our posterior distribution to different reasonable choices of prior distributions, and it is remarkably important for *any* Bayesian analysis.
+
+As we go from (1) to (4), we place more emphasis on our prior beliefs. The 95% HPD credible intervals for $\theta$ are:
+
+| Prior | Credible interval |
+| ----- | ----------------- |
+| (1)   | (0.858, 0.955)    |
+| (2)   | (0.860, 0.955)    |
+| (3)   | (0.813, 0.910)    |
+| (4)   | (0.789, 0.880)    |
+
+The first two are very similar to each other due to their small sample sizes. As the sample size increases, the CIs shift to the left. The take-away message is if one does not have any prior information, using a non-informative prior to "let the data drive inference" is a good choice. If one does have prior information, use it carefully especially if the posterior is sensitive to the choice of prior, i.e. if there's not much observed data.
 ## Concluding remarks
 
 1. Every Bayesian analysis proceeds in a similar fashion to this one. In the coming lectures, we will talk more about different details associated with this process.
