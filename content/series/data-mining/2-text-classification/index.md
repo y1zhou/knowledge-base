@@ -321,3 +321,125 @@ clf.predict_proba(X_new_counts)
 ```
 
 The output values are almost identical to that of our hand-written model above.
+
+## Introducing NLTK
+
+[NLTK](https://www.nltk.org/) (the Natural Language ToolKit) provides a suite of text processing libraries for classification, tokenization, stemming, tagging, etc. It also provides interfaces to over 50 corpora and lexical resources such as WordNet. Here we'll briefly introduce some of the most common methods. For detailed tutorials, see [this book by Steven Bird et al.](http://www.nltk.org/book/).
+
+### Tokenization
+
+NLTK has tokenizers for splitting text into sentences (based on capitalization and punctuation) and into words. They should be much more robust than the one we used above.
+
+```python
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk.tokenize import sent_tokenize, word_tokenize
+
+poem = ". ".join(corpus)
+sentences = sent_tokenize(poem)
+print(sentences[:5])
+# ['And indeed there will be time ZZZ.',
+#  'For the yellow smoke that slides along the street XXX.',
+#  'Rubbing its back upon the window-panes ZZZ.',
+#  'There will be time, there will be time ZZZ.',
+#  'To prepare a face to meet the faces that you meet XXX.']
+
+words = word_tokenize(poem)
+print(words[:5])
+# ['And', 'indeed', 'there', 'will', 'be']
+```
+
+### Stemming and lemmatization
+
+As defined by the Stanford NLP group, the goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form. `Stemming` usually refers to a crude heuristic process that chops off the ends of words in the hope of achieving this goal correctly most of the time, and often includes the removal of derivational affixes. `Lemmatization` usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word.
+
+Let's see the stemmed word tokens first. All characters are converted to lowercase, and some errors were introduced, e.g. "quickly" to "quickli".
+
+```python
+text = "Run runs running ran. Tall tallest. Quick quickest quickly."
+words = word_tokenize(text)
+
+stemmer = PorterStemmer()
+stemmed = [(tok, stemmer.stem(tok)) for tok in words]
+print(stemmed)
+# [('Run', 'run'),
+#  ('runs', 'run'),
+#  ('running', 'run'),
+#  ('ran', 'ran'),
+#  ('.', '.'),
+#  ('Tall', 'tall'),
+#  ('tallest', 'tallest'),
+#  ('.', '.'),
+#  ('Quick', 'quick'),
+#  ('quickest', 'quickest'),
+#  ('quickly', 'quickli'),
+#  ('.', '.')]
+```
+
+We use WordNet Synset to demonstrate lemmatization. WordNet is a lexical database designed for NLP in English, and Synset is an interface to look up words in WordNet. It takes slightly longer to run, but the results are more accurate.
+
+```python
+lem = WordNetLemmatizer()
+lemmatized = [(tok, lem.lemmatize(tok)) for tok in words]
+print(lemmatized)
+# [('Run', 'Run'),
+#  ('runs', 'run'),
+#  ('running', 'running'),
+#  ('ran', 'ran'),
+#  ('.', '.'),
+#  ('Tall', 'Tall'),
+#  ('tallest', 'tallest'),
+#  ('.', '.'),
+#  ('Quick', 'Quick'),
+#  ('quickest', 'quickest'),
+#  ('quickly', 'quickly'),
+#  ('.', '.')]
+```
+
+### Part of speech tagging
+
+Another common use case of NLTK is to tag the part of speech[^part-of-speech] given a list of tokens. This is useful for identifying entities and relationships between entities in the text.
+
+[^part-of-speech]: See `nltk.help.upenn_tagset()` for all of the tags.
+
+```python
+tokens = word_tokenize("The very first run was unsuccessful. ")
+tagged = nltk.pos_tag(tokens)
+for pair in tagged:
+    print(pair)
+    nltk.help.upenn_tagset(pair[1])
+
+# ('The', 'DT')
+# DT: determiner
+#     all an another any both del each either every half la many much nary
+#     neither no some such that the them these this those
+# ('very', 'RB')
+# RB: adverb
+#     occasionally unabatingly maddeningly adventurously professedly
+#     stirringly prominently technologically magisterially predominately
+#     swiftly fiscally pitilessly ...
+# ('first', 'JJ')
+# JJ: adjective or numeral, ordinal
+#     third ill-mannered pre-war regrettable oiled calamitous first separable
+#     ectoplasmic battery-powered participatory fourth still-to-be-named
+#     multilingual multi-disciplinary ...
+# ('run', 'NN')
+# NN: noun, common, singular or mass
+#     common-carrier cabbage knuckle-duster Casino afghan shed thermostat
+#     investment slide humour falloff slick wind hyena override subhumanity
+#     machinist ...
+# ('was', 'VBD')
+# VBD: verb, past tense
+#     dipped pleaded swiped regummed soaked tidied convened halted registered
+#     cushioned exacted snubbed strode aimed adopted belied figgered
+#     speculated wore appreciated contemplated ...
+# ('unsuccessful', 'JJ')
+# JJ: adjective or numeral, ordinal
+#     third ill-mannered pre-war regrettable oiled calamitous first separable
+#     ectoplasmic battery-powered participatory fourth still-to-be-named
+#     multilingual multi-disciplinary ...
+# ('.', '.')
+# .: sentence terminator
+#     . ! ?
+```
