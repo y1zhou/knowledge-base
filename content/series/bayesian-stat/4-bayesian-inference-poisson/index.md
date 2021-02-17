@@ -18,8 +18,8 @@ weight: 40 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Solheimasandur plane wreck, Iceland." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "DRVmSghT4uU" # Unsplash ID of the picture
 ---
 
 In this lecture we will talk about Bayesian inference for a different model. We will go through the procedure in the same fashion as we did for the binomial model. The key idea is to apply Bayesian inference to other types of data -- not all the data we observe are going to be binomial.
