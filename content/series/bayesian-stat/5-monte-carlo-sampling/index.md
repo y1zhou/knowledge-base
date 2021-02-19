@@ -12,7 +12,7 @@ toc: true # table of contents button in post
 featured: false
 draft: false
 
-weight: 40 # smaller values are listed first
+weight: 50 # smaller values are listed first
 
 # full-width featured image
 # To use, add an image named `featured.jpg/png` to your page's folder, or
