@@ -18,8 +18,8 @@ weight: 70 # smaller values are listed first
 # To use, add an image named `featured.jpg/png` to your page's folder, or
 # fill the unsplash_id and the photo will be automatically retrieved.
 header_image:
-    caption: "" # Give credits here, or whatever captions you want to add (support markdown)
-    unsplash_id: "" # Unsplash ID of the picture
+    caption: "Two ducks." # Give credits here, or whatever captions you want to add (support markdown)
+    unsplash_id: "_Tm4622z4Dg" # Unsplash ID of the picture
 ---
 
 Starting from this lecture, we shift gears from looking at posteriors in a mathematical perspective to the computational aspect of Bayesian inference. We are going to revisit the normal model, but this time in a two parameter setting. This is a natural model to consider for the first computational method we talk about -- Gibbs sampling.
@@ -374,7 +374,7 @@ $$
 
 Plugging in the known values, both $a_n$ and $b_n$ are functions of $\theta$. Now for the Gibbs sampler, we can initialize the parameters[^init-choice] with
 
-[^init-choice]: These are good choices as we're using the sample mean and variance to initialize the true mean and variance values. In practice these don't matter too much, especially if we draw a large number of samples. 
+[^init-choice]: These are good choices as we're using the sample mean and variance to initialize the population mean and variance values, respectively. In practice these don't matter too much, especially if we draw a large number of samples. 
 
 <div>
 $$
@@ -386,3 +386,134 @@ Then in each scan/sweep to update the parameters, we:
 
 - Draw $\theta^{(s)} \sim N(\mu_n, \tau_n^2)$ where $\mu_n$ and $\tau_n^2$ are computed setting $\sigma^2 = \sigma^{2^{(s-1)}}$.
 - Draw $\sigma^{2^{(s)}} \sim IG(a_n, b_n)$ where $a_n$ and $b_n$ are computed using $\theta = \theta^{(s)}$.
+
+Below is the R code for drawing $S=1000$ samples using this procedure.
+
+```r
+cereal <- data.table::fread("cereal.csv")
+
+# Sample statistics
+y_bar <- mean(cereal$calories)
+s_y <- sd(cereal$calories)
+n <- nrow(cereal)
+
+# Prior hyperparameters
+## theta ~ N(mu_0, tau_0^2)
+mu_0 <- 200
+tau_0 <- 65
+
+## sigma^2 ~ IG(a,b)
+a <- 0.01
+b <- 0.01
+
+# Basic Gibbs sampler for posterior inference
+S <- 1000  # number of samples to generate
+
+## Initialize vectors to store parameter values
+theta <- vector("numeric", S)
+sigma2 <- vector("numeric", S)
+
+## Set initial values of theta and sigma2 for Markov chain
+theta[1] <- y_bar
+sigma2[1] <- s_y^2
+
+# Run Markov chain, iterating between full conditionals
+set.seed(42)
+for(s in seq(2, S)){
+  # Generate theta ~ p(theta|sigma^2[s-1],y)
+  ## Compute mu_n, tau_n^2
+  wt1 <- ( 1/tau_0^2 ) / ( 1/tau_0^2 + n/sigma2[s-1] )
+  wt2 <- ( n/sigma2[s-1] ) / ( 1/tau_0^2 + n/sigma2[s-1] )
+  mu_n <- wt1*mu_0 + wt2*y_bar
+  
+  tau2_n <- 1 / ( 1/tau_0^2 + n/sigma2[s-1] )
+  
+  ## Random sample from N(mu_n,tau_n^2)
+  theta[s] <- rnorm(1, mu_n, sqrt(tau2_n))
+  
+  # Generate sigma^2 ~ p(sigma^2|theta^[s],y)
+  ## Compute a_n, b_n
+  a_n <- a + 0.5*n
+  b_n <- b + 0.5*(n-1)*s_y^2 + 0.5*n*(y_bar-theta[s])^2 
+  
+  ## Random sample from IG(a_n,b_n)
+  sigma2[s] <- 1 / rgamma(1, shape = a_n, rate = b_n)
+}
+```
+
+### Marginal posterior distributions
+
+Another benefit of Monte Carlo methods is that we can look at the marginal posterior distribution of $\theta$ by just focusing on the samples `$\{ \theta^{(1)}, \cdots, \theta^{(S)} \}$`, i.e. ignoring the $\sigma^2$ samples. For example, we can plot the marginal posterior of $\theta$:
+
+```r
+# Posterior histograms/densities for the mean
+ggpubr::gghistogram(
+    theta, y = "..density..",
+    add_density = T, bins = 15,
+    xlab = expression(theta), ylab = "Relative density"
+)
+```
+
+{{< figure src="posterior_marginal_mean.png" caption="Marginal posterior of $\theta$, the mean calories per serving of the cereals." numbered="true" >}}
+
+We can see that it's roughly centered around 106 and is overall symmetric. Similarly, we can plot the marginal posterior distribution of $\sigma^2$ only using samples `$\{ \sigma^{2^{(1)}}, \cdots, \sigma^{2^{(S)}} \}$`. Since standard deviation is on the same scale as the mean, it may be more useful fo plot the marginal posterior distribution of $\sigma$ by taking square-roots of our original samples.
+
+{{< figure src="posterior_marginal_var.png" caption="Marginal posterior of (A) variance and (B) standard deviation in calories." numbered="true" >}}
+
+The variance is skewed right, which is a common feature of the variance posteriors because variances are positive numbers. Just like previously, we can also obtain numerical summaries such as point estimates and credible intervals for our parameters from the Monte Carlo samples.
+
+| Parameter        | $\theta$         | $\sigma^2$       | $\sigma$       |
+| ---------------- | ---------------- | ---------------- | -------------- |
+| Posterior mean   | 106.88           | 386.19           | 19.58          |
+| Posterior median | 106.89           | 382.58           | 19.56          |
+| 95% CI           | (102.49, 111.27) | (284.07, 525.94) | (16.85, 22.93) |
+
+After observing our data, the mean calories per serving is around 106.88. There's a 95% chance that the mean is between 102.49 and 111.27. The standard deviation for the calories per serving is around 19.58.
+
+## Gibbs sampling diagnostics
+
+Gibbs samplers and other MCMC methods require extra care compared to traditional Monte Carlo sampling, since the quality of the posterior approximation depends on:
+
+- The number of samples generated, $S$ (same as Monte Carlo).
+- The choice of initial parameter values.
+- The dependence between the parameter values, e.g. does the value of $\sigma^2$ generated depend heavily on the current value of $\theta$ in the chain.
+
+The second and third points can be difficult to handle for more complex models. We need MCMC diagnostics to know that our samples constitute an adequate approximation for the true posterior distribution of $(\theta, \sigma^2)$.
+
+> TODO
+
+## General formulation of Gibbs sampling
+
+The goal of Gibbs sampling is to generate samples from the joint posterior distribution $p(\phi_1, \phi_2, \cdots, \phi_p \mid y)$, which is not available in closed-form. Suppose that the full conditional distributions for each parameter are all available in closed-form:
+
+<div>
+$$
+    \begin{gathered}
+        p(\phi_1 \mid \phi_2, \phi_3, \cdots, \phi_p, y) \\
+        p(\phi_2 \mid \phi_1, \phi_3, \cdots, \phi_p, y) \\
+        \vdots \\
+        p(\phi_p \mid \phi_1, \phi_2, \cdots, \phi_{p-1}, y)
+    \end{gathered}
+$$
+</div>
+
+A general Gibbs sampler follows the steps below.
+
+1. Initialize `$(\phi_1^{(1)}, \phi_2^{(1)}, \cdots, \phi_p^{(1)})$`.
+2. For $s = 2, \cdots, S$, complete one scan/sweep where we sample the following values sequentially:
+    
+    <div>
+    $$
+        \begin{gathered}
+            \phi_1^{(s)} \sim p(\phi_1 \mid \phi_2^{(s-1)}, \phi_3^{(s-1)}, \phi_4^{(s-1)}, \cdots, \phi_p^{(s-1)}, y) \\
+            \phi_2^{(s)} \sim p(\phi_2 \mid \phi_1^{(s)}, \phi_3^{(s-1)}, \phi_4^{(s-1)}, \cdots, \phi_p^{(s-1)}, y) \\
+            \phi_3^{(s)} \sim p(\phi_3 \mid \phi_1^{(s)}, \phi_2^{(s)}, \phi_4^{(s-1)}, \cdots, \phi_p^{(s-1)}, y) \\
+            \vdots \\
+            \phi_p^{(s)} \sim p(\phi_p \mid \phi_1^{(s)}, \phi_2^{(s)}, \phi_3^{(s)}, \cdots, \phi_{p-1}^{(s)}, y)
+        \end{gathered}
+    $$
+    </div>
+    
+3. This sequence of $p$-dimensional parameter values constitutes approximate samples from the joint posterior distribution as $S \rightarrow \infty$.
+
+This situation arises in hierarchical (multilevel) modeling, linear regression, etc. We will discuss these cases throughout the rest of the semester.
