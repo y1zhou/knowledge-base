@@ -280,7 +280,7 @@ Suppose we have closed forms for the full conditional distributions of each unkn
 
 1. Specify *starting values* for the parameters: $(\theta^{(1)}, \sigma^{2^{(1)}})$.
 2. Suppose that at step $s$, the current values of the parameters are $(\theta^{(s)}, \sigma^{2^{(s)}})$. To generate values at step $s+1$:
-   - Sample `$\theta^{(s+1)} \sim p(\theta, \sigma^{2^{(s)}}, y)$`, that is given the *current* value of $\sigma^2$.
+   - Sample `$\theta^{(s+1)} \sim p(\theta \mid \sigma^{2^{(s)}}, y)$`, that is given the *current* value of $\sigma^2$.
    - Sample $\sigma^{2^{(s+1)}} \sim p(\sigma^2 \mid \theta^{(s+1)}, y)$. Here we sample the new value of $\sigma^2$ given the updated value of $\theta$.
 3. Repeat step 2 $S$ times to generate a sequence of parameter values.
 
