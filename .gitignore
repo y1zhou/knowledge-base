@@ -4,9 +4,11 @@
 .RData
 .Ruserdata
 blogdown/
+.DS_Store
+Thumbs.db
 
 # Hugo compiled files
-public/
+/public/
 resources/
 
 # VS Code
