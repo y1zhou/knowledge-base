@@ -5,9 +5,13 @@ baseurl = "http://www.y1zhou.com/"
 languageCode = "en-us"
 theme = "hugo-northeast"
 enableGitInfo = true
+relativeURLs = true
 
 # Google Analytics
 googleAnalytics = "UA-86032708-3"
+
+# Blogdown settings
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 
 [markup]
   defaultMarkdownHandler = "goldmark"
