@@ -44,8 +44,7 @@ Suppose we also know from a prior test that:
 
 The data is given as follows:
 
-
-```r
+```{r load-data, message=F, warning=F}
 library(tidyverse)
 library(ggpubr)
 
@@ -62,10 +61,9 @@ error <- c(
 
 The question is should the process continue as normal, or is there strong evidence to suggest it has become biased? The sample mean and standard deviation are `$\bar{y} = 0.0216$` ft and `$s = 0.0489$` ft, respectively.
 
-<div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/err-density-1.svg" alt="Kernel density estimate of the errors in length." width="480" />
-<p class="caption">Figure 1: Kernel density estimate of the errors in length.</p>
-</div>
+```{r err-density, echo=F, fig.cap="Kernel density estimate of the errors in length.", fig.dim=c(5, 4), dev="svg"}
+ggdensity(error, xlab = "Error", ylab = "Density")
+```
 
 ## Bayesian ingredients
 
@@ -93,36 +91,33 @@ $$
 
 We also have very strong evidence from the prior test that this manufacturing process is unbiased. For conjugacy purposes, we could try `$\theta \sim \mathcal{N}(0, \tau^2)$` for a very small `$\tau$`, e.g. `$\tau = 0.05$`. We center the prior at zero because our prior knowledge (unbiased) suggests `$\theta = 0$`. Note that under this prior, slight biases (close to `$\theta = 0$`) have a density nearly as high as `$p(0)$`[^prior-density]. This indicates that the prior might not put enough emphasis on `$\theta = 0$`.
 
-<div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/prior-density-1.svg" alt="Slight biases in the normal density." width="480" />
-<p class="caption">Figure 2: Slight biases in the normal density.</p>
-</div>
+```{r prior-density, echo=F, fig.cap="Slight biases in the normal density.", fig.dim=c(5, 4), dev="svg"}
+dnorm_label <- tibble(
+  x = c(0, 0.025),
+  y = map_dbl(x, ~ dnorm(.x, sd = 0.05)),
+  label = fct_inorder(str_glue("p({x})"))
+)
+
+ggplot() +
+  geom_function(fun = ~ dnorm(.x, sd = 0.05)) +
+  geom_point(aes(x, y, color = label), data = dnorm_label, shape = 4, size = 2) +
+  geom_segment(
+    aes(-0.2, y, xend = x, yend = y, color = label),
+    data = dnorm_label, linetype = "dashed"
+  ) +
+  geom_segment(
+    aes(x, 0, xend = x, yend = y, color = label),
+    data = dnorm_label, linetype = "dashed"
+  ) +
+  xlim(-0.2, 0.2) +
+  labs(x = expression(theta), y = "Density") +
+  theme_pubr() +
+  ggsci::scale_color_nejm()
+```
 
 [^prior-density]: R code for slight biases in the normal density:
 
-    
-    ```r
-    dnorm_label <- tibble(
-      x = c(0, 0.025),
-      y = map_dbl(x, ~ dnorm(.x, sd = 0.05)),
-      label = fct_inorder(str_glue("p({x})"))
-    )
-    
-    ggplot() +
-      geom_function(fun = ~ dnorm(.x, sd = 0.05)) +
-      geom_point(aes(x, y, color = label), data = dnorm_label, shape = 4, size = 2) +
-      geom_segment(
-        aes(-0.2, y, xend = x, yend = y, color = label),
-        data = dnorm_label, linetype = "dashed"
-      ) +
-      geom_segment(
-        aes(x, 0, xend = x, yend = y, color = label),
-        data = dnorm_label, linetype = "dashed"
-      ) +
-      xlim(-0.2, 0.2) +
-      labs(x = expression(theta), y = "Density") +
-      theme_pubr() +
-      ggsci::scale_color_nejm()
+    ```{r prior-density, eval=F}
     ```
 
 We might prefer a prior on `$\theta$` which captures our very strong belief that the true bias is zero. One possibility as an alternative is the `Laplace distribution`:
@@ -141,29 +136,26 @@ $$
 
 The Laplace distribution has mean `$E(\theta) = \mu$` and variance `$Var(\theta) = 2b^2$`. This is also known as the `double-exponential distribution`, because its PDF is shaped like two exponential distributions glued together. The Laplace distribution is sometimes used as a prior for regression coefficients when we have a large number of covariates compared to observations.
 
-<div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/normal-vs-laplace-1.svg" alt="Comparison of the Laplace prior to the normal prior." width="480" />
-<p class="caption">Figure 3: Comparison of the Laplace prior to the normal prior.</p>
-</div>
+```{r normal-vs-laplace, echo=F, fig.cap="Comparison of the Laplace prior to the normal prior.", fig.dim=c(5, 4), dev="svg"}
+ggplot() +
+  geom_function(fun = ~ dnorm(.x, sd = 0.05), color = "#BC3C29") +
+  geom_function(fun = ~ exp(-abs(.x) / 0.01) / 0.02, color = "#0072B5") +
+  geom_text(
+    aes(x = 0.08, y = 8, label = "N(0, 0.05^2)"), parse = T, color = "#BC3C29"
+  ) +
+  geom_text(
+    aes(x = 0.08, y = 40, label = "Laplace(0, 0.01)"), color = "#0072B5"
+  ) +
+  xlim(-0.2, 0.2) +
+  labs(x = expression(theta), y = "Density") +
+  theme_pubr()
+```
 
 Comparing the Laplace prior to the normal prior[^laplace-vs-normal], the Laplace prior has a more prominent spike at `$\theta = 0$`. The Laplace distribution has heavier tails than the normal distribution as it is expressed in terms of the absolute difference from the mean rather than the squared difference.
 
 [^laplace-vs-normal]: R code for Laplace vs. normal:
 
-    
-    ```r
-    ggplot() +
-      geom_function(fun = ~ dnorm(.x, sd = 0.05), color = "#BC3C29") +
-      geom_function(fun = ~ exp(-abs(.x) / 0.01) / 0.02, color = "#0072B5") +
-      geom_text(
-        aes(x = 0.08, y = 8, label = "N(0, 0.05^2)"), parse = T, color = "#BC3C29"
-      ) +
-      geom_text(
-        aes(x = 0.08, y = 40, label = "Laplace(0, 0.01)"), color = "#0072B5"
-      ) +
-      xlim(-0.2, 0.2) +
-      labs(x = expression(theta), y = "Density") +
-      theme_pubr()
+    ```{r normal-vs-laplace, eval=F}
     ```
 
 ### Computing the posterior
@@ -324,8 +316,7 @@ $$
 
 we can obtain the posterior from `$S=10000$` samples using the R code below. The explanation of the parameters can be found in the next section.
 
-
-```r
+```{r metropolis-algo, warning=F, fig.cap="Trace plots and posterior density of 10000 samples obtained using the Metropolis algorithm.", fig.dim=c(10, 5), dev="svg"}
 library(patchwork)
 
 n <- length(error)  # sample size
@@ -394,11 +385,6 @@ p2 <- ggdensity(res, x = "theta", add = "mean",
 p1 | p2
 ```
 
-<div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/metropolis-algo-1.svg" alt="Trace plots and posterior density of 10000 samples obtained using the Metropolis algorithm." width="960" />
-<p class="caption">Figure 4: Trace plots and posterior density of 10000 samples obtained using the Metropolis algorithm.</p>
-</div>
-
 The final posterior density doesn't look exactly like a normal distribution because of the Laplace prior. We can use the samples in the posterior to compute posterior summaries:
 
 ```r
@@ -425,10 +411,63 @@ We can diagnose convergence via trace plots. The trace plot shown in the example
 
 If we initialized by a different value, e.g. `$\theta^{(1)} = 100$`, the trace plot looks bad. We have a considerable amount of drift downward and a tail in the posterior of `$\theta$` that goes to 100.
 
-<div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/metropolis-bat-init-1.svg" alt="Trace plot and posterior density with bad initialization." width="960" />
-<p class="caption">Figure 5: Trace plot and posterior density with bad initialization.</p>
-</div>
+```{r metropolis-bat-init, echo=F, warning=F, fig.cap="Trace plot and posterior density with bad initialization.", fig.dim=c(10, 5), dev="svg"}
+n_chains <- 1             # num of chains to run
+n_iter <- ceiling((num_saved_steps * thin_steps) / n_chains)  # steps / chain
+
+# Initialize vector of sampled unknown parameter values, and select starting
+# value for each chain. R is column-major so save each chain in a column
+theta <- matrix(0, nrow = burnin_steps + n_iter, ncol = n_chains)
+theta[1, ] <- rep(100, n_chains)   # initializes each chain to 0 currently
+
+# Generate samples via Metropolis algorithm
+accept <- rep(0, n_chains)      # num of accepted proposals
+
+for (s in seq(2, burnin_steps + n_iter)) {
+  for (i in seq(n_chains)) {
+    # Propose a new value for theta (symmetric normal proposal distribution)
+    theta_star <- rnorm(1, theta[s-1, i], c)
+
+    # Compute acceptance ratio using logarithms - more stable numerically
+    r <- exp(
+      -(1 / (2*sigma^2)) * sum((error - theta_star)^2) -
+      abs(theta_star) / b +
+      (1 / (2*sigma^2)) * sum((error - theta[s-1, i])^2) +
+      abs(theta[s-1, i]) / b
+    )
+
+    # Accept theta_star with probability min{1,r}, otherwise reject
+    # Equivalent to flipping a coin with probability min{1,r}
+    if (rbinom(1, 1, min(1, r)) == 1) {
+      theta[s, i] <- theta_star
+      if (s > burnin_steps) {
+        accept[i] <- accept[i] + 1     # add one to "acceptance counter"
+      }
+    } else {
+      theta[s, i] <- theta[s-1, i]
+    }
+  }
+}
+
+# Form posterior samples by removing burn-in period and thinning
+keep_vals <- seq(burnin_steps + 1,burnin_steps + n_iter, by = thin_steps)
+theta_post <- theta[keep_vals, ]
+
+# Show trace plots of all chains simultaneously with posterior density
+res <- theta_post %>%
+  as.data.frame() %>%
+  mutate(Iteration = keep_vals) %>%
+  pivot_longer(-Iteration, names_to = "Chain", values_to = "theta") %>%
+  mutate(Chain = str_remove(Chain, "^V"))
+
+p1 <- ggline(res, x = "Iteration", y = "theta", color = "Chain",
+             numeric.x.axis = T, plot_type = "l", palette = "nejm",
+             ylab = expression(theta))
+
+p2 <- ggdensity(res, x = "theta", add = "mean",
+                xlab = expression(theta), ylab = "Density")
+p1 | p2
+```
 
 This happened because the initial value is far from values of `$\theta$` which we believe are likely to have posterior density. Our proposal distribution compounds that -- guesses with variance of `$0.05^2$` means we're moving very slowly away from 100. It takes the Metropolis algorithm a lot of time to settle down and sample from the true posterior, although it eventually converged.
 
