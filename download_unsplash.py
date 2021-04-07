@@ -44,7 +44,7 @@ def retrieve_img(unsplash_id: str, dl_path: Path, ss: requests.Session) -> None:
 
 
 contents = Path("content/series")
-md_files = contents.glob("**/*index.md")
+md_files = contents.glob("**/*index.Rmarkdown")
 ss = requests.session()
 
 # %%
