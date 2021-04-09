@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='504.00pt' height='360.00pt' viewBox='0 0 504.00 360.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw1MDQuMDB8MC4wMHwzNjAuMDA='>
+    <rect x='0.00' y='0.00' width='504.00' height='360.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHwzNjAuMDA=)'>
+<text x='275.35' y='341.28' text-anchor='middle' style='font-size: 15.60px; font-family: TeX Gyre Heros;'>Parameter Estimate</text>
+<line x1='65.66' y1='59.04' x2='482.89' y2='59.04' style='stroke-width: 2.25;' />
+<line x1='65.66' y1='59.04' x2='65.66' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='125.27' y1='59.04' x2='125.27' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='184.87' y1='59.04' x2='184.87' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='244.47' y1='59.04' x2='244.47' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='304.08' y1='59.04' x2='304.08' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='363.68' y1='59.04' x2='363.68' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='423.29' y1='59.04' x2='423.29' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='482.89' y1='59.04' x2='482.89' y2='51.84' style='stroke-width: 2.25;' />
+<line x1='65.66' y1='286.56' x2='482.89' y2='286.56' style='stroke-width: 2.25;' />
+<line x1='65.66' y1='286.56' x2='65.66' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='125.27' y1='286.56' x2='125.27' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='184.87' y1='286.56' x2='184.87' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='244.47' y1='286.56' x2='244.47' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='304.08' y1='286.56' x2='304.08' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='363.68' y1='286.56' x2='363.68' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='423.29' y1='286.56' x2='423.29' y2='293.76' style='stroke-width: 2.25;' />
+<line x1='482.89' y1='286.56' x2='482.89' y2='293.76' style='stroke-width: 2.25;' />
+<text x='65.66' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>2</text>
+<text x='125.27' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>4</text>
+<text x='184.87' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>6</text>
+<text x='244.47' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>8</text>
+<text x='304.08' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>10</text>
+<text x='363.68' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>12</text>
+<text x='423.29' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>14</text>
+<text x='482.89' y='312.48' text-anchor='middle' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>16</text>
+<text x='62.54' y='268.37' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>mu</text>
+<text x='62.54' y='245.79' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[8]</text>
+<text x='62.54' y='223.21' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[7]</text>
+<text x='62.54' y='200.63' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[6]</text>
+<text x='62.54' y='178.05' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[5]</text>
+<text x='62.54' y='155.46' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[4]</text>
+<text x='62.54' y='132.88' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[3]</text>
+<text x='62.54' y='110.30' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[2]</text>
+<text x='62.54' y='87.72' text-anchor='end' style='font-size: 14.40px; font-family: TeX Gyre Heros;'>theta[1]</text>
+</g>
+<defs>
+  <clipPath id='cpNjIuNTR8NDg4LjE2fDU5LjA0fDI4Ni41Ng=='>
+    <rect x='62.54' y='59.04' width='425.62' height='227.52' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNjIuNTR8NDg4LjE2fDU5LjA0fDI4Ni41Ng==)'>
+<polyline points='251.39,263.13 222.61,263.13 ' style='stroke-width: 3.75;' />
+<polyline points='243.72,240.54 212.54,240.54 ' style='stroke-width: 3.75;' />
+<polyline points='214.80,217.96 183.09,217.96 ' style='stroke-width: 3.75;' />
+<polyline points='216.34,195.38 184.60,195.38 ' style='stroke-width: 3.75;' />
+<polyline points='344.27,172.80 288.61,172.80 ' style='stroke-width: 3.75;' />
+<polyline points='215.84,150.22 185.48,150.22 ' style='stroke-width: 3.75;' />
+<polyline points='256.77,127.64 225.54,127.64 ' style='stroke-width: 3.75;' />
+<polyline points='234.74,105.06 204.91,105.06 ' style='stroke-width: 3.75;' />
+<polyline points='293.31,82.47 262.15,82.47 ' style='stroke-width: 3.75;' />
+<polyline points='291.05,263.13 189.91,263.13 ' style='stroke-width: 1.50;' />
+<polyline points='274.15,240.54 182.01,240.54 ' style='stroke-width: 1.50;' />
+<polyline points='243.41,217.96 152.20,217.96 ' style='stroke-width: 1.50;' />
+<polyline points='245.24,195.38 154.18,195.38 ' style='stroke-width: 1.50;' />
+<polyline points='398.50,172.80 238.73,172.80 ' style='stroke-width: 1.50;' />
+<polyline points='243.81,150.22 155.93,150.22 ' style='stroke-width: 1.50;' />
+<polyline points='287.98,127.64 195.73,127.64 ' style='stroke-width: 1.50;' />
+<polyline points='263.05,105.06 176.09,105.06 ' style='stroke-width: 1.50;' />
+<polyline points='322.71,82.47 232.66,82.47 ' style='stroke-width: 1.50;' />
+<circle cx='236.26' cy='263.13' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='228.12' cy='240.54' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='198.96' cy='217.96' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='200.56' cy='195.38' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='316.23' cy='172.80' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='200.80' cy='150.22' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='241.12' cy='127.64' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='220.04' cy='105.06' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+<circle cx='277.61' cy='82.47' r='4.05' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
+</g>
+</svg>

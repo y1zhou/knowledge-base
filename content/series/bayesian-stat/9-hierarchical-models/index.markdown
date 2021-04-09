@@ -22,6 +22,8 @@ header_image:
     unsplash_id: "DsjPKrzBO0w" # Unsplash ID of the picture
 ---
 
+
+
 This is our first step to extending a lot of the things we've talked about to slightly more complicated models. 
 
 ## Motivating example
@@ -246,14 +248,10 @@ $$
 
 In this model we have a total of 16 parameters to estimate:
 
-<div>
-$$
 `\begin{gathered}
-\boldsymbol{\theta} = (\theta_1, \cdots, \theta_J)' \\
-\boldsymbol{\sigma}^2 = (\sigma_1^2, \cdots, \sigma_J^2)'
+  \boldsymbol{\theta} = (\theta_1, \cdots, \theta_J)' \\
+  \boldsymbol{\sigma}^2 = (\sigma_1^2, \cdots, \sigma_J^2)'
 \end{gathered}`
-$$
-</div>
 
 We will specify the same **prior model** for all the parameters. Assuming independence across all `\(J\)` groups:
 
@@ -564,14 +562,14 @@ The same pattern shows up with the hierarchical models. When comparing the poste
 
 |Parameter  | Sample size| No pooling| Partial pooling|
 |:----------|-----------:|----------:|---------------:|
-|$\theta_1$ |          25|     9.5360|          9.1165|
-|$\theta_2$ |          23|     7.1576|          7.1673|
-|$\theta_3$ |          20|     8.0504|          7.8948|
-|$\theta_4$ |          24|     6.3398|          6.5241|
-|$\theta_5$ |           9|    12.2967|         10.4223|
-|$\theta_6$ |          22|     6.2746|          6.5175|
-|$\theta_7$ |          22|     6.2204|          6.4686|
-|$\theta_8$ |          20|     7.4450|          7.4538|
+|$\theta_1$ |          25|     9.5299|          9.1151|
+|$\theta_2$ |          23|     7.1549|          7.1711|
+|$\theta_3$ |          20|     8.0465|          7.8933|
+|$\theta_4$ |          24|     6.3318|          6.5243|
+|$\theta_5$ |           9|    12.2997|         10.4256|
+|$\theta_6$ |          22|     6.2778|          6.5196|
+|$\theta_7$ |          22|     6.2303|          6.4630|
+|$\theta_8$ |          20|     7.4547|          7.4522|
 
 To observe this effect more clearly, we may use a scatter plot for the posterior estimates in the two models. The posterior mean for `\(\mu\)` from model 3 was 7.77, as shown by the dashed line.
 
@@ -593,7 +591,7 @@ Finally, hierarchical modeling can help to automatically alleviate issues arisin
 However, if we look at Model 3, we no longer get the same conclusion because the credible intervals overlap. There's not enough evidence to suggest a significant difference between `\(\theta_5\)` and `\(\theta_4, \theta_6, \theta_7\)`.
 
 <div class="figure">
-<img src="{{< blogdown/postref >}}index_files/figure-html/model3-ci-overlap-1.png" alt="Posterior CIs for mean parameters in Model 3." width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/model3-ci-overlap-1.svg" alt="Posterior CIs for mean parameters in Model 3." width="672" />
 <p class="caption">Figure 6: Posterior CIs for mean parameters in Model 3.</p>
 </div>
 

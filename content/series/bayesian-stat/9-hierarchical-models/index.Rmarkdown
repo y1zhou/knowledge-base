@@ -22,6 +22,13 @@ header_image:
     unsplash_id: "DsjPKrzBO0w" # Unsplash ID of the picture
 ---
 
+```{r fig-setup, include=F}
+knitr::opts_chunk$set(
+  dev = "svglite",
+  dev.args = list(fix_text_size = F)
+)
+```
+
 This is our first step to extending a lot of the things we've talked about to slightly more complicated models. 
 
 ## Motivating example
@@ -77,7 +84,7 @@ dat %>%
 
 First thing to note is that the sample sizes are all around 20 except for school 5, which only has 9 students. The average time spent is also higher, which might be an artifact solely due to the smaller sample size, or it could be evidence that students from school 5 spend more time on their homework than their peers.
 
-```{r study-habit-boxplot, fig.cap='Boxplot of weekly time spent on homework by school.', fig.dim=c(6, 4), dev='svg'}
+```{r study-habit-boxplot, fig.cap='Boxplot of weekly time spent on homework by school.', fig.dim=c(6, 4)}
 ggboxplot(dat, x = "school", y = "hwtime",
           color = "school", palette = "nejm", 
           xlab = "School", ylab = "Hours spent")
@@ -127,7 +134,7 @@ $$
 
 Using [JAGS](https://sourceforge.net/projects/mcmc-jags/files/), we may obtain the following posterior sample densities and trace plots.
 
-```{r model1-jags, cache=T, results='hide', fig.cap='Trace plots and posterior densities for Model 1.', fig.dim=c(9, 6), dev='png', dpi=175}
+```{r model1-jags, cache=T, results='hide', fig.cap='Trace plots and posterior densities for Model 1.', fig.dim=c(9, 6), dev='png', dpi=175, dev.args=NULL}
 # (1) Specify sample size n and create a data list
 n <- nrow(dat)
 dataList1 <- list(
@@ -231,14 +238,10 @@ $$
 
 In this model we have a total of 16 parameters to estimate:
 
-<div>
-$$
 \begin{gathered}
-\boldsymbol{\theta} = (\theta_1, \cdots, \theta_J)' \\
-\boldsymbol{\sigma}^2 = (\sigma_1^2, \cdots, \sigma_J^2)'
+  \boldsymbol{\theta} = (\theta_1, \cdots, \theta_J)' \\
+  \boldsymbol{\sigma}^2 = (\sigma_1^2, \cdots, \sigma_J^2)'
 \end{gathered}
-$$
-</div>
 
 We will specify the same **prior model** for all the parameters. Assuming independence across all `\(J\)` groups:
 
@@ -261,7 +264,7 @@ Since we specified independence between groups, we can essentially fit each grou
 
 We may generate posterior samples using JAGS in a similar fashion. Viewing eight sets of trace plots and posterior densities can be cumbersome, so we use boxplots instead to summarize our posterior samples.
 
-```{r model2-jags, results='hide', cache=T, dev='svglite', fig.dim=c(7, 4)}
+```{r model2-jags, results='hide', cache=T, fig.dim=c(7, 4)}
 # Data list
 J <- length(unique(dat$school))
 
@@ -343,7 +346,7 @@ From the posterior samples of `\((\theta_1, \cdots, \theta_8)\)`, we can see tha
 
 We can do the same thing for `\(\sigma^2\)`, or we may take advantage of the `MCMCvis` R package. In what's called `caterpillar plots` below, points are medians, thin lines are 50% credible intervals, and thick lines are 95% credible intervals.
 
-```{r model2-sigma2-mcmcvis, dev='svg', fig.dim=c(12, 5), fig.cap="Catepillar plots of $\\theta$ and $\\sigma^2$."}
+```{r model2-sigma2-mcmcvis, fig.dim=c(12, 5), fig.cap="Catepillar plots of $\\theta$ and $\\sigma^2$."}
 par(mar = c(2, 1, 2, 1), mfrow = c(1, 2))
 MCMCplot(codaSamples2, params = "theta", 
          main = "Posterior CIs for theta", ref = y_bar)
@@ -432,7 +435,7 @@ Putting everything together, our model looks like the following. This is called 
 
 Using JAGS, we may obtain posterior samples and inspect the posterior CIs for the parameters.
 
-```{r model3-jags, cache=T, results='hide', fig.dim=c(12, 5), fig.cap='Posterior CIs for the parameters of interest.', dev='svglite'}
+```{r model3-jags, cache=T, results='hide', fig.dim=c(12, 5), fig.cap='Posterior CIs for the parameters of interest.'}
 dataList3 <- list(
   "hwtime" = dat$hwtime,
   "school" = dat$school,
@@ -555,7 +558,7 @@ dat %>%
 
 To observe this effect more clearly, we may use a scatter plot for the posterior estimates in the two models. The posterior mean for `\(\mu\)` from model 3 was 7.77, as shown by the dashed line.
 
-```{r models-2-3-mean-diff, echo=F, dev='svg', fig.dim=c(6, 4), fig.cap="Posterior estimates of within-group mean parameters."}
+```{r models-2-3-mean-diff, echo=F, fig.dim=c(6, 4), fig.cap="Posterior estimates of within-group mean parameters."}
 posterior_mu <- mean(as.matrix(codaSamples3)[, "mu"])
 data.frame(
   School = 1:J,
