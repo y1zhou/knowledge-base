@@ -520,7 +520,10 @@ A separate `school.txt` data set contains information about each of the 38 schoo
 
 This additional information might give us insight to help explain some of the variation in the school-specific baseline performance. Comparing GCSE scores by school denomination and school gender[^gcse-covariates], we can see public schools are somewhat average, and RC schools seem to perform best; there's not a large difference between different school gender types.
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/gcse-vs-denomination-school-gender-1.svg" width="960" />
+<div class="figure">
+<img src="{{< blogdown/postref >}}index_files/figure-html/gcse-vs-denomination-school-gender-1.svg" alt="Boxplots of GCSE vs. school denomination and school gender." width="960" />
+<p class="caption">Figure 7: Boxplots of GCSE vs. school denomination and school gender.</p>
+</div>
 
 [^gcse-covariates]: The R code for generating the boxplots comparing GCSE scores by school denomination and school gender:
 
@@ -680,17 +683,17 @@ With the posterior samples obtained via JAGS[^model3], we may first examine the 
 
 <div class="figure">
 <img src="{{< blogdown/postref >}}index_files/figure-html/model3-beta-student-1.svg" alt="Posterior samples of beta_st." width="672" />
-<p class="caption">Figure 7: Posterior samples of beta_st.</p>
+<p class="caption">Figure 8: Posterior samples of beta_st.</p>
 </div>
 
 Once again we get the same relationships with models 1 and 2, where VR1 is the best predictor of GCSE scores. The benefit is we've now accounted for all the other variables.
 
 <div class="figure">
 <img src="{{< blogdown/postref >}}index_files/figure-html/model3-beta-school-1.svg" alt="Posterior samples of beta_sc." width="672" />
-<p class="caption">Figure 8: Posterior samples of beta_sc.</p>
+<p class="caption">Figure 9: Posterior samples of beta_sc.</p>
 </div>
 
-The posterior summaries of the school-specific parameters `\(\beta^{(\text{sc})}\)` show that RC schools tend to have higher GCSE performance. Girls-only and boys-only schools also tend to have higher GCSE performance when all other variables are accounted for, although the difference wasn't so significant in Figure <a href="#fig:gcse-vs-denomination-school-gender"><strong>??</strong></a>. 
+The posterior summaries of the school-specific parameters `\(\beta^{(\text{sc})}\)` show that RC schools tend to have higher GCSE performance. Girls-only and boys-only schools also tend to have higher GCSE performance when all other variables are accounted for, although the difference wasn't so significant in Figure <a href="#fig:gcse-vs-denomination-school-gender">7</a>. 
 
 ## Final notes
 

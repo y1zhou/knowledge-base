@@ -496,7 +496,7 @@ knitr::kable(schools)
 
 This additional information might give us insight to help explain some of the variation in the school-specific baseline performance. Comparing GCSE scores by school denomination and school gender[^gcse-covariates], we can see public schools are somewhat average, and RC schools seem to perform best; there's not a large difference between different school gender types.
 
-```{r gcse-vs-denomination-school-gender, echo=F, fig.dim=c(10, 4)}
+```{r gcse-vs-denomination-school-gender, echo=F, fig.cap='Boxplots of GCSE vs. school denomination and school gender.', fig.dim=c(10, 4)}
 dat_p <- dat %>%
   select(GCSE = Y, School) %>%
   inner_join(schools, by = "School")
