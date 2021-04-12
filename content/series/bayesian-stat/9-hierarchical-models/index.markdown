@@ -24,7 +24,7 @@ header_image:
 
 
 
-This is our first step to extending a lot of the things we've talked about to slightly more complicated models. 
+This is our first step to extending a lot of the things we've talked about to slightly more complicated models.
 
 ## Motivating example
 
@@ -85,7 +85,7 @@ First thing to note is that the sample sizes are all around 20 except for school
 
 ```r
 ggboxplot(dat, x = "school", y = "hwtime",
-          color = "school", palette = "nejm", 
+          color = "school", palette = "nejm",
           xlab = "School", ylab = "Hours spent")
 ```
 
@@ -96,8 +96,7 @@ ggboxplot(dat, x = "school", y = "hwtime",
 
 The rest of the schools seem roughly similar to each other, although school 1 seems to have a slightly higher mean. Maybe we trust this more because of school 1's larger sample size.
 
-
-Our goal is to estimate the average weekly trime spent on homework across the country, while also identifying schools within this particular data set that stand out. Let `\(J\)` denote the number of groups (schools), `\(n_j\)` be the number of observations within group `\(j\)`, and `\(n = \sum_{j=1}^J n_j\)` be the overall total number of observations. Obviously we have `\(J=8\)` and `\(n = 165\)`.
+Our goal is to estimate the average weekly time spent on homework across the country, while also identifying schools within this particular data set that stand out. Let `\(J\)` denote the number of groups (schools), `\(n_j\)` be the number of observations within group `\(j\)`, and `\(n = \sum_{j=1}^J n_j\)` be the overall total number of observations. Obviously we have `\(J=8\)` and `\(n = 165\)`.
 
 We will sequentially go through three different modeling strategies for this data set, where the first two are going to be things we've dealt with in the past. Soon we'll see why these models aren't very suitable for this structure of data.
 
@@ -172,7 +171,7 @@ set.seed(42)
 model1 <- textConnection("
 model
 {
-  # Sampling model - in JAGS, the first argument for the normal distribution 
+  # Sampling model - in JAGS, the first argument for the normal distribution
   # is the mean theta, while the second is the precision = 1/sigma^2
   for (i in 1:n) {
     hwtime[i] ~ dnorm(theta, inv_sig2)
@@ -185,7 +184,7 @@ model
   inv_sig2 ~ dgamma(0.01, 0.01)
 
   # Parameter transformation
-  # We specify our prior on the precision inv_sig2 because JAGS does not have 
+  # We specify our prior on the precision inv_sig2 because JAGS does not have
   # inverse-gamma distributions built in; however, we want the posterior dist
   # ultimately for the variance, computed by sig2 = 1/inv_sig2
   sig2 <- 1/inv_sig2
@@ -318,10 +317,10 @@ model
 }
 ")
 
-jagsModel2 <- jags.model(model2, 
-                         data = dataList2, 
-                         inits = initsValues2, 
-                         n.chains = nChains, 
+jagsModel2 <- jags.model(model2,
+                         data = dataList2,
+                         inits = initsValues2,
+                         n.chains = nChains,
                          n.adapt = adaptSteps)
 
 close(model2)
@@ -332,9 +331,9 @@ if (burnInSteps > 0) {
   update(jagsModel2, n.iter = burnInSteps)
 }
 
-codaSamples2 <- coda.samples(jagsModel2, 
-                             variable.names = params2, 
-                             n.iter = nIter, 
+codaSamples2 <- coda.samples(jagsModel2,
+                             variable.names = params2,
+                             n.iter = nIter,
                              thin = thinSteps)
 
 map2_dfr(codaSamples2, seq(nChains),
@@ -362,7 +361,7 @@ We can do the same thing for `\(\sigma^2\)`, or we may take advantage of the `MC
 
 ```r
 par(mar = c(2, 1, 2, 1), mfrow = c(1, 2))
-MCMCplot(codaSamples2, params = "theta", 
+MCMCplot(codaSamples2, params = "theta",
          main = "Posterior CIs for theta", ref = y_bar)
 MCMCplot(codaSamples2, params = "sig2",
          main = "Posterior CIs for sigma2", ref = s^2)
@@ -475,7 +474,7 @@ initsValues3 <- list(
 model3 <- textConnection("
 model
 {
-  # Sampling model - in JAGS, the first argument for the normal distribution 
+  # Sampling model - in JAGS, the first argument for the normal distribution
   # is the mean theta[j], while the second is the precision = 1/sigma^2
   # Within-group model
   for (i in 1:n) {
@@ -497,17 +496,17 @@ model
   inv_sig2 <- pow(sig, -2)
   inv_tau2 <- pow(tau, -2)
 
-  # Since we most likely care about the posterior samples of 
+  # Since we most likely care about the posterior samples of
   # variances, we can compute these here
   sig2 <- sig^2
   tau2 <- tau^2
 }
 ")
 
-jagsModel3 <- jags.model(model3, 
-                         data = dataList3, 
-                         inits = initsValues3, 
-                         n.chains = nChains, 
+jagsModel3 <- jags.model(model3,
+                         data = dataList3,
+                         inits = initsValues3,
+                         n.chains = nChains,
                          n.adapt = adaptSteps)
 close(model3)
 
@@ -516,9 +515,9 @@ if (burnInSteps > 0) {
   update(jagsModel3, n.iter = burnInSteps)
 }
 
-codaSamples3 <- coda.samples(jagsModel3, 
-                             variable.names = params3, 
-                             n.iter = nIter, 
+codaSamples3 <- coda.samples(jagsModel3,
+                             variable.names = params3,
+                             n.iter = nIter,
                              thin = thinSteps)
 
 par(mar = c(2, 1, 2, 1), mfrow = c(1, 2))
