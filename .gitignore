@@ -6,6 +6,7 @@
 blogdown/
 .DS_Store
 Thumbs.db
+index_cache/
 
 # Hugo compiled files
 /public/
