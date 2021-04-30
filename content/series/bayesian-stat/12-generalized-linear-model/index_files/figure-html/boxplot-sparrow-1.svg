@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='360.00pt' height='288.00pt' viewBox='0 0 360.00 288.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHwzNjAuMDB8MC4wMHwyODguMDA='>
+    <rect x='0.00' y='0.00' width='360.00' height='288.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHwzNjAuMDB8MC4wMHwyODguMDA=)'>
+<rect x='0.000000000000032' y='0.00' width='360.00' height='288.00' style='stroke-width: 1.16; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNDEuMDF8MzU0LjAyfDUuOTh8MjUwLjg4'>
+    <rect x='41.01' y='5.98' width='313.01' height='244.90' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDEuMDF8MzU0LjAyfDUuOTh8MjUwLjg4)'>
+<rect x='41.01' y='5.98' width='313.01' height='244.90' style='stroke-width: 1.16; stroke: none; fill: #FFFFFF;' />
+<circle cx='126.38' cy='17.11' r='1.95' style='stroke-width: 0.71; fill: #000000;' />
+<line x1='126.38' y1='125.19' x2='126.38' y2='87.78' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='126.38' y1='182.01' x2='126.38' y2='239.75' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polygon points='76.58,125.19 76.58,182.01 176.18,182.01 176.18,125.19 76.58,125.19 ' style='stroke-width: 1.07; fill: #FFFFFF;' />
+<line x1='76.58' y1='154.29' x2='176.18' y2='154.29' style='stroke-width: 2.13; stroke-linecap: butt;' />
+<line x1='268.66' y1='88.13' x2='268.66' y2='45.75' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='268.66' y1='142.17' x2='268.66' y2='205.10' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polygon points='218.86,88.13 218.86,142.17 318.45,142.17 318.45,88.13 218.86,88.13 ' style='stroke-width: 1.07; fill: #FFFFFF;' />
+<line x1='218.86' y1='114.11' x2='318.45' y2='114.11' style='stroke-width: 2.13; stroke-linecap: butt;' />
+</g>
+<g clip-path='url(#cpMC4wMHwzNjAuMDB8MC4wMHwyODguMDA=)'>
+<polyline points='41.01,250.88 41.01,5.98 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<text x='35.63' y='225.18' text-anchor='end' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>11</text>
+<text x='35.63' y='178.99' text-anchor='end' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>12</text>
+<text x='35.63' y='132.80' text-anchor='end' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>13</text>
+<text x='35.63' y='86.61' text-anchor='end' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>14</text>
+<text x='35.63' y='40.42' text-anchor='end' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>15</text>
+<polyline points='38.02,220.81 41.01,220.81 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='38.02,174.62 41.01,174.62 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='38.02,128.43 41.01,128.43 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='38.02,82.24 41.01,82.24 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='38.02,36.05 41.01,36.05 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='41.01,250.88 354.02,250.88 ' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<polyline points='126.38,253.87 126.38,250.88 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<polyline points='268.66,253.87 268.66,250.88 ' style='stroke-width: 1.16; stroke-linecap: butt;' />
+<text x='126.38' y='265.01' text-anchor='middle' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>0</text>
+<text x='268.66' y='265.01' text-anchor='middle' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>1</text>
+<text x='197.52' y='279.38' text-anchor='middle' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>Nesting success</text>
+<text transform='translate(14.73,128.43) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: TeX Gyre Heros;'>Wingspan (cm)</text>
+</g>
+</svg>
