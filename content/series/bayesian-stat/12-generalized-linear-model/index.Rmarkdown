@@ -42,7 +42,6 @@ This motivating example comes from Hoff's book, page 244. Younger male sparrows 
 library(tidyverse)
 library(ggpubr)
 library(rjags)
-library(MCMCvis)
 ```
 
 ```{r load-sparrow-data, message=F, cache=T}

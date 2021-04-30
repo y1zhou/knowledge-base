@@ -37,7 +37,6 @@ This motivating example comes from Hoff's book, page 244. Younger male sparrows 
 library(tidyverse)
 library(ggpubr)
 library(rjags)
-library(MCMCvis)
 ```
 
 
@@ -103,7 +102,7 @@ The question is how do we relate this nesting success to wingspan, the covariate
 
 The problem is `\(\theta_i\)` is a probability, so it must be **between 0 and 1**. The way the regression function is specified in Eq.(1) places no constraints for `\(\beta_1\)`, `\(\beta_2\)`, or a positive `\(x_i\)`. There's no guarantee that for a sparrow with wingspan `\(x_i\)`, we get a valid nesting probability `\(\theta_i\)` between 0 and 1.
 
-From a Bayesian perspective, we may construct a prior distribution on `\(\beta_1\)` and `\(\beta_2\)` so that `\(\theta_i\)` *has* to be between 0 and 1, but it's not really a rational way to address this issue. 
+From a Bayesian perspective, we may construct a prior distribution on `\(\beta_1\)` and `\(\beta_2\)` so that `\(\theta_i\)` *has* to be between 0 and 1, but it's not really a rational way to address this issue.
 
 We may consider resolving this issue by mapping `\(\theta_i\)` to the real number line, i.e. from `\(-\infty\)` to `\(\infty\)`, through the following transformation:
 
@@ -184,7 +183,7 @@ We can draw approximate samples from the posterior using MCMC. Fitting GLMs is f
 ```r
 n <- nrow(sparrows)  # sample size
 
-## Logistic regression 
+## Logistic regression
 # Specify data, parameters, and initial values
 dataList <- list(
   "n" = n,
@@ -225,10 +224,10 @@ model {
   logit(theta_pred) = beta_1 + beta_2*ws_pred
 }
 ")
-jagsModel <- jags.model(m, 
-                        data = dataList, 
-                        inits = initValues, 
-                        n.chains = nChains, 
+jagsModel <- jags.model(m,
+                        data = dataList,
+                        inits = initValues,
+                        n.chains = nChains,
                         n.adapt = adaptSteps)
 close(m)
 
@@ -236,9 +235,9 @@ if (burnInSteps > 0) {
   update(jagsModel, n.iter = burnInSteps)
 }
 
-codaSamples <- coda.samples(jagsModel, 
-                            variable.names = parameters, 
-                            n.iter = nIter, 
+codaSamples <- coda.samples(jagsModel,
+                            variable.names = parameters,
+                            n.iter = nIter,
                             thin = thinSteps)
 mcmcChain <- as.matrix(codaSamples)
 ```
