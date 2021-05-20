@@ -11,3 +11,6 @@ linkedin = "yizhouuga"
 
 # Search in site
 minisearch_enabled = true
+
+# Cloudflare analytics
+cf_analytics = "1ca0b276d7ae43358f1f48896067b8df"
