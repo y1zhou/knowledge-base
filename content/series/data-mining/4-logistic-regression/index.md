@@ -98,7 +98,8 @@ def logistic_regression(X, y, lr, iterations):
 
     # Run gradient descent for the given number of instances.
     for i in range(iterations):
-        y_hat = np.reciprocal(1 + np.exp(-1 * np.matmul(X_intcpt, weights)))
+        # @ is shorthand for matrix multiplication
+        y_hat = np.reciprocal(1 + np.exp(-1 * (X_intcpt @ weights)))
         epsilon = (y_hat - y).reshape(-1, 1)
 
         dJ = np.sum(X_intcpt * epsilon, axis=0)
