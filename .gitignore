@@ -4,6 +4,7 @@
 .RData
 .Ruserdata
 blogdown/
+.hugo_build.lock
 .DS_Store
 Thumbs.db
 index_cache/
