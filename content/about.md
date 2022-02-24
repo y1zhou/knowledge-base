@@ -9,16 +9,19 @@ description: A short description about this theme.
 {
     "name": "Yi",
     "job": {
-        "PhD student": "bioinformatics",
-        "Masters student": "statistics"
+        "PhD student": "bioinformatics"
     },
+    "education": {
+        "Master's": ["Statistics", "University of Georgia"],
+        "Bachelor's": ["Biology", "China Agricultural University"]
+    }
     "interests": [
         "cancer", "systems biology",
         "metabolic reprogramming",
-        "NLP", "data visualization"
+        "NLP", "data visualization",
+        "graph neural networks"
     ],
-    "skills": ["R", "Python", "Linux", "Docker"],
-    "personality": "ENTP-A"
+    "skills": ["R", "Python", "Linux", "Docker"]
 }
 ```
 
@@ -30,4 +33,3 @@ Savage's approach to research via Mosteller (Hamada and Sitter, 2004):
 4. Don't be hampered by the original problem statement. Try other problems in its neighborhood; maybe there's a better problem than yours.
 5. Work an hour or so on it frequently.
 6. Talk about it; explain it to people.
-
