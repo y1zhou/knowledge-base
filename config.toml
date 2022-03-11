@@ -22,7 +22,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     codeFences = true
     guessSyntax = true
     lineNos = true
-    style = "dracula"
+    noClasses = false
     tabWidth = 2
   [markup.tableOfContents]
     startLevel = 2
