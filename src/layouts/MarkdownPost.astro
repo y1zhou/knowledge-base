@@ -1,0 +1,102 @@
+---
+import BaseHead from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import "@assets/katex.css";
+
+import { SITE_LANG } from "../consts";
+const { frontmatter } = Astro.props;
+const type = frontmatter.tags[0];
+const { pubDate, title, description, featured } = frontmatter;
+const dateFormated = pubDate.toLocaleDateString();
+---
+
+<html
+  lang={SITE_LANG}
+  dir="ltr"
+  class="js no-touch progressive-image no-reduced-motion progressive"
+>
+  <head>
+    <BaseHead frontmatter={frontmatter} />
+  </head>
+  <body
+    class:list={[
+      "page-article",
+      { "theme-dark": frontmatter.theme === "dark" },
+    ]}
+  >
+    <Header />
+    <main id="main" class="main">
+      <section>
+        <article class="article">
+          <div
+            class:list={[
+              { "featured-header": featured, "article-header": !featured },
+            ]}
+          >
+            <div class="category component">
+              <div class="component-content">
+                <div class="category-eyebrow">
+                  <span class="category-eyebrow__category category_original"
+                    >{type}</span
+                  >
+                  <span class="category-eyebrow__date">{dateFormated}</span>
+                </div>
+              </div>
+            </div>
+            <div class="pagetitle component">
+              <div class="component-content">
+                <h1 class="hero-headline">{title}</h1>
+              </div>
+            </div>
+            <div
+              class:list={[
+                { "featured-subhead": featured, "article-subhead": !featured },
+                "component",
+              ]}
+            >
+              <div class="component-content">{description}</div>
+            </div>
+
+            <div class:list={["tagssheet component"]}>
+              <div class="component-content">
+                {
+                  frontmatter.tags.map((tag) => {
+                    return (
+                      <a href={`/tags/${tag}`} class="tag">
+                        {tag}
+                      </a>
+                    );
+                  })
+                }
+              </div>
+            </div>
+          </div>
+          <slot />
+          <div class="component">
+            <div class="component-content">
+              <div class="article-copyright">
+                <p class="content">
+                  This work is licensed under a <a
+                    href="https://creativecommons.org/licenses/by-sa/4.0/"
+                    target="_blank"
+                    >Creative Commons Attribution-ShareAlike 4.0 International
+                    License.</a>
+                </p>
+                <p class="content">
+                  Author: {frontmatter.author} Published: {dateFormated}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+    <Footer />
+    <script is:inline>
+      var script = document.createElement("script");
+      script.src = "/static/js/initPost.js";
+      document.head.appendChild(script);
+    </script>
+  </body>
+</html>
