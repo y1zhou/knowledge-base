@@ -1,12 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Tile from "../layouts/Tile.astro";
-import MoreTile from "../layouts/MoreTile.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Tile from "@layouts/Tile.astro";
+import MoreTile from "@layouts/MoreTile.astro";
+import { getCollection, getDataEntryById } from "astro:content";
 
 const allPosts = await getCollection("posts");
+const allSeries = await getCollection("series");
 
-// allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+allSeries.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout>
@@ -67,7 +69,7 @@ const allPosts = await getCollection("posts");
 
   <section class="more-from-newsroom">
     <div class="section-content">
-      <h2 class="section-head">更多文章</h2>
+      <h2 class="section-head">More Posts</h2>
 
       <ul role="list" class="section-tiles">
         {
@@ -91,10 +93,10 @@ const allPosts = await getCollection("posts");
       </ul>
       <div class="view-archive-wrapper">
         <a
-          href="/archive"
+          href="/series"
           class="cta-primary-light"
           data-analytics-region="router"
-          data-analytics-title="view archive">阅读历史文章</a
+          data-analytics-title="view archive">All Series</a
         >
       </div>
     </div>

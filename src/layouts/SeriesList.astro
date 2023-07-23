@@ -1,0 +1,21 @@
+---
+const { posts } = Astro.props;
+posts.sort((a, b) => Date.parse(b.data.pubDate) - Date.parse(a.data.pubDate));
+---
+
+<ul>
+  {
+    posts.map((post) => {
+      return (
+        <li>
+          <a href={`/series/${post.slug}`} class="tag_post-content">
+            <span class="tag-date">
+              [{post.data.pubDate.toLocaleDateString()}]
+            </span>
+            {post.data.title}
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
